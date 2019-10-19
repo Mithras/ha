@@ -1,0 +1,171 @@
+title: Home Assistant
+resources:
+  # https://github.com/enriqg9/dual-thermostat
+  - url: /local/ui-lovelace/dual-thermostat/dual-thermostat.js?v=1
+    type: js
+views:
+  - title: Home
+    path: home
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: markdown
+            entity_id:
+              - appdaemon.security
+            content: >
+              **Security**:
+              {{ states("appdaemon.security") }}
+          - type: entities
+            show_header_toggle: false
+            entities:
+              - input_boolean.sleep
+              - input_select.security_override
+          - type: entities
+            title: Living Room
+            show_header_toggle: false
+            entities:
+              - sensor.lumi_lumi_weather_03230927_1_1026
+              - sensor.lumi_lumi_weather_03230927_1_1027
+              - sensor.lumi_lumi_weather_03230927_1_1029
+              - switch.mithras_desktop
+              - media_player.samsung_smart_tv
+              - switch.ikea_of_sweden_tradfri_control_outlet_fea20a81_1
+              - switch.ikea_of_sweden_tradfri_control_outlet_fe9c5112_1
+              - switch.ikea_of_sweden_tradfri_control_outlet_fea20bfa_1
+              - switch.levoit_humidifier
+              - vacuum.roomba
+          - type: entities
+            title: Master Bedroom
+            show_header_toggle: false
+            entities:
+              - sensor.lumi_lumi_weather_03499b40_1_1026
+              - sensor.lumi_lumi_weather_03499b40_1_1027
+              - sensor.lumi_lumi_weather_03499b40_1_1029
+
+      - type: vertical-stack
+        cards:
+          - type: custom:dual-thermostat
+            name: Climate
+            entities:
+              - entity: climate.linear_nortek_security_control_llc_gc_tbz48_battery_powered_z_wave_thermostat_cooling_1
+                type: cool
+              - entity: climate.linear_nortek_security_control_llc_gc_tbz48_battery_powered_z_wave_thermostat_heating_1
+                type: heat
+            fan_control: true
+            min_slider: 15
+            max_slider: 40
+          - type: entities
+            title: Light
+            entities:
+              - light.living_room
+              - light.living_room_back
+              - light.master_bedroom
+              - light.driveway
+              - light.kitchen
+              - light.porch
+              - light.hallway
+              - light.garage
+              - light.master_toilet
+              - light.master_bathroom
+              - light.staircase
+
+      - type: vertical-stack
+        cards:
+          - type: glance
+            show_state: false
+            entities:
+              - binary_sensor.porch_camera_motion_detected
+              - binary_sensor.living_room_camera_motion_detected
+              - binary_sensor.lumi_lumi_sensor_motion_aq2_035fe990_1_1280
+              - binary_sensor.lumi_lumi_sensor_motion_aq2_033ad713_1_1280
+              - binary_sensor.lumi_lumi_sensor_motion_aq2_036c7785_1_1280
+              - binary_sensor.lumi_lumi_sensor_motion_aq2_04143070_1_1280
+              - binary_sensor.lumi_lumi_sensor_motion_aq2_036018e1_1_1280
+              - binary_sensor.lumi_lumi_sensor_motion_aq2_03f42a68_1_1280
+              - binary_sensor.lumi_lumi_sensor_motion_aq2_03f409b4_1_1280
+              - binary_sensor.lumi_lumi_sensor_motion_aq2_0414306d_1_1280
+              - binary_sensor.lumi_lumi_sensor_motion_aq2_036bef53_1_1280
+              - binary_sensor.lumi_lumi_sensor_magnet_aq2_03e814c5_1_6
+              - binary_sensor.lumi_lumi_sensor_magnet_aq2_0444c14e_1_6
+              - binary_sensor.lumi_lumi_sensor_magnet_aq2_0444c1c2_1_6
+          - type: picture-entity
+            entity: camera.porch_camera
+          - type: picture-entity
+            entity: camera.living_room_camera
+
+  - title: Details
+    path: details
+    cards:
+      - type: entities
+        title: Person
+        show_header_toggle: false
+        entities:
+          - person.mithras
+          - person.diana
+      - type: entities
+        title: Device
+        show_header_toggle: false
+        entities:
+          - device_tracker.mithras_pixel_3
+          - device_tracker.owntracks_mithras
+          - device_tracker.diana_pixel_3
+          - device_tracker.owntracks_diana
+      - type: entities
+        title: Camera
+        show_header_toggle: false
+        entities:
+          - binary_sensor.porch_camera_online
+          - binary_sensor.living_room_camera_online
+      - type: entities
+        title: System Monitor
+        show_header_toggle: false
+        entities:
+          - sensor.last_boot
+          - sensor.processor_use
+          - sensor.cpu_temperature
+          - sensor.load_1m
+          - sensor.load_5m
+          - sensor.load_15m
+          - sensor.disk_use_percent
+          - sensor.disk_use
+          - sensor.disk_free
+          - sensor.memory_use_percent
+          - sensor.memory_use
+          - sensor.memory_free
+          - sensor.network_in_wlan0
+          - sensor.network_out_wlan0
+          - sensor.network_throughput_in_wlan0
+          - sensor.network_throughput_out_wlan0
+      - type: entities
+        title: Battery
+        show_header_toggle: false
+        entities:
+          - sensor.lumi_lumi_sensor_motion_aq2_035fe990_1_1
+          - sensor.lumi_lumi_sensor_motion_aq2_033ad713_1_1
+          - sensor.lumi_lumi_sensor_motion_aq2_036c7785_1_1
+          - sensor.lumi_lumi_sensor_motion_aq2_04143070_1_1
+          - sensor.lumi_lumi_sensor_motion_aq2_036018e1_1_1
+          - sensor.lumi_lumi_sensor_motion_aq2_03f42a68_1_1
+          - sensor.lumi_lumi_sensor_motion_aq2_03f409b4_1_1
+          - sensor.lumi_lumi_sensor_motion_aq2_0414306d_1_1
+          - sensor.lumi_lumi_sensor_motion_aq2_036bef53_1_1
+          - sensor.lumi_lumi_sensor_magnet_aq2_0444c14e_1_1
+          - sensor.lumi_lumi_sensor_magnet_aq2_03e814c5_1_1
+          - sensor.lumi_lumi_sensor_magnet_aq2_0444c1c2_1_1
+          - sensor.lumi_lumi_weather_03230927_1_1
+          - sensor.lumi_lumi_weather_03499b40_1_1
+          - sensor.lumi_remote_b1acn01_3_battery_level
+          - sensor.tradfri_on_off_switch_battery_level
+      - type: entities
+        title: Illuminance
+        show_header_toggle: false
+        entities:
+          - sensor.lumi_lumi_sensor_motion_aq2_035fe990_1_1024
+          - sensor.lumi_lumi_sensor_motion_aq2_033ad713_1_1024
+          - sensor.lumi_lumi_sensor_motion_aq2_036c7785_1_1024
+          - sensor.lumi_lumi_sensor_motion_aq2_04143070_1_1024
+          - sensor.lumi_lumi_sensor_motion_aq2_036018e1_1_1024
+          - sensor.lumi_lumi_sensor_motion_aq2_03f42a68_1_1024
+          - sensor.lumi_lumi_sensor_motion_aq2_03f409b4_1_1024
+          - sensor.lumi_lumi_sensor_motion_aq2_0414306d_1_1024
+          - sensor.lumi_lumi_sensor_motion_aq2_036bef53_1_1024

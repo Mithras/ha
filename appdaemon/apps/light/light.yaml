@@ -1,0 +1,95 @@
+Light:
+  module: light
+  class: Light
+  global_dependencies:
+    - globals
+  config:
+    # Master Bedroom
+    - sensors:
+        - entity: binary_sensor.lumi_lumi_sensor_motion_aq2_035fe990_1_1280
+      light_group: light.master_bedroom
+      sun_up_on_scene: Bright
+      sun_down_on_scene: Bright
+      sun_up_off_scene: "Off"
+      sun_down_off_scene: "Off"
+    # Kitchen
+    - sensors:
+        - entity: binary_sensor.lumi_lumi_sensor_motion_aq2_036c7785_1_1280
+      light_group: light.kitchen
+      sun_up_on_scene: Bright
+      sun_down_on_scene: Bright
+      sun_up_off_scene: "Off"
+      sun_down_off_scene: "Off"
+      ignore_sleep: True
+    # Garage
+    - sensors:
+        - entity: binary_sensor.lumi_lumi_sensor_motion_aq2_04143070_1_1280
+        - entity: binary_sensor.lumi_lumi_sensor_magnet_aq2_0444c1c2_1_6
+          additional_delay: 60
+      light_group: light.garage
+      sun_up_on_scene: Bright
+      sun_down_on_scene: Bright
+      sun_up_off_scene: "Off"
+      sun_down_off_scene: "Off"
+      ignore_sleep: True
+    # Master Bathroom
+    - sensors:
+        - entity: binary_sensor.lumi_lumi_sensor_motion_aq2_036018e1_1_1280
+      light_group: light.master_bathroom
+      sun_up_on_scene: Bright
+      sun_down_on_scene: Bright
+      sleep_on_scene: Nightlight
+      sun_up_off_scene: "Off"
+      sun_down_off_scene: "Off"
+      sleep_off_scene: "Off"
+    # Master Toilet
+    - sensors:
+        - entity: binary_sensor.lumi_lumi_sensor_motion_aq2_03f42a68_1_1280
+      light_group: light.master_toilet
+      sun_up_on_scene: Bright
+      sun_down_on_scene: Bright
+      sleep_on_scene: Nightlight
+      sun_up_off_scene: "Off"
+      sun_down_off_scene: "Off"
+      sleep_off_scene: "Off"
+    # Porch
+    - sensors:
+        - entity: binary_sensor.lumi_lumi_sensor_motion_aq2_033ad713_1_1280
+        - entity: binary_sensor.lumi_lumi_sensor_magnet_aq2_03e814c5_1_6
+          additional_delay: 60
+        # TODO: Porch Camera Motion Sensor?
+      light_group: light.porch
+      sun_down_on_scene: Bright
+      sun_up_off_scene: "Off"
+      sun_down_off_scene: "Off"
+      ignore_sleep: True
+    # Driveway
+    - sensors:
+        - entity: binary_sensor.lumi_lumi_sensor_motion_aq2_033ad713_1_1280
+        - entity: binary_sensor.lumi_lumi_sensor_magnet_aq2_03e814c5_1_6
+          additional_delay: 60
+        # TODO: Porch Camera Motion Sensor?
+      light_group: light.driveway
+      sun_down_on_scene: Bright
+      sun_up_off_scene: "Off"
+      sun_down_off_scene: Nightlight
+      ignore_sleep: True
+    # Staircase
+    - sensors:
+        - entity: binary_sensor.lumi_lumi_sensor_motion_aq2_0414306d_1_1280
+        - entity: binary_sensor.lumi_lumi_sensor_motion_aq2_036bef53_1_1280
+      light_group: light.staircase
+      sun_down_on_scene: Bright
+      sleep_on_scene: Nightlight
+      sun_up_off_scene: "Off"
+      sun_down_off_scene: "Off"
+      sleep_off_scene: "Off"
+    # Hallway
+    - sensors:
+        - entity: binary_sensor.lumi_lumi_sensor_motion_aq2_03f409b4_1_1280
+      light_group: light.hallway
+      sun_down_on_scene: Bright
+      sleep_on_scene: Nightlight
+      sun_up_off_scene: "Off"
+      sun_down_off_scene: "Off"
+      sleep_off_scene: "Off"

@@ -1,0 +1,10 @@
+Common:
+  module: common
+  class: Common
+  priority: 0
+  config:
+    telegram_mithras: !secret telegram_mithras
+    telegram_debug_chat: !secret telegram_debug_chat
+    telegram_location_chat: !secret telegram_location_chat
+    telegram_alarm_chat: !secret telegram_debug_chat
+    http_base_url: !secret http_base_url

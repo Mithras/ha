@@ -1,0 +1,5 @@
+Sun:
+  module: sun
+  class: Sun
+  global_dependencies:
+    - globals

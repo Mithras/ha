@@ -1,0 +1,23 @@
+LivingRoomCameraAlarm:
+  module: camera_alarm
+  class: CameraAlarm
+  global_dependencies:
+    - globals
+  constrain_arm: Armed Away, Armed Sleep
+  config:
+    - sensor: binary_sensor.living_room_camera_motion_detected
+      camera: camera.living_room_camera
+      video_duration: 15
+      send_video_delay: 20
+PorchCameraAlarm:
+  module: camera_alarm
+  class: CameraAlarm
+  global_dependencies:
+    - globals
+  constrain_arm:
+  config:
+    - sensor: binary_sensor.lumi_lumi_sensor_motion_aq2_033ad713_1_1280
+      camera: camera.porch_camera
+      video_duration: 15
+      send_video_delay: 20
+# TODO: Porch Camera Motion Sensor?

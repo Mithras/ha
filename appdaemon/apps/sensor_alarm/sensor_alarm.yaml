@@ -1,0 +1,54 @@
+ArmedAwaySensorAlarm:
+  module: sensor_alarm
+  class: SensorAlarm
+  constrain_arm: Armed Away
+  global_dependencies:
+    - globals
+  config:
+    - binary_sensor.porch_camera_online # Porch Camera Online Sensor
+    - binary_sensor.living_room_camera_online # Living Room Camera Online Sensor
+    # - binary_sensor.porch_camera_motion_detected # Porch Camera Motion Sensor
+    - binary_sensor.living_room_camera_motion_detected # Living Room Camera Motion Sensor
+    - binary_sensor.lumi_lumi_sensor_motion_aq2_033ad713_1_1280 # Porch Motion Sensor
+    - binary_sensor.lumi_lumi_sensor_motion_aq2_035fe990_1_1280 # Master Bedroom Motion Sensor
+    - binary_sensor.lumi_lumi_sensor_motion_aq2_036c7785_1_1280 # Kitchen Motion Sensor
+    - binary_sensor.lumi_lumi_sensor_motion_aq2_04143070_1_1280 # Garage Motion Sensor
+    - binary_sensor.lumi_lumi_sensor_motion_aq2_036018e1_1_1280 # Master Bathroom Motion Sensor
+    - binary_sensor.lumi_lumi_sensor_motion_aq2_03f42a68_1_1280 # Master Toilet Motion Sensor
+    - binary_sensor.lumi_lumi_sensor_motion_aq2_03f409b4_1_1280 # Hallway Motion Sensor
+    - binary_sensor.lumi_lumi_sensor_motion_aq2_0414306d_1_1280 # Staircase Bottom Motion Sensor
+    - binary_sensor.lumi_lumi_sensor_motion_aq2_036bef53_1_1280 # Staircase Top Motion Sensor
+    - binary_sensor.lumi_lumi_sensor_magnet_aq2_03e814c5_1_6 # Front Door Sensor
+    - binary_sensor.lumi_lumi_sensor_magnet_aq2_0444c1c2_1_6 # Garage Door Sensor
+    - binary_sensor.lumi_lumi_sensor_magnet_aq2_0444c14e_1_6 # Backyard Door Sensor
+ArmedHomeSensorAlarm:
+  module: sensor_alarm
+  class: SensorAlarm
+  constrain_arm: Armed Home
+  global_dependencies:
+    - globals
+  config:
+    - binary_sensor.porch_camera_online # Porch Camera Online Sensor
+    - binary_sensor.living_room_camera_online # Living Room Camera Online Sensor
+    # - binary_sensor.porch_camera_motion_detected # Porch Camera Motion Sensor
+    - binary_sensor.lumi_lumi_sensor_motion_aq2_033ad713_1_1280 # Porch Motion Sensor
+ArmedSleepSensorAlarm:
+  module: sensor_alarm
+  class: SensorAlarm
+  constrain_arm: Armed Sleep
+  global_dependencies:
+    - globals
+  config:
+    - binary_sensor.porch_camera_online # Porch Camera Online Sensor
+    - binary_sensor.living_room_camera_online # Living Room Camera Online Sensor
+    # - binary_sensor.porch_camera_motion_detected # Porch Camera Motion Sensor
+    - binary_sensor.living_room_camera_motion_detected # Living Room Camera Motion Sensor
+    - binary_sensor.lumi_lumi_sensor_motion_aq2_033ad713_1_1280 # Porch Motion Sensor
+    - binary_sensor.lumi_lumi_sensor_motion_aq2_036c7785_1_1280 # Kitchen Motion Sensor
+    - binary_sensor.lumi_lumi_sensor_motion_aq2_04143070_1_1280 # Garage Motion Sensor
+    - binary_sensor.lumi_lumi_sensor_motion_aq2_03f409b4_1_1280 # Hallway Motion Sensor
+    - binary_sensor.lumi_lumi_sensor_motion_aq2_0414306d_1_1280 # Staircase Bottom Motion Sensor
+    - binary_sensor.lumi_lumi_sensor_motion_aq2_036bef53_1_1280 # Staircase Top Motion Sensor
+    - binary_sensor.lumi_lumi_sensor_magnet_aq2_03e814c5_1_6 # Front Door Sensor
+    - binary_sensor.lumi_lumi_sensor_magnet_aq2_0444c1c2_1_6 # Garage Door Sensor
+    - binary_sensor.lumi_lumi_sensor_magnet_aq2_0444c14e_1_6 # Backyard Door Sensor

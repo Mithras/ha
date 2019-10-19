@@ -1,0 +1,5 @@
+Security:
+  module: security
+  class: Security
+  global_dependencies:
+    - globals

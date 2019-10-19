@@ -1,0 +1,31 @@
+import globals
+
+
+class Security(globals.Hass):
+    def initialize(self):
+        self.listen_state(self.state_callback,
+                          entity="device_tracker")
+        self.listen_state(self.state_callback,
+                          entity="input_select.security_override")
+        self.listen_state(self.state_callback,
+                          entity="input_boolean.sleep")
+        self.update_security()
+
+    def state_callback(self, entity, attribute, old, new, kwargs):
+        if old != new:
+            self.update_security()
+
+    def update_security(self):
+        self.set_state("appdaemon.security",
+                       state=self.get_security())
+
+    def get_security(self):
+        security_override = self.get_state(
+            entity="input_select.security_override")
+        if security_override != "Auto":
+            return security_override
+        if self.noone_home():
+            return "Armed Away"
+        if self.common.is_sleep():
+            return "Armed Sleep"
+        return "Armed Home"

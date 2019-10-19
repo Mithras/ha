@@ -1,0 +1,8 @@
+DeconzSwitch:
+  module: deconz_switch
+  class: DeconzSwitch
+  global_dependencies:
+    - globals
+  config:
+    - tradfri_on_off_switch # 123
+    - smart_switch # 1234

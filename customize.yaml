@@ -1,0 +1,181 @@
+# Mithras
+person.mithras:
+  entity_picture: /local/mithras.jfif
+# Diana
+person.diana:
+  entity_picture: /local/diana.jpg
+
+# Living Room Camera
+camera.living_room_camera:
+  friendly_name: Living Room Camera
+binary_sensor.living_room_camera_motion_detected:
+  friendly_name: Living Room Camera Motion Sensor
+binary_sensor.living_room_camera_online:
+  friendly_name: Living Room Camera Online Sensor
+# Porch Camera
+camera.porch_camera:
+  friendly_name: Porch Camera
+binary_sensor.porch_camera_motion_detected:
+  friendly_name: Porch Camera Motion Sensor
+binary_sensor.porch_camera_online:
+  friendly_name: Porch Camera Online Sensor
+
+# Front Door Sensor
+binary_sensor.lumi_lumi_sensor_magnet_aq2_03e814c5_1_6:
+  friendly_name: Front Door Sensor
+sensor.lumi_lumi_sensor_magnet_aq2_03e814c5_1_1:
+  friendly_name: Front Door Sensor Battery
+# Backyard Door Sensor
+binary_sensor.lumi_lumi_sensor_magnet_aq2_0444c14e_1_6:
+  friendly_name: Backyard Door Sensor
+sensor.lumi_lumi_sensor_magnet_aq2_0444c14e_1_1:
+  friendly_name: Backyard Door Sensor Battery
+# Garage Door Sensor
+binary_sensor.lumi_lumi_sensor_magnet_aq2_0444c1c2_1_6:
+  friendly_name: Garage Door Sensor
+sensor.lumi_lumi_sensor_magnet_aq2_0444c1c2_1_1:
+  friendly_name: Garage Door Sensor Battery
+
+# Porch Motion Sensor
+binary_sensor.lumi_lumi_sensor_motion_aq2_033ad713_1_1280:
+  friendly_name: Porch Motion Sensor
+binary_sensor.lumi_lumi_sensor_motion_aq2_033ad713_1_1030:
+  friendly_name: Porch Motion Sensor Occupancy
+sensor.lumi_lumi_sensor_motion_aq2_033ad713_1_1:
+  friendly_name: Porch Motion Sensor Battery
+sensor.lumi_lumi_sensor_motion_aq2_033ad713_1_1024:
+  friendly_name: Porch Motion Sensor Illuminance
+# Master Bedroom Motion Sensor
+binary_sensor.lumi_lumi_sensor_motion_aq2_035fe990_1_1280:
+  friendly_name: Master Bedroom Motion Sensor
+binary_sensor.lumi_lumi_sensor_motion_aq2_035fe990_1_1030:
+  friendly_name: Master Bedroom Motion Sensor Occupancy
+sensor.lumi_lumi_sensor_motion_aq2_035fe990_1_1:
+  friendly_name: Master Bedroom Motion Sensor Battery
+sensor.lumi_lumi_sensor_motion_aq2_035fe990_1_1024:
+  friendly_name: Master Bedroom Motion Sensor Illuminance
+# Master Bathroom Motion Sensor
+binary_sensor.lumi_lumi_sensor_motion_aq2_036018e1_1_1280:
+  friendly_name: Master Bathroom Motion Sensor
+binary_sensor.lumi_lumi_sensor_motion_aq2_036018e1_1_1030:
+  friendly_name: Master Bathroom Motion Sensor Occupancy
+sensor.lumi_lumi_sensor_motion_aq2_036018e1_1_1:
+  friendly_name: Master Bathroom Motion Sensor Battery
+sensor.lumi_lumi_sensor_motion_aq2_036018e1_1_1024:
+  friendly_name: Master Bathroom Motion Sensor Illuminance
+# Master Toilet Motion Sensor
+binary_sensor.lumi_lumi_sensor_motion_aq2_03f42a68_1_1280:
+  friendly_name: Master Toilet Motion Sensor
+binary_sensor.lumi_lumi_sensor_motion_aq2_03f42a68_1_1030:
+  friendly_name: Master Toilet Motion Sensor Occupancy
+sensor.lumi_lumi_sensor_motion_aq2_03f42a68_1_1:
+  friendly_name: Master Toilet Motion Sensor Battery
+sensor.lumi_lumi_sensor_motion_aq2_03f42a68_1_1024:
+  friendly_name: Master Toilet Motion Sensor Illuminance
+# Kitchen Motion Sensor
+binary_sensor.lumi_lumi_sensor_motion_aq2_036c7785_1_1280:
+  friendly_name: Kitchen Motion Sensor
+binary_sensor.lumi_lumi_sensor_motion_aq2_036c7785_1_1030:
+  friendly_name: Kitchen Motion Sensor Occupancy
+sensor.lumi_lumi_sensor_motion_aq2_036c7785_1_1:
+  friendly_name: Kitchen Motion Sensor Battery
+sensor.lumi_lumi_sensor_motion_aq2_036c7785_1_1024:
+  friendly_name: Kitchen Motion Sensor Illuminance
+# Garage Motion Sensor
+binary_sensor.lumi_lumi_sensor_motion_aq2_04143070_1_1280:
+  friendly_name: Garage Motion Sensor
+binary_sensor.lumi_lumi_sensor_motion_aq2_04143070_1_1030:
+  friendly_name: Garage Motion Sensor Occupancy
+sensor.lumi_lumi_sensor_motion_aq2_04143070_1_1:
+  friendly_name: Garage Motion Sensor Battery
+sensor.lumi_lumi_sensor_motion_aq2_04143070_1_1024:
+  friendly_name: Garage Motion Sensor Illuminance
+# Staircase Bottom Motion Sensor
+binary_sensor.lumi_lumi_sensor_motion_aq2_0414306d_1_1280:
+  friendly_name: Staircase Bottom Motion Sensor
+binary_sensor.lumi_lumi_sensor_motion_aq2_0414306d_1_1030:
+  friendly_name: Staircase Bottom Motion Sensor Occupancy
+sensor.lumi_lumi_sensor_motion_aq2_0414306d_1_1:
+  friendly_name: Staircase Bottom Motion Sensor Battery
+sensor.lumi_lumi_sensor_motion_aq2_0414306d_1_1024:
+  friendly_name: Staircase Bottom Motion Sensor Illuminance
+# Staircase Top Motion Sensor
+binary_sensor.lumi_lumi_sensor_motion_aq2_036bef53_1_1280:
+  friendly_name: Staircase Top Motion Sensor
+binary_sensor.lumi_lumi_sensor_motion_aq2_036bef53_1_1030:
+  friendly_name: Staircase Top Motion Sensor Occupancy
+sensor.lumi_lumi_sensor_motion_aq2_036bef53_1_1:
+  friendly_name: Staircase Top Motion Sensor Battery
+sensor.lumi_lumi_sensor_motion_aq2_036bef53_1_1024:
+  friendly_name: Staircase Top Motion Sensor Illuminance
+# Hallway Motion Sensor
+binary_sensor.lumi_lumi_sensor_motion_aq2_03f409b4_1_1280:
+  friendly_name: Hallway Motion Sensor
+binary_sensor.lumi_lumi_sensor_motion_aq2_03f409b4_1_1030:
+  friendly_name: Hallway Motion Sensor Occupancy
+sensor.lumi_lumi_sensor_motion_aq2_03f409b4_1_1:
+  friendly_name: Hallway Motion Sensor Battery
+sensor.lumi_lumi_sensor_motion_aq2_03f409b4_1_1024:
+  friendly_name: Hallway Motion Sensor Illuminance
+
+# Smart Switch
+sensor.lumi_remote_b1acn01_3_battery_level:
+  friendly_name: Smart Switch Battery
+# TRÅDFRI Switch
+sensor.tradfri_on_off_switch_battery_level:
+  friendly_name: TRÅDFRI Switch Battery
+
+# Living Room Weather Sensor
+sensor.lumi_lumi_weather_03230927_1_1026:
+  friendly_name: Temperature
+sensor.lumi_lumi_weather_03230927_1_1027:
+  friendly_name: Pressure
+sensor.lumi_lumi_weather_03230927_1_1029:
+  friendly_name: Humidity
+sensor.lumi_lumi_weather_03230927_1_1:
+  friendly_name: Living Room Weather Sensor Battery
+# Bedroom Weather Sensor
+sensor.lumi_lumi_weather_03499b40_1_1026:
+  friendly_name: Temperature
+sensor.lumi_lumi_weather_03499b40_1_1027:
+  friendly_name: Pressure
+sensor.lumi_lumi_weather_03499b40_1_1029:
+  friendly_name: Humidity
+sensor.lumi_lumi_weather_03499b40_1_1:
+  friendly_name: Living Room Weather Sensor Battery
+
+# TRÅDFRI control outlet 1
+switch.ikea_of_sweden_tradfri_control_outlet_fe9c5112_1:
+  friendly_name: Speakers
+# TRÅDFRI control outlet 2
+switch.ikea_of_sweden_tradfri_control_outlet_fea20a81_1:
+  friendly_name: Wyrd+Jotunheim
+# TRÅDFRI control outlet 3
+switch.ikea_of_sweden_tradfri_control_outlet_fea20bfa_1:
+  friendly_name: Audit Hud
+# TRÅDFRI control outlet 4
+switch.ikea_of_sweden_tradfri_control_outlet_fea5c33d_1:
+  friendly_name: IKEA control outlet 4
+
+# Thermostat
+? zwave.linear_nortek_security_control_llc_gc_tbz48_battery_powered_z_wave_thermostat
+: friendly_name: Thermostat
+? climate.linear_nortek_security_control_llc_gc_tbz48_battery_powered_z_wave_thermostat_cooling_1
+: friendly_name: Thermostat Cooling
+? climate.linear_nortek_security_control_llc_gc_tbz48_battery_powered_z_wave_thermostat_heating_1
+: friendly_name: Thermostat Heating
+? sensor.linear_nortek_security_control_llc_gc_tbz48_battery_powered_z_wave_thermostat_battery_level
+: friendly_name: Thermostat Battery
+? sensor.linear_nortek_security_control_llc_gc_tbz48_battery_powered_z_wave_thermostat_temperature
+: friendly_name: Thermostat Temperature
+
+# Mithras' Pixel
+device_tracker.mithras_pixel_3:
+  friendly_name: Mithras' Pixel
+device_tracker.owntracks_mithras:
+  friendly_name: Mithras' OwnTracks
+# Diana's Pixel
+device_tracker.diana_pixel_3:
+  friendly_name: Diana's Pixel
+device_tracker.owntracks_diana:
+  friendly_name: Diana's OwnTracks

@@ -1,0 +1,164 @@
+default_config:
+
+http:
+  base_url: !secret http_base_url
+  ssl_certificate: /ssl/fullchain.pem
+  ssl_key: /ssl/privkey.pem
+
+tts:
+  - platform: google_translate
+
+# homeassistant: !include homeassistant.yaml
+homeassistant:
+  customize: !include customize.yaml
+  customize_glob:
+    light.hue_*:
+      hidden: true
+  latitude: !secret latitude
+  longitude: !secret longitude
+  whitelist_external_dirs: !include whitelist_external_dirs.yaml
+
+zone: !include zone.yaml
+
+asuswrt:
+  host: 192.168.1.1
+  username: Mithras
+  ssh_key: /config/ssl/asus-wrt
+
+device_tracker:
+  - platform: asuswrt
+    interval_seconds: 10
+    consider_home: 60
+    new_device_defaults:
+      track_new_devices: false
+
+sensor:
+  - platform: command_line
+    name: CPU Temperature
+    command: "cat /sys/class/thermal/thermal_zone0/temp"
+    unit_of_measurement: "°C"
+    value_template: "{{ value | multiply(0.001) | round(1) }}"
+  - platform: systemmonitor
+    resources:
+      - type: disk_use_percent
+        arg: /
+      - type: disk_use
+        arg: /
+      - type: disk_free
+        arg: /
+      - type: memory_use_percent
+      - type: memory_use
+      - type: memory_free
+      - type: load_1m
+      - type: load_5m
+      - type: load_15m
+      - type: network_in
+        arg: wlan0
+      - type: network_out
+        arg: wlan0
+      - type: throughput_network_in
+        arg: wlan0
+      - type: throughput_network_out
+        arg: wlan0
+      - type: processor_use
+      - type: last_boot
+
+switch:
+  - platform: broadlink
+    host: 192.168.1.4
+    mac: !secret broadlink_rm3_mini_mac
+    switches:
+      levoit_humidifier:
+        friendly_name: Levoit Humidifier
+        command_on: !secret levoit_humidifier_ir_command
+        command_off: !secret levoit_humidifier_ir_command
+  - platform: wake_on_lan
+    mac_address: !secret mithras_desktop_mac
+    name: Mithras Desktop
+    host: 192.168.1.2
+    turn_off:
+      service: hassio.addon_stdin
+      data:
+        addon: core_rpc_shutdown
+        input: mithras_desktop
+
+media_player:
+  # https://github.com/xchwarze/ha-samsungtv-custom
+  - platform: samsungtv_custom
+    name: Samsung Smart TV
+    host: 192.168.1.5
+    port: 8002
+    mac: !secret samsung_tv_mac
+
+vacuum:
+  - platform: roomba
+    host: 192.168.1.6
+    username: !secret roomba_username
+    password: !secret roomba_password
+
+owntracks:
+  max_gps_accuracy: 100
+  waypoints: false
+
+telegram_bot:
+  - platform: webhooks
+    parse_mode: markdown
+    api_key: !secret telegram_api_key
+    allowed_chat_ids:
+      - !secret telegram_mithras
+      - !secret telegram_location_chat
+      - !secret telegram_debug_chat
+
+wake_on_lan:
+
+ffmpeg:
+
+stream:
+
+amcrest:
+  - host: 192.168.1.8
+    username: !secret amcrest_user
+    password: !secret amcrest_password
+    name: Living Room Camera
+    binary_sensors:
+      - online
+      - motion_detected
+  - host: 192.168.1.9
+    username: !secret amcrest_user
+    password: !secret amcrest_password
+    name: Porch Camera
+    binary_sensors:
+      - online
+      - motion_detected
+
+input_select:
+  security_override:
+    name: Security Override
+    options:
+      - Auto
+      - Armed Away
+      - Armed Home
+      - Armed Sleep
+      - Disarmed
+    initial: Auto
+    icon: mdi:shield-home
+
+input_boolean:
+  sleep:
+    name: Sleep
+    icon: mdi:sleep
+
+lovelace:
+  mode: yaml
+
+zha:
+  usb_path: /dev/ttyUSB1 # HUSBZB-1 (bottom usb 2.0)
+  database_path: /config/zigbee.db
+
+zwave:
+  usb_path: /dev/ttyUSB0 # HUSBZB-1 (bottom usb 2.0)
+  network_key: !secret zwave_network_key
+
+hue:
+  bridges:
+    - host: 192.168.1.7

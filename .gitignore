@@ -1,0 +1,11 @@
+*
+
+!.gitignore
+!LICENSE
+
+!appdaemon/
+
+!configuration.yaml
+!customize.yaml
+!readme.txt
+!ui-lovelace.yaml

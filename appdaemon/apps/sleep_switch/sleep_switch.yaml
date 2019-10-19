@@ -1,0 +1,8 @@
+SleepSwitch:
+  module: sleep_switch
+  class: SleepSwitch
+  global_dependencies:
+    - globals
+  config:
+    switch: smart_switch
+    input: input_boolean.sleep

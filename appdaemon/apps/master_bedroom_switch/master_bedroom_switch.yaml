@@ -1,0 +1,10 @@
+MasterBedroomSwitch:
+  module: master_bedroom_switch
+  class: MasterBedroomSwitch
+  global_dependencies:
+    - globals
+  config:
+    switch: "tradfri_on_off_switch"
+    master_bedroom_light: "light.master_bedroom"
+    master_bathroom_light: "light.master_bathroom"
+    master_toilet_light: "light.master_toilet"
