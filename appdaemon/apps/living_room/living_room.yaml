@@ -13,5 +13,5 @@ LivingRoom:
     rokit6: switch.ikea_of_sweden_tradfri_control_outlet_fe9c5112_1
     samsung_tv: media_player.samsung_smart_tv
     levoit_humidifier: switch.levoit_humidifier
-    living_room_light: light.living_room
+    living_room_main_light: light.living_room_main
     living_room_back_light: light.living_room_back

@@ -58,6 +58,7 @@ views:
             title: Light
             entities:
               - light.living_room
+              - light.living_room_main
               - light.living_room_back
               - light.master_bedroom
               - light.driveway

@@ -9,6 +9,8 @@ class Common(hass.Hass):
         self.telegram_location_chat = config["telegram_location_chat"]
         self.telegram_alarm_chat = config["telegram_alarm_chat"]
         self.http_base_url = config["http_base_url"]
+        # self.listen_state(self.light_callback,
+        #                   entity="light.kitchen", attribute="all")
 
     def is_sleep(self):
         return self.get_state(entity="input_boolean.sleep") == "on"
@@ -37,20 +39,25 @@ class Common(hass.Hass):
                           message=message,
                           parse_mode=parse_mode)
 
-    def light_activate_bright(self, lightGroup: str):
-        self.light_activate_scene(lightGroup, "Bright")
+    def light_turn_bright(self, lightGroup: str):
+        self.light_turn_profile(lightGroup, "Bright")
 
-    def light_activate_dimmed(self, lightGroup: str):
-        self.light_activate_scene(lightGroup, "Dimmed")
+    def light_turn_dimmed(self, lightGroup: str):
+        self.light_turn_profile(lightGroup, "Dimmed")
 
-    def light_activate_nightlight(self, lightGroup: str):
-        self.light_activate_scene(lightGroup, "Nightlight")
+    def light_turn_nightlight(self, lightGroup: str):
+        self.light_turn_profile(lightGroup, "Nightlight")
 
-    def light_activate_scene(self, lightGroup: str, scene: str):
-        self.call_service("hue/hue_activate_scene",
-                          group_name=self.friendly_name(lightGroup),
-                          scene_name=scene)
+    def light_turn_profile(self, lightGroup: str, profile: str):
+        self.call_service("light/turn_on",
+                          entity_id=lightGroup,
+                          profile=profile)
 
     def light_turn_off(self, lightGroup: str):
         self.call_service("light/turn_off",
                           entity_id=lightGroup)
+
+    # def light_callback(self, entity, attribute, old, new, kwargs):
+    #     self.log(f"light_callback: {entity}")
+    #     self.log(f"\t{old}")
+    #     self.log(f"\t{new}")

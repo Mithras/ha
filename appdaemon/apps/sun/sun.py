@@ -10,7 +10,7 @@ class Sun(globals.Hass):
 
     def sunset_callback(self, kwargs):
         if self.get_state(entity=drivewayLight) == "off":
-            self.common.light_activate_nightlight(drivewayLight)
+            self.common.light_turn_nightlight(drivewayLight)
 
     def sunrise_callback(self, kwargs):
         self.common.light_turn_off(drivewayLight)

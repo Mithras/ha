@@ -30,12 +30,12 @@ class MasterBedroomSwitch(globals.Hass):
                           code="x001")
 
     def on_click_callback(self, event_name, data, kwargs):
-        self.common.light_activate_nightlight(self.master_bedroom_light)
-        self.common.light_activate_nightlight(self.master_bathroom_light)
-        self.common.light_activate_nightlight(self.master_toilet_light)
+        self.common.light_turn_nightlight(self.master_bedroom_light)
+        self.common.light_turn_nightlight(self.master_bathroom_light)
+        self.common.light_turn_nightlight(self.master_toilet_light)
 
     def on_hold_callback(self, event_name, data, kwargs):
-        self.common.light_activate_bright(self.master_bedroom_light)
+        self.common.light_turn_bright(self.master_bedroom_light)
 
     def off_click_callback(self, event_name, data, kwargs):
         self.common.light_turn_off(self.master_bedroom_light)
@@ -43,5 +43,5 @@ class MasterBedroomSwitch(globals.Hass):
         self.common.light_turn_off(self.master_toilet_light)
 
     def off_hold_callback(self, event_name, data, kwargs):
-        self.common.light_activate_bright(self.master_bathroom_light)
-        self.common.light_activate_bright(self.master_toilet_light)
+        self.common.light_turn_bright(self.master_bathroom_light)
+        self.common.light_turn_bright(self.master_toilet_light)

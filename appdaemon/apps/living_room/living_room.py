@@ -9,7 +9,7 @@ class LivingRoom(globals.Hass):
         self.rokit6 = config["rokit6"]
         self.samsung_tv = config["samsung_tv"]
         self.levoit_humidifier = config["levoit_humidifier"]
-        self.living_room_light = config["living_room_light"]
+        self.living_room_main_light = config["living_room_main_light"]
         self.living_room_back_light = config["living_room_back_light"]
 
         self.listen_state(self.mithras_desktop_callback,
@@ -50,8 +50,8 @@ class LivingRoom(globals.Hass):
         self.turn_on(self.wyrd_and_jotunheim)
         self.turn_on(self.rokit6)
         self.turn_on(self.samsung_tv)
-        self.common.light_activate_bright(self.living_room_light)
-        self.common.light_activate_dimmed(self.living_room_back_light)
+        self.common.light_turn_bright(self.living_room_main_light)
+        self.common.light_turn_dimmed(self.living_room_back_light)
         if toggle:
             self.toggle(self.levoit_humidifier)
 
@@ -60,6 +60,6 @@ class LivingRoom(globals.Hass):
         self.turn_off(self.wyrd_and_jotunheim)
         self.turn_off(self.rokit6)
         self.turn_off(self.samsung_tv)
-        self.common.light_turn_off(self.living_room_light)
+        self.common.light_turn_off(self.living_room_main_light)
         if toggle:
             self.toggle(self.levoit_humidifier)

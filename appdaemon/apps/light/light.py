@@ -80,4 +80,4 @@ class Light(globals.Hass):
         if scene == "Off":
             self.common.light_turn_off(light_group)
         elif scene is not None:
-            self.common.light_activate_scene(light_group, scene)
+            self.common.light_turn_profile(light_group, scene)
