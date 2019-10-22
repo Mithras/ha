@@ -3,6 +3,8 @@ Light:
   class: Light
   global_dependencies:
     - globals
+  dependencies:
+    - Common
   config:
     # Master Bedroom
     - sensors:
@@ -57,7 +59,6 @@ Light:
         - entity: binary_sensor.lumi_lumi_sensor_motion_aq2_033ad713_1_1280
         - entity: binary_sensor.lumi_lumi_sensor_magnet_aq2_03e814c5_1_6
           additional_delay: 60
-        # TODO: Porch Camera Motion Sensor?
       light_group: light.porch
       sun_down_on_scene: Bright
       sun_up_off_scene: "Off"
@@ -68,7 +69,6 @@ Light:
         - entity: binary_sensor.lumi_lumi_sensor_motion_aq2_033ad713_1_1280
         - entity: binary_sensor.lumi_lumi_sensor_magnet_aq2_03e814c5_1_6
           additional_delay: 60
-        # TODO: Porch Camera Motion Sensor?
       light_group: light.driveway
       sun_down_on_scene: Bright
       sun_up_off_scene: "Off"

@@ -3,6 +3,8 @@ LivingRoom:
   class: LivingRoom
   global_dependencies:
     - globals
+  dependencies:
+    - Common
   config:
     sleep_input: input_boolean.sleep
     person: person.mithras

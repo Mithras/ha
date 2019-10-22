@@ -1,6 +1,8 @@
 import globals
 
 
+# TODO: do nothing in case currentState == offState.
+# TODO: replace  "on" with a parameter. Add person == "home" triggers.
 class Light(globals.Hass):
     def initialize(self):
         for config in self.args["config"]:

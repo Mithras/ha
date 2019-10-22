@@ -3,6 +3,8 @@ SleepSwitch:
   class: SleepSwitch
   global_dependencies:
     - globals
+  dependencies:
+    - Common
   config:
     switch: smart_switch
     input: input_boolean.sleep

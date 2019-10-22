@@ -3,6 +3,8 @@ DeconzSwitch:
   class: DeconzSwitch
   global_dependencies:
     - globals
+  dependencies:
+    - Common
   config:
     - tradfri_on_off_switch # 123
     - smart_switch # 1234

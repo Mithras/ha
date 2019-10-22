@@ -3,6 +3,8 @@ Climate:
   class: Climate
   global_dependencies:
     - globals
+  dependencies:
+    - Common
   config:
     cooling: climate.linear_nortek_security_control_llc_gc_tbz48_battery_powered_z_wave_thermostat_cooling_1
     heating: climate.linear_nortek_security_control_llc_gc_tbz48_battery_powered_z_wave_thermostat_heating_1

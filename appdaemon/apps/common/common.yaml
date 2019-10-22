@@ -1,7 +1,6 @@
 Common:
   module: common
   class: Common
-  priority: 0
   config:
     telegram_mithras: !secret telegram_mithras
     telegram_debug_chat: !secret telegram_debug_chat

@@ -3,3 +3,5 @@ Sun:
   class: Sun
   global_dependencies:
     - globals
+  dependencies:
+    - Common

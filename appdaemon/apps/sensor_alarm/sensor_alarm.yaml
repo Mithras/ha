@@ -4,10 +4,12 @@ ArmedAwaySensorAlarm:
   constrain_arm: Armed Away
   global_dependencies:
     - globals
+  dependencies:
+    - Common
   config:
     - binary_sensor.porch_camera_online # Porch Camera Online Sensor
     - binary_sensor.living_room_camera_online # Living Room Camera Online Sensor
-    # - binary_sensor.porch_camera_motion_detected # Porch Camera Motion Sensor
+    - binary_sensor.porch_camera_motion_detected # Porch Camera Motion Sensor
     - binary_sensor.living_room_camera_motion_detected # Living Room Camera Motion Sensor
     - binary_sensor.lumi_lumi_sensor_motion_aq2_033ad713_1_1280 # Porch Motion Sensor
     - binary_sensor.lumi_lumi_sensor_motion_aq2_035fe990_1_1280 # Master Bedroom Motion Sensor
@@ -27,10 +29,12 @@ ArmedHomeSensorAlarm:
   constrain_arm: Armed Home
   global_dependencies:
     - globals
+  dependencies:
+    - Common
   config:
     - binary_sensor.porch_camera_online # Porch Camera Online Sensor
     - binary_sensor.living_room_camera_online # Living Room Camera Online Sensor
-    # - binary_sensor.porch_camera_motion_detected # Porch Camera Motion Sensor
+    - binary_sensor.porch_camera_motion_detected # Porch Camera Motion Sensor
     - binary_sensor.lumi_lumi_sensor_motion_aq2_033ad713_1_1280 # Porch Motion Sensor
 ArmedSleepSensorAlarm:
   module: sensor_alarm
@@ -38,10 +42,12 @@ ArmedSleepSensorAlarm:
   constrain_arm: Armed Sleep
   global_dependencies:
     - globals
+  dependencies:
+    - Common
   config:
     - binary_sensor.porch_camera_online # Porch Camera Online Sensor
     - binary_sensor.living_room_camera_online # Living Room Camera Online Sensor
-    # - binary_sensor.porch_camera_motion_detected # Porch Camera Motion Sensor
+    - binary_sensor.porch_camera_motion_detected # Porch Camera Motion Sensor
     - binary_sensor.living_room_camera_motion_detected # Living Room Camera Motion Sensor
     - binary_sensor.lumi_lumi_sensor_motion_aq2_033ad713_1_1280 # Porch Motion Sensor
     - binary_sensor.lumi_lumi_sensor_motion_aq2_036c7785_1_1280 # Kitchen Motion Sensor

@@ -6,6 +6,8 @@ import random
 SYMBOLS = string.ascii_lowercase + string.digits
 
 
+# TODO: support multiple sensors per camera
+# TODO: write videos until sensor(s) are clear
 class CameraAlarm(globals.Hass):
     def initialize(self):
         for config in self.args["config"]:
@@ -51,8 +53,8 @@ class CameraAlarm(globals.Hass):
     def timer_callback(self, kwargs):
         # video = kwargs["video"]
         # self.call_service("telegram_bot/send_video",
-        #                     target=[self.common.telegram_alarm_chat],
-        #                     file=video)
+        #                   target=[self.common.telegram_alarm_chat],
+        #                   file=video)
         video_public_url = kwargs["video_public_url"]
         self.common.send_alarm(video_public_url)
 

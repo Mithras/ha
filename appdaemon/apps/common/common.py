@@ -19,32 +19,32 @@ class Common(hass.Hass):
     def send_location(self, message: str, **kwargs):
         parse_mode = kwargs.get("parse_mode", "markdown")
         self.call_service("telegram_bot/send_message",
-                          target=[self.common.telegram_location_chat],
+                          target=[self.telegram_location_chat],
                           message=message,
                           parse_mode=parse_mode)
 
     def send_alarm(self, message: str, **kwargs):
         parse_mode = kwargs.get("parse_mode", "markdown")
         self.call_service("telegram_bot/send_message",
-                          target=[self.common.telegram_debug_chat],
+                          target=[self.telegram_debug_chat],
                           message=message,
                           parse_mode=parse_mode)
 
     def send_debug(self, message: str, **kwargs):
         parse_mode = kwargs.get("parse_mode", "markdown")
         self.call_service("telegram_bot/send_message",
-                          target=[self.common.telegram_debug_chat],
+                          target=[self.telegram_debug_chat],
                           message=message,
                           parse_mode=parse_mode)
 
     def light_activate_bright(self, lightGroup: str):
-        self.common.light_activate_scene(lightGroup, "Bright")
+        self.light_activate_scene(lightGroup, "Bright")
 
     def light_activate_dimmed(self, lightGroup: str):
-        self.common.light_activate_scene(lightGroup, "Dimmed")
+        self.light_activate_scene(lightGroup, "Dimmed")
 
     def light_activate_nightlight(self, lightGroup: str):
-        self.common.light_activate_scene(lightGroup, "Nightlight")
+        self.light_activate_scene(lightGroup, "Nightlight")
 
     def light_activate_scene(self, lightGroup: str, scene: str):
         self.call_service("hue/hue_activate_scene",

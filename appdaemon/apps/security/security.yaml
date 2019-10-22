@@ -3,3 +3,5 @@ Security:
   class: Security
   global_dependencies:
     - globals
+  dependencies:
+    - Common

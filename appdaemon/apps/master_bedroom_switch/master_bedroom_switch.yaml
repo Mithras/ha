@@ -3,6 +3,8 @@ MasterBedroomSwitch:
   class: MasterBedroomSwitch
   global_dependencies:
     - globals
+  dependencies:
+    - Common
   config:
     switch: "tradfri_on_off_switch"
     master_bedroom_light: "light.master_bedroom"

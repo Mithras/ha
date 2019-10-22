@@ -3,3 +3,5 @@ Location:
   class: Location
   global_dependencies:
     - globals
+  dependencies:
+    - Common
