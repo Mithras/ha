@@ -9,8 +9,6 @@ class Common(hass.Hass):
         self.telegram_location_chat = config["telegram_location_chat"]
         self.telegram_alarm_chat = config["telegram_alarm_chat"]
         self.http_base_url = config["http_base_url"]
-        # self.listen_state(self.light_callback,
-        #                   entity="light.kitchen", attribute="all")
 
     def is_sleep(self):
         return self.get_state(entity="input_boolean.sleep") == "on"
@@ -56,8 +54,3 @@ class Common(hass.Hass):
     def light_turn_off(self, lightGroup: str):
         self.call_service("light/turn_off",
                           entity_id=lightGroup)
-
-    # def light_callback(self, entity, attribute, old, new, kwargs):
-    #     self.log(f"light_callback: {entity}")
-    #     self.log(f"\t{old}")
-    #     self.log(f"\t{new}")

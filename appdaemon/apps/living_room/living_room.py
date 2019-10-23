@@ -61,5 +61,6 @@ class LivingRoom(globals.Hass):
         self.turn_off(self.rokit6)
         self.turn_off(self.samsung_tv)
         self.common.light_turn_off(self.living_room_main_light)
+        self.common.light_turn_off(self.living_room_back_light)
         if toggle:
             self.toggle(self.levoit_humidifier)

@@ -11,9 +11,6 @@ tts:
 # homeassistant: !include homeassistant.yaml
 homeassistant:
   customize: !include customize.yaml
-  customize_glob:
-    light.hue_*:
-      hidden: true
   latitude: !secret latitude
   longitude: !secret longitude
   whitelist_external_dirs: !include whitelist_external_dirs.yaml
