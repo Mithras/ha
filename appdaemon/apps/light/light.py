@@ -1,7 +1,6 @@
 import globals
 
 
-# TODO: do nothing in case currentState == offState.
 # TODO: replace  "on" with a parameter. Add person == "home" triggers.
 class Light(globals.Hass):
     def initialize(self):
@@ -19,18 +18,18 @@ class Light(globals.Hass):
                                   additional_delay=sensor.get(
                                       "additional_delay", None),
                                   light_group=config["light_group"],
-                                  sun_up_on_scene=config.get(
-                                      "sun_up_on_scene", None),
-                                  sun_down_on_scene=config.get(
-                                      "sun_down_on_scene", None),
-                                  sleep_on_scene=config.get(
-                                      "sleep_on_scene", None),
-                                  sun_up_off_scene=config.get(
-                                      "sun_up_off_scene", None),
-                                  sun_down_off_scene=config.get(
-                                      "sun_down_off_scene", None),
-                                  sleep_off_scene=config.get(
-                                      "sleep_off_scene", None),
+                                  sun_up_on_profile=config.get(
+                                      "sun_up_on_profile", None),
+                                  sun_down_on_profile=config.get(
+                                      "sun_down_on_profile", None),
+                                  sleep_on_profile=config.get(
+                                      "sleep_on_profile", None),
+                                  sun_up_off_profile=config.get(
+                                      "sun_up_off_profile", None),
+                                  sun_down_off_profile=config.get(
+                                      "sun_down_off_profile", None),
+                                  sleep_off_profile=config.get(
+                                      "sleep_off_profile", None),
                                   ignore_sleep=config.get("ignore_sleep", False))
 
     def sensor_callback(self, entity, attribute, old, new, kwargs):
@@ -54,30 +53,37 @@ class Light(globals.Hass):
         self.handle_off(kwargs["instance"], kwargs["sensor"], kwargs["kwargs"])
 
     def handle_on(self, sensor, kwargs):
+        # TODO: do nothing in case currentState == offState.
         self.cancel_timer(sensor["timer"])
         sensor["state"] = True
 
-        if not kwargs["ignore_sleep"] and self.common.is_sleep():
-            scene = kwargs["sleep_on_scene"]
-        elif self.sun_up():
-            scene = kwargs["sun_up_on_scene"]
-        else:
-            scene = kwargs["sun_down_on_scene"]
-        self.handle_scene(kwargs["light_group"], scene)
+        profile = self.get_on_profile(kwargs)
+        self.handle_profile(kwargs["light_group"], profile)
 
     def handle_off(self, instance, sensor, kwargs):
         sensor["state"] = False
         if all(not sensor["state"] for sensor in instance.values()):
-            if not kwargs["ignore_sleep"] and self.common.is_sleep():
-                scene = kwargs["sleep_off_scene"]
-            elif self.sun_up():
-                scene = kwargs["sun_up_off_scene"]
-            else:
-                scene = kwargs["sun_down_off_scene"]
-            self.handle_scene(kwargs["light_group"], scene)
+            profile = self.get_off_profile(kwargs)
+            self.handle_profile(kwargs["light_group"], profile)
 
-    def handle_scene(self, light_group, scene):
-        if scene == "Off":
+    def get_on_profile(self, kwargs):
+        if not kwargs["ignore_sleep"] and self.common.is_sleep():
+            return kwargs["sleep_on_profile"]
+        elif self.sun_up():
+            return kwargs["sun_up_on_profile"]
+        else:
+            return kwargs["sun_down_on_profile"]
+
+    def get_off_profile(self, kwargs):
+        if not kwargs["ignore_sleep"] and self.common.is_sleep():
+            return kwargs["sleep_off_profile"]
+        elif self.sun_up():
+            return kwargs["sun_up_off_profile"]
+        else:
+            return kwargs["sun_down_off_profile"]
+
+    def handle_profile(self, light_group, profile):
+        if profile == "Off":
             self.common.light_turn_off(light_group)
-        elif scene is not None:
-            self.common.light_turn_profile(light_group, scene)
+        elif profile is not None:
+            self.common.light_turn_profile(light_group, profile)
