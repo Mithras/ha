@@ -5,6 +5,11 @@
 
 !appdaemon/
 
+!custom_components/
+!custom_components/appdaemon_app/
+!custom_components/appdaemon_app/*
+__pycache__
+
 !configuration.yaml
 !customize.yaml
 !readme.txt

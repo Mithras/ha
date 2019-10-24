@@ -1,4 +1,4 @@
-LivingRoomCameraAlarm:
+CameraAlarmLivingRoom:
   module: camera_alarm
   class: CameraAlarm
   global_dependencies:
@@ -11,7 +11,7 @@ LivingRoomCameraAlarm:
       camera: camera.living_room_camera
       video_duration: 30
       send_video_delay: 35
-PorchMotionAlarm:
+CameraAlarmPorchMotion:
   module: camera_alarm
   class: CameraAlarm
   global_dependencies:
@@ -24,7 +24,7 @@ PorchMotionAlarm:
       camera: camera.porch_camera
       video_duration: 15
       send_video_delay: 20
-PorchCameraAlarm:
+CameraAlarmPorch:
   module: camera_alarm
   class: CameraAlarm
   global_dependencies:

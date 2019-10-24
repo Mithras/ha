@@ -1,4 +1,4 @@
-ArmedAwaySensorAlarm:
+SensorAlarmArmedAway:
   module: sensor_alarm
   class: SensorAlarm
   constrain_arm: Armed Away
@@ -23,7 +23,7 @@ ArmedAwaySensorAlarm:
     - binary_sensor.lumi_lumi_sensor_magnet_aq2_03e814c5_1_6 # Front Door Sensor
     - binary_sensor.lumi_lumi_sensor_magnet_aq2_0444c1c2_1_6 # Garage Door Sensor
     - binary_sensor.lumi_lumi_sensor_magnet_aq2_0444c14e_1_6 # Backyard Door Sensor
-ArmedHomeSensorAlarm:
+SensorAlarmArmedHome:
   module: sensor_alarm
   class: SensorAlarm
   constrain_arm: Armed Home
@@ -36,7 +36,7 @@ ArmedHomeSensorAlarm:
     - binary_sensor.living_room_camera_online # Living Room Camera Online Sensor
     - binary_sensor.porch_camera_motion_detected # Porch Camera Motion Sensor
     - binary_sensor.lumi_lumi_sensor_motion_aq2_033ad713_1_1280 # Porch Motion Sensor
-ArmedSleepSensorAlarm:
+SensorAlarmArmedSleep:
   module: sensor_alarm
   class: SensorAlarm
   constrain_arm: Armed Sleep

@@ -3,6 +3,9 @@ resources:
   # https://github.com/enriqg9/dual-thermostat
   - url: /local/ui-lovelace/dual-thermostat/dual-thermostat.js?v=1
     type: js
+  # https://github.com/custom-cards/monster-card
+  - url: /local/ui-lovelace/monster-card/monster-card.js
+    type: js
 views:
   - title: Home
     path: home
@@ -170,3 +173,15 @@ views:
           - sensor.lumi_lumi_sensor_motion_aq2_03f409b4_1_1024
           - sensor.lumi_lumi_sensor_motion_aq2_0414306d_1_1024
           - sensor.lumi_lumi_sensor_motion_aq2_036bef53_1_1024
+
+  - title: AppDaemon
+    path: appdaemon
+    cards:
+      - type: custom:monster-card
+        card:
+          type: entities
+        filter:
+          include:
+            - domain: appdaemon_app
+              options:
+                icon: mdi:application

@@ -159,3 +159,5 @@ zwave:
 hue:
   bridges:
     - host: 192.168.1.7
+
+appdaemon_app:

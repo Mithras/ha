@@ -1,4 +1,4 @@
-Light:
+LightMasterBedroom:
   module: light
   class: Light
   global_dependencies:
@@ -6,90 +6,145 @@ Light:
   dependencies:
     - Common
   config:
-    # Master Bedroom
-    - sensors:
-        - entity: binary_sensor.lumi_lumi_sensor_motion_aq2_035fe990_1_1280
-      light_group: light.master_bedroom
-      sun_up_on_profile: Bright
-      sun_down_on_profile: Bright
-      sun_up_off_profile: "Off"
-      sun_down_off_profile: "Off"
-    # Kitchen
-    - sensors:
-        - entity: binary_sensor.lumi_lumi_sensor_motion_aq2_036c7785_1_1280
-      light_group: light.kitchen
-      sun_up_on_profile: Bright
-      sun_down_on_profile: Bright
-      sun_up_off_profile: "Off"
-      sun_down_off_profile: "Off"
-      ignore_sleep: True
-    # Garage
-    - sensors:
-        - entity: binary_sensor.lumi_lumi_sensor_motion_aq2_04143070_1_1280
-        - entity: binary_sensor.lumi_lumi_sensor_magnet_aq2_0444c1c2_1_6
-          additional_delay: 60
-      light_group: light.garage
-      sun_up_on_profile: Bright
-      sun_down_on_profile: Bright
-      sun_up_off_profile: "Off"
-      sun_down_off_profile: "Off"
-      ignore_sleep: True
-    # Master Bathroom
-    - sensors:
-        - entity: binary_sensor.lumi_lumi_sensor_motion_aq2_036018e1_1_1280
-      light_group: light.master_bathroom
-      sun_up_on_profile: Bright
-      sun_down_on_profile: Bright
-      sleep_on_profile: Nightlight
-      sun_up_off_profile: "Off"
-      sun_down_off_profile: "Off"
-      sleep_off_profile: "Off"
-    # Master Toilet
-    - sensors:
-        - entity: binary_sensor.lumi_lumi_sensor_motion_aq2_03f42a68_1_1280
-      light_group: light.master_toilet
-      sun_up_on_profile: Bright
-      sun_down_on_profile: Bright
-      sleep_on_profile: Nightlight
-      sun_up_off_profile: "Off"
-      sun_down_off_profile: "Off"
-      sleep_off_profile: "Off"
-    # Porch
-    - sensors:
-        - entity: binary_sensor.lumi_lumi_sensor_motion_aq2_033ad713_1_1280
-        - entity: binary_sensor.lumi_lumi_sensor_magnet_aq2_03e814c5_1_6
-          additional_delay: 60
-      light_group: light.porch
-      sun_down_on_profile: Bright
-      sun_up_off_profile: "Off"
-      sun_down_off_profile: "Off"
-      ignore_sleep: True
-    # Driveway
-    - sensors:
-        - entity: binary_sensor.lumi_lumi_sensor_motion_aq2_033ad713_1_1280
-        - entity: binary_sensor.lumi_lumi_sensor_magnet_aq2_03e814c5_1_6
-          additional_delay: 60
-      light_group: light.driveway
-      sun_down_on_profile: Bright
-      sun_up_off_profile: "Off"
-      sun_down_off_profile: Nightlight
-      ignore_sleep: True
-    # Staircase
-    - sensors:
-        - entity: binary_sensor.lumi_lumi_sensor_motion_aq2_0414306d_1_1280
-        - entity: binary_sensor.lumi_lumi_sensor_motion_aq2_036bef53_1_1280
-      light_group: light.staircase
-      sun_down_on_profile: Bright
-      sleep_on_profile: Nightlight
-      sun_up_off_profile: "Off"
-      sun_down_off_profile: "Off"
-      sleep_off_profile: "Off"
-    # Hallway
-    - sensors:
-        - entity: binary_sensor.lumi_lumi_sensor_motion_aq2_03f409b4_1_1280
-      light_group: light.hallway
-      sun_down_on_profile: Bright
-      sleep_on_profile: Nightlight
-      sun_up_off_profile: "Off"
-      sun_down_off_profile: "Off"
-      sleep_off_profile: "Off"
+    sensors:
+      - entity: binary_sensor.lumi_lumi_sensor_motion_aq2_035fe990_1_1280
+    light_group: light.master_bedroom
+    sun_up_on_profile: Bright
+    sun_down_on_profile: Bright
+    sun_up_off_profile: "Off"
+    sun_down_off_profile: "Off"
+LightKitchen:
+  module: light
+  class: Light
+  global_dependencies:
+    - globals
+  dependencies:
+    - Common
+  config:
+    sensors:
+      - entity: binary_sensor.lumi_lumi_sensor_motion_aq2_036c7785_1_1280
+    light_group: light.kitchen
+    sun_up_on_profile: Bright
+    sun_down_on_profile: Bright
+    sun_up_off_profile: "Off"
+    sun_down_off_profile: "Nightlight"
+    ignore_sleep: True
+LightGarage:
+  module: light
+  class: Light
+  global_dependencies:
+    - globals
+  dependencies:
+    - Common
+  config:
+    sensors:
+      - entity: binary_sensor.lumi_lumi_sensor_motion_aq2_04143070_1_1280
+      - entity: binary_sensor.lumi_lumi_sensor_magnet_aq2_0444c1c2_1_6
+        additional_delay: 60
+    light_group: light.garage
+    sun_up_on_profile: Bright
+    sun_down_on_profile: Bright
+    sun_up_off_profile: "Off"
+    sun_down_off_profile: "Off"
+    ignore_sleep: True
+LightMasterBathroom:
+  module: light
+  class: Light
+  global_dependencies:
+    - globals
+  dependencies:
+    - Common
+  config:
+    sensors:
+      - entity: binary_sensor.lumi_lumi_sensor_motion_aq2_036018e1_1_1280
+    light_group: light.master_bathroom
+    sun_up_on_profile: Bright
+    sun_down_on_profile: Bright
+    sleep_on_profile: Nightlight
+    sun_up_off_profile: "Off"
+    sun_down_off_profile: "Off"
+    sleep_off_profile: "Off"
+LightMasterToilet:
+  module: light
+  class: Light
+  global_dependencies:
+    - globals
+  dependencies:
+    - Common
+  config:
+    sensors:
+      - entity: binary_sensor.lumi_lumi_sensor_motion_aq2_03f42a68_1_1280
+    light_group: light.master_toilet
+    sun_up_on_profile: Bright
+    sun_down_on_profile: Bright
+    sleep_on_profile: Nightlight
+    sun_up_off_profile: "Off"
+    sun_down_off_profile: "Off"
+    sleep_off_profile: "Off"
+LightPorch:
+  module: light
+  class: Light
+  global_dependencies:
+    - globals
+  dependencies:
+    - Common
+  config:
+    sensors:
+      - entity: binary_sensor.lumi_lumi_sensor_motion_aq2_033ad713_1_1280
+      - entity: binary_sensor.lumi_lumi_sensor_magnet_aq2_03e814c5_1_6
+        additional_delay: 60
+    light_group: light.porch
+    sun_down_on_profile: Bright
+    sun_up_off_profile: "Off"
+    sun_down_off_profile: "Off"
+    ignore_sleep: True
+LightDriveway:
+  module: light
+  class: Light
+  global_dependencies:
+    - globals
+  dependencies:
+    - Common
+  config:
+    sensors:
+      - entity: binary_sensor.lumi_lumi_sensor_motion_aq2_033ad713_1_1280
+      - entity: binary_sensor.lumi_lumi_sensor_magnet_aq2_03e814c5_1_6
+        additional_delay: 60
+    light_group: light.driveway
+    sun_down_on_profile: Bright
+    sun_up_off_profile: "Off"
+    sun_down_off_profile: Nightlight
+    ignore_sleep: True
+LightStaircase:
+  module: light
+  class: Light
+  global_dependencies:
+    - globals
+  dependencies:
+    - Common
+  config:
+    sensors:
+      - entity: binary_sensor.lumi_lumi_sensor_motion_aq2_0414306d_1_1280
+      - entity: binary_sensor.lumi_lumi_sensor_motion_aq2_036bef53_1_1280
+    light_group: light.staircase
+    sun_down_on_profile: Bright
+    sleep_on_profile: Nightlight
+    sun_up_off_profile: "Off"
+    sun_down_off_profile: "Off"
+    sleep_off_profile: "Off"
+LightHallway:
+  module: light
+  class: Light
+  global_dependencies:
+    - globals
+  dependencies:
+    - Common
+  config:
+    sensors:
+      - entity: binary_sensor.lumi_lumi_sensor_motion_aq2_03f409b4_1_1280
+    light_group: light.hallway
+    sun_down_on_profile: Bright
+    sleep_on_profile: Nightlight
+    sun_up_off_profile: "Off"
+    sun_down_off_profile: "Off"
+    sleep_off_profile: "Off"

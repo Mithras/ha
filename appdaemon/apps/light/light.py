@@ -2,85 +2,83 @@ import globals
 
 
 # TODO: replace  "on" with a parameter. Add person == "home" triggers.
+# TODO: old != new ->  old == new:
 class Light(globals.Hass):
+    light_group: str
+    sun_up_on_profile: str
+    sun_down_on_profile: str
+    sleep_on_profile: str
+    sun_up_off_profile: str
+    sun_down_off_profile: str
+    sleep_off_profile: str
+    ignore_sleep: str
+    sensorMap = {}
+
     def initialize(self):
-        for config in self.args["config"]:
-            instance = {}
-            for sensor in config["sensors"]:
-                entity = sensor["entity"]
-                instance[entity] = {
-                    "state": None,
-                    "timer": None
-                }
-                self.listen_state(self.sensor_callback,
-                                  instance=instance,
-                                  entity=entity,
-                                  additional_delay=sensor.get(
-                                      "additional_delay", None),
-                                  light_group=config["light_group"],
-                                  sun_up_on_profile=config.get(
-                                      "sun_up_on_profile", None),
-                                  sun_down_on_profile=config.get(
-                                      "sun_down_on_profile", None),
-                                  sleep_on_profile=config.get(
-                                      "sleep_on_profile", None),
-                                  sun_up_off_profile=config.get(
-                                      "sun_up_off_profile", None),
-                                  sun_down_off_profile=config.get(
-                                      "sun_down_off_profile", None),
-                                  sleep_off_profile=config.get(
-                                      "sleep_off_profile", None),
-                                  ignore_sleep=config.get("ignore_sleep", False))
+        config = self.args["config"]
+        self.light_group = config["light_group"]
+        self.sun_up_on_profile = config.get("sun_up_on_profile", None)
+        self.sun_down_on_profile = config.get("sun_down_on_profile", None)
+        self.sleep_on_profile = config.get("sleep_on_profile", None)
+        self.sun_up_off_profile = config.get("sun_up_off_profile", None)
+        self.sun_down_off_profile = config.get("sun_down_off_profile", None)
+        self.sleep_off_profile = config.get("sleep_off_profile", None)
+        self.ignore_sleep = config.get("ignore_sleep", False)
+
+        for sensor in config["sensors"]:
+            entity = sensor["entity"]
+            self.sensorMap[entity] = {
+                "state": None,
+                "timer": None
+            }
+            self.listen_state(self.sensor_callback,
+                              entity=entity,
+                              additional_delay=sensor.get("additional_delay", None))
 
     def sensor_callback(self, entity, attribute, old, new, kwargs):
         if old != new:
-            instance = kwargs["instance"]
-            sensor = instance[entity]
+            sensor = self.sensorMap[entity]
 
             if new == "on":
-                self.handle_on(sensor, kwargs)
+                self.handle_on(sensor)
             else:
                 additional_delay = kwargs["additional_delay"]
                 if additional_delay:
                     sensor["timer"] = self.run_in(self.timer_callback, additional_delay,
-                                                  instance=instance,
-                                                  sensor=sensor,
-                                                  kwargs=kwargs)
+                                                  sensor=sensor)
                 else:
-                    self.handle_off(instance, sensor, kwargs)
+                    self.handle_off(sensor)
 
     def timer_callback(self, kwargs):
-        self.handle_off(kwargs["instance"], kwargs["sensor"], kwargs["kwargs"])
+        self.handle_off(kwargs["sensor"])
 
-    def handle_on(self, sensor, kwargs):
-        # TODO: do nothing in case currentState == offState.
+    def handle_on(self, sensor):
         self.cancel_timer(sensor["timer"])
         sensor["state"] = True
+        on_profile = self.get_on_profile()
+        self.handle_profile(self.light_group, on_profile)
 
-        profile = self.get_on_profile(kwargs)
-        self.handle_profile(kwargs["light_group"], profile)
-
-    def handle_off(self, instance, sensor, kwargs):
+    def handle_off(self, sensor):
         sensor["state"] = False
-        if all(not sensor["state"] for sensor in instance.values()):
-            profile = self.get_off_profile(kwargs)
-            self.handle_profile(kwargs["light_group"], profile)
+        if all(not sensor["state"] for sensor in self.sensorMap.values()):
+            off_profile = self.get_off_profile()
+            self.handle_profile(self.light_group, off_profile)
 
-    def get_on_profile(self, kwargs):
-        if not kwargs["ignore_sleep"] and self.common.is_sleep():
-            return kwargs["sleep_on_profile"]
+    def get_on_profile(self):
+        if not self.ignore_sleep and self.common.is_sleep():
+            return self.sleep_on_profile
         elif self.sun_up():
-            return kwargs["sun_up_on_profile"]
+            return self.sun_up_on_profile
         else:
-            return kwargs["sun_down_on_profile"]
+            return self.sun_down_on_profile
 
-    def get_off_profile(self, kwargs):
-        if not kwargs["ignore_sleep"] and self.common.is_sleep():
-            return kwargs["sleep_off_profile"]
+    def get_off_profile(self):
+        if not self.ignore_sleep and self.common.is_sleep():
+            return self.sleep_off_profile
         elif self.sun_up():
-            return kwargs["sun_up_off_profile"]
+            return self.sun_up_off_profile
         else:
-            return kwargs["sun_down_off_profile"]
+            return self.sun_down_off_profile
 
     def handle_profile(self, light_group, profile):
         if profile == "Off":
