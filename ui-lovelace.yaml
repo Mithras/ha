@@ -180,6 +180,8 @@ views:
       - type: custom:monster-card
         card:
           type: entities
+          title: AppDaemon
+          show_header_toggle: false
         filter:
           include:
             - domain: appdaemon_app

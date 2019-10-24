@@ -4,16 +4,6 @@ import globals
 # TODO: replace  "on" with a parameter. Add person == "home" triggers.
 # TODO: old != new ->  old == new:
 class Light(globals.Hass):
-    light_group: str
-    sun_up_on_profile: str
-    sun_down_on_profile: str
-    sleep_on_profile: str
-    sun_up_off_profile: str
-    sun_down_off_profile: str
-    sleep_off_profile: str
-    ignore_sleep: str
-    sensorMap = {}
-
     def initialize(self):
         config = self.args["config"]
         self.light_group = config["light_group"]
@@ -24,6 +14,7 @@ class Light(globals.Hass):
         self.sun_down_off_profile = config.get("sun_down_off_profile", None)
         self.sleep_off_profile = config.get("sleep_off_profile", None)
         self.ignore_sleep = config.get("ignore_sleep", False)
+        self.sensorMap = {}
 
         for sensor in config["sensors"]:
             entity = sensor["entity"]
@@ -53,12 +44,14 @@ class Light(globals.Hass):
         self.handle_off(kwargs["sensor"])
 
     def handle_on(self, sensor):
+        self.log(f"handle_on: sensor={sensor}, sensorMap={self.sensorMap}")
         self.cancel_timer(sensor["timer"])
         sensor["state"] = True
         on_profile = self.get_on_profile()
         self.handle_profile(self.light_group, on_profile)
 
     def handle_off(self, sensor):
+        self.log(f"handle_off: sensor={sensor}, sensorMap={self.sensorMap}")
         sensor["state"] = False
         if all(not sensor["state"] for sensor in self.sensorMap.values()):
             off_profile = self.get_off_profile()

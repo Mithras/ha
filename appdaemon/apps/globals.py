@@ -2,9 +2,6 @@ import appdaemon.plugins.hass.hassapi as hass
 
 
 class Hass(hass.Hass):
-    app_friendly_name: str
-    app_state_name: str
-
     def __init__(self, ad, name, logger, error, args, config, app_config, global_vars):
         hass.Hass.__init__(self, ad, name, logger, error, args,
                            config, app_config, global_vars)
@@ -37,6 +34,7 @@ class Hass(hass.Hass):
             else:
                 state_list.append(x)
             friendly_name_list.append(x)
+
         self.app_friendly_name = "".join(friendly_name_list)
         self.app_state_name = "".join(state_list)
 

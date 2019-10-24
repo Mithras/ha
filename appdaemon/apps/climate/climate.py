@@ -6,8 +6,6 @@ DO_NOTHING_CMD = "/climate-do-nothing"
 
 
 class Climate(globals.Hass):
-    override = None
-
     def initialize(self):
         config = self.args["config"]
         self.cooling = config["cooling"]
@@ -17,6 +15,7 @@ class Climate(globals.Hass):
         self.home_params = config["home_params"]
         self.not_home_params = config["not_home_params"]
         self.sleep_params = config["sleep_params"]
+        self.override = None
 
         self.listen_state(self.device_tracker_callback,
                           entity="device_tracker")

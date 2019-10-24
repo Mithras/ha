@@ -27,7 +27,7 @@ LightKitchen:
     sun_up_on_profile: Bright
     sun_down_on_profile: Bright
     sun_up_off_profile: "Off"
-    sun_down_off_profile: "Nightlight"
+    sun_down_off_profile: "Off"
     ignore_sleep: True
 LightGarage:
   module: light
