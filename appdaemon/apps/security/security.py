@@ -12,8 +12,9 @@ class Security(globals.Hass):
         self.update_security()
 
     def state_callback(self, entity, attribute, old, new, kwargs):
-        if old != new:
-            self.update_security()
+        if old == new:
+            return
+        self.update_security()
 
     def update_security(self):
         self.set_state("appdaemon.security",

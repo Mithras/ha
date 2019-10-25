@@ -32,27 +32,31 @@ class Climate(globals.Hass):
         self.listen_event(self.telegram_callback, "telegram_callback")
 
     def device_tracker_callback(self, entity, attribute, old, new, kwargs):
-        if old != new:
-            self.update_climate()
+        if old == new:
+            return
+        self.update_climate()
 
     def sleep_input_callback(self, entity, attribute, old, new, kwargs):
-        if old != new:
-            self.update_climate()
+        if old == new:
+            return
+        self.update_climate()
 
     def person_home_callback(self, entity, attribute, old, new, kwargs):
-        if old != new:
-            self.override = None
+        if old == new:
+            return
+        self.override = None
 
     def person_not_home_callback(self, entity, attribute, old, new, kwargs):
-        if old != new and old != "home":
-            hvac_mode = self.get_state(self.cooling)
-            if(hvac_mode != "off"):
-                return
-            temperature = self.get_state(self.temperature)
-            self.call_service("telegram_bot/send_message",
-                              target=[self.common.telegram_debug_chat],
-                              message=f"You have left *{old}*. Do you want to pre-set climate to home?\n  - current Temperature: {temperature}°C",
-                              inline_keyboard=[[["Yes", SET_HOME_CMD], ["No", DO_NOTHING_CMD]]])
+        if old == new or old == "home":
+            return
+        hvac_mode = self.get_state(self.cooling)
+        if(hvac_mode != "off"):
+            return
+        temperature = self.get_state(self.temperature)
+        self.call_service("telegram_bot/send_message",
+                          target=[self.common.telegram_debug_chat],
+                          message=f"You have left *{old}*. Do you want to pre-set climate to home?\n  - current Temperature: {temperature}°C",
+                          inline_keyboard=[[["Yes", SET_HOME_CMD], ["No", DO_NOTHING_CMD]]])
 
     def telegram_callback(self, event_name, data, kwargs):
         telegram_data = data["data"]

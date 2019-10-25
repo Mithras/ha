@@ -25,25 +25,29 @@ class LivingRoom(globals.Hass):
                           new="off")
 
     def mithras_desktop_callback(self, entity, attribute, old, new, kwargs):
-        if old != new:
-            if new == "on":
-                self.activate()
-            else:
-                self.deactivate()
+        if old == new:
+            return
+        if new == "on":
+            self.activate()
+        else:
+            self.deactivate()
 
     def person_home_callback(self, entity, attribute, old, new, kwargs):
-        if old != new:
-            self.activate(toggle=False)
-            self.turn_on(self.mithras_desktop)
+        if old == new:
+            return
+        self.activate(toggle=False)
+        self.turn_on(self.mithras_desktop)
 
     def person_not_home_callback(self, entity, attribute, old, new, kwargs):
-        if old != new and self.noone_home():
-            toggle = self.get_state(entity=self.mithras_desktop) == "on"
-            self.deactivate(toggle=toggle)
+        if old == new or self.anyone_home:
+            return
+        toggle = self.get_state(entity=self.mithras_desktop) == "on"
+        self.deactivate(toggle=toggle)
 
     def awake_callback(self, entity, attribute, old, new, kwargs):
-        if old != new:
-            self.turn_on(self.mithras_desktop)
+        if old == new:
+            return
+        self.turn_on(self.mithras_desktop)
 
     def activate(self, **kwargs):
         toggle = kwargs.get("toggle", True)

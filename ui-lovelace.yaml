@@ -186,4 +186,5 @@ views:
           include:
             - domain: appdaemon_app
               options:
-                icon: mdi:application
+                icon: mdi:language-python
+                type: custom:hui-toggle-entity-row

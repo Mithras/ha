@@ -2,7 +2,6 @@ import globals
 
 
 # TODO: replace  "on" with a parameter. Add person == "home" triggers.
-# TODO: old != new ->  old == new:
 class Light(globals.Hass):
     def initialize(self):
         config = self.args["config"]
@@ -27,31 +26,30 @@ class Light(globals.Hass):
                               additional_delay=sensor.get("additional_delay", None))
 
     def sensor_callback(self, entity, attribute, old, new, kwargs):
-        if old != new:
-            sensor = self.sensorMap[entity]
+        if old == new:
+            return
+        sensor = self.sensorMap[entity]
 
-            if new == "on":
-                self.handle_on(sensor)
+        if new == "on":
+            self.handle_on(sensor)
+        else:
+            additional_delay = kwargs["additional_delay"]
+            if additional_delay:
+                sensor["timer"] = self.run_in(self.timer_callback, additional_delay,
+                                              sensor=sensor)
             else:
-                additional_delay = kwargs["additional_delay"]
-                if additional_delay:
-                    sensor["timer"] = self.run_in(self.timer_callback, additional_delay,
-                                                  sensor=sensor)
-                else:
-                    self.handle_off(sensor)
+                self.handle_off(sensor)
 
     def timer_callback(self, kwargs):
         self.handle_off(kwargs["sensor"])
 
     def handle_on(self, sensor):
-        self.log(f"handle_on: sensor={sensor}, sensorMap={self.sensorMap}")
         self.cancel_timer(sensor["timer"])
         sensor["state"] = True
         on_profile = self.get_on_profile()
         self.handle_profile(self.light_group, on_profile)
 
     def handle_off(self, sensor):
-        self.log(f"handle_off: sensor={sensor}, sensorMap={self.sensorMap}")
         sensor["state"] = False
         if all(not sensor["state"] for sensor in self.sensorMap.values()):
             off_profile = self.get_off_profile()
