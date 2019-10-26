@@ -1,12 +1,12 @@
-id,x,y,brightness
-Savanna sunset,0.532,0.386,199
-Tropical twilight,0.599,0.38,123
-Arctic aurora,0.156,0.218,137
-Spring blossom,0.433,0.281,214
-Relax,0.502,0.414,144
-Read,0.502,0.414,254
-Concentrate,0.447,0.406,254
-Energize,0.314,0.331,254
-Bright,0.457,0.41,254
-Dimmed,0.457,0.41,77
-Nightlight,0.561,0.404,1
+profile,x_color,y_color,brightness,color_temp
+Savanna sunset,0.532,0.386,199,387
+Tropical twilight,0.599,0.38,123,322
+Arctic aurora,0.156,0.218,137,153
+Spring blossom,0.433,0.281,214,215
+Relax,0.502,0.414,144,447
+Read,0.502,0.414,254,346
+Concentrate,0.37,0.372,254,233
+Energize,0.314,0.331,254,156
+Bright,0.459,0.408,254,367
+Dimmed,0.459,0.408,77,367
+Nightlight,0.561,0.404,1,447

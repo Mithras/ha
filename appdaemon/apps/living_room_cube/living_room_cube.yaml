@@ -1,0 +1,9 @@
+LivingRoomCube:
+  module: living_room_cube
+  class: LivingRoomCube
+  global_dependencies:
+    - globals
+  dependencies:
+    - Common
+  config:
+    unique_id: 00:15:8d:00:02:9b:a0:dd:2:0x0012
