@@ -15,4 +15,5 @@ __pycache__
 !readme.txt
 !ui-lovelace.yaml
 !light_profiles.csv
+!light_profile_temps.csv
 !recorder.yaml

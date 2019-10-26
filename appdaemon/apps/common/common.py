@@ -9,11 +9,14 @@ def xy_color_to_weight(xy_color: float) -> int:
 
 Profile = namedtuple(
     "Profile", ["profile", "x_weight", "y_weight", "brightness", "color_temp"])
-with open("/config/light_profiles.csv") as csv_file:
-    csv_reader = csv.reader(csv_file)
-    next(csv_reader)
-    LIGHT_PROFILES = [Profile(row[0], xy_color_to_weight(float(row[1])), xy_color_to_weight(
-        float(row[2])), int(row[3]), int(row[4])) for row in csv_reader]
+with open("/config/light_profiles.csv") as profiles_file:
+    with open("/config/light_profile_temps.csv") as profile_temps_file:
+        profiles_reader = csv.reader(profiles_file)
+        profile_temps_reader = csv.reader(profile_temps_file)
+        next(profiles_reader)
+        next(profile_temps_reader)
+        LIGHT_PROFILES = [Profile(row1[0], xy_color_to_weight(float(row1[1])), xy_color_to_weight(float(
+            row1[2])), int(row1[3]), int(row2[1])) for row1, row2 in zip(profiles_reader, profile_temps_reader)]
 
 
 class Common(hass.Hass):
