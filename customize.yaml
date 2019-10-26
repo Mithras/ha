@@ -124,6 +124,13 @@ sensor.lumi_remote_b1acn01_3_battery_level:
 # TRÅDFRI Switch
 sensor.tradfri_on_off_switch_battery_level:
   friendly_name: TRÅDFRI Switch Battery
+# Cube
+sensor.lumi_lumi_sensor_cube_029ba0dd_1_1:
+  friendly_name: Cube Battery
+sensor.lumi_lumi_sensor_cube_029ba0dd_2_18:
+  friendly_name: Cube Event
+sensor.lumi_lumi_sensor_cube_029ba0dd_3_12:
+  friendly_name: Cube State
 
 # Living Room Weather Sensor
 sensor.lumi_lumi_weather_03230927_1_1026:

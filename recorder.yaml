@@ -43,6 +43,9 @@ exclude:
     - light.hue_ambiance_lamp_14
     - light.hue_ambiance_lamp_15
     - light.hue_ambiance_lamp_16
+    - light.hue_ambiance_lamp_17
+    - light.hue_ambiance_lamp_18
+    - light.hue_ambiance_lamp_19
     - light.entertainment_area
     # battery
     - sensor.lumi_lumi_sensor_motion_aq2_035fe990_1_1
@@ -61,6 +64,7 @@ exclude:
     - sensor.lumi_lumi_weather_03499b40_1_1
     - sensor.lumi_remote_b1acn01_3_battery_level
     - sensor.tradfri_on_off_switch_battery_level
+    - sensor.lumi_lumi_sensor_cube_029ba0dd_1_1
     - sensor.linear_nortek_security_control_llc_gc_tbz48_battery_powered_z_wave_thermostat_battery_level
     # illuminance
     - sensor.lumi_lumi_sensor_motion_aq2_035fe990_1_1024
