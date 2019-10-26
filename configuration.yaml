@@ -1,12 +1,12 @@
-default_config:
-
-http:
-  base_url: !secret http_base_url
-  ssl_certificate: /ssl/fullchain.pem
-  ssl_key: /ssl/privkey.pem
-
-tts:
-  - platform: google_translate
+config:
+frontend:
+history:
+logbook:
+map:
+person:
+sun:
+system_health:
+updater:
 
 homeassistant:
   customize: !include customize.yaml
@@ -15,6 +15,16 @@ homeassistant:
   whitelist_external_dirs: !include whitelist_external_dirs.yaml
 
 zone: !include zone.yaml
+
+recorder: !include recorder.yaml
+
+http:
+  base_url: !secret http_base_url
+  ssl_certificate: /ssl/fullchain.pem
+  ssl_key: /ssl/privkey.pem
+
+tts:
+  - platform: google_translate
 
 asuswrt:
   host: 192.168.1.1
@@ -157,5 +167,3 @@ hue:
     - host: 192.168.1.7
 
 appdaemon_app:
-
-recorder: !include recorder.yaml
