@@ -128,13 +128,8 @@ views:
           - sensor.home_assistant_v2_db
           - sensor.processor_use
           - sensor.cpu_temperature
-          - sensor.load_1m
-          - sensor.load_5m
-          - sensor.load_15m
-          - sensor.disk_use_percent
           - sensor.disk_use
           - sensor.disk_free
-          - sensor.memory_use_percent
           - sensor.memory_use
           - sensor.memory_free
           - sensor.network_in_eth0
@@ -176,70 +171,14 @@ views:
           - sensor.lumi_lumi_sensor_motion_aq2_0414306d_1_1024
           - sensor.lumi_lumi_sensor_motion_aq2_036bef53_1_1024
 
-  - title: AppDaemon
-    path: appdaemon
-    cards:
-      - type: custom:monster-card
-        card:
-          type: entities
-          title: AppDaemon
-          show_header_toggle: false
-        filter:
-          include:
-            - domain: appdaemon_app
-              options:
-                icon: mdi:language-python
-                type: custom:hui-toggle-entity-row
-
   - title: Graphs
     path: graphs
     cards:
-      - type: history-graph
-        title: Network
-        entities:
-          - sensor.network_in_eth0
-          - sensor.network_out_eth0
       - type: history-graph
         title: Network throughput
         entities:
           - sensor.network_throughput_in_eth0
           - sensor.network_throughput_out_eth0
-      - type: history-graph
-        title: Memory
-        entities:
-          - sensor.memory_free
-          - sensor.memory_use
-      - type: history-graph
-        title: Disk
-        entities:
-          - sensor.disk_free
-          - sensor.disk_use
-      - type: history-graph
-        title: Use
-        entities:
-          - sensor.processor_use
-          - sensor.memory_use_percent
-          - sensor.disk_use_percent
-      - type: history-graph
-        title: Battery
-        entities:
-          - sensor.lumi_lumi_sensor_magnet_aq2_03e814c5_1_1
-          - sensor.lumi_lumi_sensor_magnet_aq2_0444c14e_1_1
-          - sensor.lumi_lumi_sensor_magnet_aq2_0444c1c2_1_1
-          - sensor.lumi_lumi_sensor_motion_aq2_033ad713_1_1
-          - sensor.lumi_lumi_sensor_motion_aq2_035fe990_1_1
-          - sensor.lumi_lumi_sensor_motion_aq2_036018e1_1_1
-          - sensor.lumi_lumi_sensor_motion_aq2_03f42a68_1_1
-          - sensor.lumi_lumi_sensor_motion_aq2_036c7785_1_1
-          - sensor.lumi_lumi_sensor_motion_aq2_04143070_1_1
-          - sensor.lumi_lumi_sensor_motion_aq2_0414306d_1_1
-          - sensor.lumi_lumi_sensor_motion_aq2_036bef53_1_1
-          - sensor.lumi_lumi_sensor_motion_aq2_03f409b4_1_1
-          - sensor.lumi_remote_b1acn01_3_battery_level
-          - sensor.tradfri_on_off_switch_battery_level
-          - sensor.lumi_lumi_weather_03230927_1_1
-          - sensor.lumi_lumi_weather_03499b40_1_1
-          - sensor.linear_nortek_security_control_llc_gc_tbz48_battery_powered_z_wave_thermostat_battery_level
       - type: history-graph
         title: Temperature
         entities:
@@ -256,15 +195,18 @@ views:
         entities:
           - sensor.lumi_lumi_weather_03230927_1_1027
           - sensor.lumi_lumi_weather_03499b40_1_1027
-      - type: history-graph
-        title: Illuminance
-        entities:
-          - sensor.lumi_lumi_sensor_motion_aq2_033ad713_1_1024
-          - sensor.lumi_lumi_sensor_motion_aq2_035fe990_1_1024
-          - sensor.lumi_lumi_sensor_motion_aq2_036018e1_1_1024
-          - sensor.lumi_lumi_sensor_motion_aq2_03f42a68_1_1024
-          - sensor.lumi_lumi_sensor_motion_aq2_036c7785_1_1024
-          - sensor.lumi_lumi_sensor_motion_aq2_04143070_1_1024
-          - sensor.lumi_lumi_sensor_motion_aq2_0414306d_1_1024
-          - sensor.lumi_lumi_sensor_motion_aq2_036bef53_1_1024
-          - sensor.lumi_lumi_sensor_motion_aq2_03f409b4_1_1024
+
+  - title: AppDaemon
+    path: appdaemon
+    cards:
+      - type: custom:monster-card
+        card:
+          type: entities
+          title: AppDaemon
+          show_header_toggle: false
+        filter:
+          include:
+            - domain: appdaemon_app
+              options:
+                icon: mdi:language-python
+                type: custom:hui-toggle-entity-row

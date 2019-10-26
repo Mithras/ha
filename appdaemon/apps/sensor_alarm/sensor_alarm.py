@@ -16,8 +16,9 @@ class SensorAlarm(globals.Hass):
             self.common.send_alarm(
                 f"*{self.friendly_name(entity)}* has {'opened' if new=='on' else 'closed'}.")
         elif device_type == "motion":
-            self.common.send_alarm(
-                f"*{self.friendly_name(entity)}* has {'detected motion' if new=='on' else 'cleared'}.")
+            if new == "on":
+                self.common.send_alarm(
+                    f"*{self.friendly_name(entity)}* has detected motion.")
         elif device_type == "connectivity":
             self.common.send_alarm(
                 f"*{self.friendly_name(entity)}* has {'connected' if new=='on' else 'disconnected'}.")

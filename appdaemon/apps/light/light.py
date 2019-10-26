@@ -1,7 +1,6 @@
 import globals
 
 
-# TODO: replace  "on" with a parameter. Add person == "home" triggers.
 class Light(globals.Hass):
     def initialize(self):
         config = self.args["config"]

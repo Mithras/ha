@@ -8,7 +8,6 @@ http:
 tts:
   - platform: google_translate
 
-# homeassistant: !include homeassistant.yaml
 homeassistant:
   customize: !include customize.yaml
   latitude: !secret latitude
@@ -37,18 +36,12 @@ sensor:
     value_template: "{{ value | multiply(0.001) | round(1) }}"
   - platform: systemmonitor
     resources:
-      - type: disk_use_percent
-        arg: /
       - type: disk_use
         arg: /
       - type: disk_free
         arg: /
-      - type: memory_use_percent
       - type: memory_use
       - type: memory_free
-      - type: load_1m
-      - type: load_5m
-      - type: load_15m
       - type: network_in
         arg: eth0
       - type: network_out
@@ -165,50 +158,4 @@ hue:
 
 appdaemon_app:
 
-recorder:
-  db_url: sqlite:////tmp/home-assistant_v2.db
-  purge_keep_days: 7
-  exclude:
-    entities:
-      - binary_sensor.updater
-      - sensor.last_boot
-      - sensor.daylight
-      - weather.home_assistant
-      # camera
-      - camera.living_room_camera
-      - camera.porch_camera
-      # occupancy
-      - binary_sensor.lumi_lumi_sensor_motion_aq2_033ad713_1_1030
-      - binary_sensor.lumi_lumi_sensor_motion_aq2_035fe990_1_1030
-      - binary_sensor.lumi_lumi_sensor_motion_aq2_036018e1_1_1030
-      - binary_sensor.lumi_lumi_sensor_motion_aq2_03f42a68_1_1030
-      - binary_sensor.lumi_lumi_sensor_motion_aq2_036c7785_1_1030
-      - binary_sensor.lumi_lumi_sensor_motion_aq2_04143070_1_1030
-      - binary_sensor.lumi_lumi_sensor_motion_aq2_0414306d_1_1030
-      - binary_sensor.lumi_lumi_sensor_motion_aq2_036bef53_1_1030
-      - binary_sensor.lumi_lumi_sensor_motion_aq2_03f409b4_1_1030
-      # light
-      - light.hue_color_lamp_1
-      - light.hue_color_lamp_2
-      - light.hue_color_lamp_3
-      - light.hue_color_lamp_4
-      - light.hue_color_lamp_5
-      - light.hue_color_lamp_6
-      - light.hue_color_lamp_7
-      - light.hue_ambiance_lamp_1
-      - light.hue_ambiance_lamp_2
-      - light.hue_ambiance_lamp_3
-      - light.hue_ambiance_lamp_4
-      - light.hue_ambiance_lamp_5
-      - light.hue_ambiance_lamp_6
-      - light.hue_ambiance_lamp_7
-      - light.hue_ambiance_lamp_8
-      - light.hue_ambiance_lamp_9
-      - light.hue_ambiance_lamp_10
-      - light.hue_ambiance_lamp_11
-      - light.hue_ambiance_lamp_12
-      - light.hue_ambiance_lamp_13
-      - light.hue_ambiance_lamp_14
-      - light.hue_ambiance_lamp_15
-      - light.hue_ambiance_lamp_16
-      - light.entertainment_area
+recorder: !include recorder.yaml
