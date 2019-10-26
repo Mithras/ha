@@ -11,8 +11,8 @@ LightMasterBedroom:
     light_group: light.master_bedroom
     sun_up_on_profile: Bright
     sun_down_on_profile: Bright
-    sun_up_off_profile: "Off"
-    sun_down_off_profile: "Off"
+    sun_up_off_profile: "off"
+    sun_down_off_profile: "off"
 LightKitchen:
   module: light
   class: Light
@@ -26,8 +26,8 @@ LightKitchen:
     light_group: light.kitchen
     sun_up_on_profile: Bright
     sun_down_on_profile: Bright
-    sun_up_off_profile: "Off"
-    sun_down_off_profile: "Off"
+    sun_up_off_profile: "off"
+    sun_down_off_profile: "off"
     ignore_sleep: True
 LightGarage:
   module: light
@@ -44,8 +44,8 @@ LightGarage:
     light_group: light.garage
     sun_up_on_profile: Bright
     sun_down_on_profile: Bright
-    sun_up_off_profile: "Off"
-    sun_down_off_profile: "Off"
+    sun_up_off_profile: "off"
+    sun_down_off_profile: "off"
     ignore_sleep: True
 LightMasterBathroom:
   module: light
@@ -61,9 +61,9 @@ LightMasterBathroom:
     sun_up_on_profile: Bright
     sun_down_on_profile: Bright
     sleep_on_profile: Nightlight
-    sun_up_off_profile: "Off"
-    sun_down_off_profile: "Off"
-    sleep_off_profile: "Off"
+    sun_up_off_profile: "off"
+    sun_down_off_profile: "off"
+    sleep_off_profile: "off"
 LightMasterToilet:
   module: light
   class: Light
@@ -78,9 +78,9 @@ LightMasterToilet:
     sun_up_on_profile: Bright
     sun_down_on_profile: Bright
     sleep_on_profile: Nightlight
-    sun_up_off_profile: "Off"
-    sun_down_off_profile: "Off"
-    sleep_off_profile: "Off"
+    sun_up_off_profile: "off"
+    sun_down_off_profile: "off"
+    sleep_off_profile: "off"
 LightPorch:
   module: light
   class: Light
@@ -95,8 +95,8 @@ LightPorch:
         additional_delay: 60
     light_group: light.porch
     sun_down_on_profile: Bright
-    sun_up_off_profile: "Off"
-    sun_down_off_profile: "Off"
+    sun_up_off_profile: "off"
+    sun_down_off_profile: "off"
     ignore_sleep: True
 LightDriveway:
   module: light
@@ -112,7 +112,7 @@ LightDriveway:
         additional_delay: 60
     light_group: light.driveway
     sun_down_on_profile: Bright
-    sun_up_off_profile: "Off"
+    sun_up_off_profile: "off"
     sun_down_off_profile: Nightlight
     ignore_sleep: True
 LightStaircase:
@@ -129,9 +129,9 @@ LightStaircase:
     light_group: light.staircase
     sun_down_on_profile: Bright
     sleep_on_profile: Nightlight
-    sun_up_off_profile: "Off"
-    sun_down_off_profile: "Off"
-    sleep_off_profile: "Off"
+    sun_up_off_profile: "off"
+    sun_down_off_profile: "off"
+    sleep_off_profile: "off"
 LightHallway:
   module: light
   class: Light
@@ -145,6 +145,6 @@ LightHallway:
     light_group: light.hallway
     sun_down_on_profile: Bright
     sleep_on_profile: Nightlight
-    sun_up_off_profile: "Off"
-    sun_down_off_profile: "Off"
-    sleep_off_profile: "Off"
+    sun_up_off_profile: "off"
+    sun_down_off_profile: "off"
+    sleep_off_profile: "off"

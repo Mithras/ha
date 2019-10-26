@@ -71,7 +71,7 @@ class Light(globals.Hass):
             return self.sun_down_off_profile
 
     def handle_profile(self, light_group, profile):
-        if profile == "Off":
+        if profile == "off":
             self.common.light_turn_off(light_group)
         elif profile is not None:
             self.common.light_turn_profile(light_group, profile)

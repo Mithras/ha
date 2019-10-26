@@ -73,7 +73,7 @@ class Common(hass.Hass):
     def get_profile(self, light_group):
         state = self.get_state(light_group, attribute="all")
         if state["state"] == "off":
-            return "Off"
+            return "off"
         attributes = state["attributes"]
         brightness = attributes["brightness"]
         color_temp = attributes.get("color_temp", None)
