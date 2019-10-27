@@ -63,15 +63,17 @@ views:
               - light.living_room
               - light.living_room_main
               - light.living_room_back
-              - light.master_bedroom
-              - light.driveway
               - light.kitchen
-              - light.porch
+              - light.toilet
               - light.hallway
-              - light.garage
-              - light.master_toilet
-              - light.master_bathroom
               - light.staircase
+              - light.master_bedroom
+              - light.master_bathroom
+              - light.master_toilet
+              - light.landry_room
+              - light.porch
+              - light.driveway
+              - light.garage
 
       - type: vertical-stack
         cards:
@@ -154,9 +156,9 @@ views:
           - sensor.lumi_lumi_sensor_magnet_aq2_0444c1c2_1_1
           - sensor.lumi_lumi_weather_03230927_1_1
           - sensor.lumi_lumi_weather_03499b40_1_1
-          - sensor.lumi_remote_b1acn01_3_battery_level
-          - sensor.tradfri_on_off_switch_battery_level
+          - sensor.lumi_lumi_remote_b1acn01_044dd3a2_1_1
           - sensor.lumi_lumi_sensor_cube_029ba0dd_1_1
+          - sensor.tradfri_on_off_switch_battery_level
           - sensor.linear_nortek_security_control_llc_gc_tbz48_battery_powered_z_wave_thermostat_battery_level
       - type: entities
         title: Illuminance

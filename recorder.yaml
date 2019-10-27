@@ -62,7 +62,7 @@ exclude:
     - sensor.lumi_lumi_sensor_magnet_aq2_0444c1c2_1_1
     - sensor.lumi_lumi_weather_03230927_1_1
     - sensor.lumi_lumi_weather_03499b40_1_1
-    - sensor.lumi_remote_b1acn01_3_battery_level
+    - sensor.lumi_lumi_remote_b1acn01_044dd3a2_1_1
     - sensor.tradfri_on_off_switch_battery_level
     - sensor.lumi_lumi_sensor_cube_029ba0dd_1_1
     - sensor.linear_nortek_security_control_llc_gc_tbz48_battery_powered_z_wave_thermostat_battery_level
