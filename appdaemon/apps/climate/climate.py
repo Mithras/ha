@@ -65,8 +65,6 @@ class Climate(globals.Hass):
         telegram_message_id = data["message"]["message_id"]
         telegram_text = data["message"]["text"]
 
-        self.log(f"telegram_callback: data={data}")
-
         if telegram_data == DO_NOTHING_CMD:
             self.telegram_edit_message(
                 telegram_chat_id, telegram_message_id, f"{telegram_text}\n(*No*)")
@@ -94,8 +92,6 @@ class Climate(globals.Hass):
         low_temperature = params.get("low_temperature", None)
         high_temperature = params.get("high_temperature", None)
 
-        self.log(
-            f"update_climate: hvac_mode={hvac_mode}, low_temperature={low_temperature}, high_temperature={high_temperature}")
         if low_temperature is not None:
             self.call_service("climate/set_temperature",
                               entity_id=self.heating,

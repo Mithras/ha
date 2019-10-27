@@ -65,15 +65,21 @@ class Common(hass.Hass):
         self.light_turn_profile(light_group, "Nightlight")
 
     def light_turn_profile(self, light_group: str, profile: str):
-        self.call_service("light/turn_on",
-                          entity_id=light_group,
-                          profile=profile)
+        if profile == "off":
+            self.light_turn_off(light_group)
+        else:
+            self.call_service("light/turn_on",
+                              entity_id=light_group,
+                              profile=profile)
 
     def light_turn_off(self, light_group: str):
         self.call_service("light/turn_off",
                           entity_id=light_group)
 
-    def get_profile(self, light_group):
+    def get_light_profiles(self):
+        return LIGHT_PROFILES
+
+    def get_light_profile(self, light_group, light_profiles=LIGHT_PROFILES):
         state = self.get_state(light_group, attribute="all")
         if state["state"] == "off":
             return "off"
@@ -84,11 +90,11 @@ class Common(hass.Hass):
             x_color, y_color = attributes.get("xy_color", [None, None])
             x_weight = xy_color_to_weight(x_color)
             y_weight = xy_color_to_weight(y_color)
-            return sorted(LIGHT_PROFILES, key=lambda profile:
+            return sorted(light_profiles, key=lambda profile:
                           abs(profile.x_weight - x_weight) +
                           abs(profile.y_weight - y_weight) +
                           abs(profile.brightness - brightness))[0].profile
         else:
-            return sorted(LIGHT_PROFILES, key=lambda profile:
+            return sorted(light_profiles, key=lambda profile:
                           abs(profile.color_temp - color_temp) +
                           abs(profile.brightness - brightness))[0].profile
