@@ -6,5 +6,5 @@ SleepSwitch:
   dependencies:
     - Common
   config:
-    device_ieee: 00:15:8d:00:04:4d:d3:a2
+    unique_id: 00:15:8d:00:04:4d:d3:a2
     input: input_boolean.sleep

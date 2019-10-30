@@ -1,0 +1,9 @@
+DeconzCube:
+  module: deconz_cube
+  class: DeconzCube
+  global_dependencies:
+    - globals
+  dependencies:
+    - Common
+  config:
+    - 00:15:8d:00:02:9b:a0:dd

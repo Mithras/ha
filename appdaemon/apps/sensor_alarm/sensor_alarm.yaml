@@ -11,18 +11,20 @@ SensorAlarmArmedAway:
     - binary_sensor.living_room_camera_online # Living Room Camera Online Sensor
     - binary_sensor.porch_camera_motion_detected # Porch Camera Motion Sensor
     - binary_sensor.living_room_camera_motion_detected # Living Room Camera Motion Sensor
-    - binary_sensor.lumi_lumi_sensor_motion_aq2_033ad713_1_1280 # Porch Motion Sensor
-    - binary_sensor.lumi_lumi_sensor_motion_aq2_035fe990_1_1280 # Master Bedroom Motion Sensor
-    - binary_sensor.lumi_lumi_sensor_motion_aq2_036c7785_1_1280 # Kitchen Motion Sensor
-    - binary_sensor.lumi_lumi_sensor_motion_aq2_04143070_1_1280 # Garage Motion Sensor
-    - binary_sensor.lumi_lumi_sensor_motion_aq2_036018e1_1_1280 # Master Bathroom Motion Sensor
-    - binary_sensor.lumi_lumi_sensor_motion_aq2_03f42a68_1_1280 # Master Toilet Motion Sensor
-    - binary_sensor.lumi_lumi_sensor_motion_aq2_03f409b4_1_1280 # Hallway Motion Sensor
-    - binary_sensor.lumi_lumi_sensor_motion_aq2_0414306d_1_1280 # Staircase Bottom Motion Sensor
-    - binary_sensor.lumi_lumi_sensor_motion_aq2_036bef53_1_1280 # Staircase Top Motion Sensor
-    - binary_sensor.lumi_lumi_sensor_magnet_aq2_03e814c5_1_6 # Front Door Sensor
-    - binary_sensor.lumi_lumi_sensor_magnet_aq2_0444c1c2_1_6 # Garage Door Sensor
-    - binary_sensor.lumi_lumi_sensor_magnet_aq2_0444c14e_1_6 # Backyard Door Sensor
+    - binary_sensor.motion_sensor_09 # Porch Motion Sensor
+    - binary_sensor.motion_sensor_06 # Master Bedroom Motion Sensor
+    - binary_sensor.motion_sensor_01 # Kitchen Motion Sensor
+    - binary_sensor.motion_sensor_02 # Garage Motion Sensor
+    - binary_sensor.motion_sensor_07 # Master Bathroom Motion Sensor
+    - binary_sensor.motion_sensor_08 # Master Toilet Motion Sensor
+    - binary_sensor.motion_sensor_03 # Hallway Motion Sensor
+    - binary_sensor.motion_sensor_04 # Staircase Bottom Motion Sensor
+    - binary_sensor.motion_sensor_05 # Staircase Top Motion Sensor
+    - binary_sensor.motion_sensor_10 # Toilet Motion Sensor
+    - binary_sensor.motion_sensor_11 # Landry Room Motion Sensor
+    - binary_sensor.door_sensor_03 # Front Door Sensor
+    - binary_sensor.door_sensor_01 # Garage Door Sensor
+    - binary_sensor.door_sensor_02 # Backyard Door Sensor
 SensorAlarmArmedHome:
   module: sensor_alarm
   class: SensorAlarm
@@ -35,7 +37,7 @@ SensorAlarmArmedHome:
     - binary_sensor.porch_camera_online # Porch Camera Online Sensor
     - binary_sensor.living_room_camera_online # Living Room Camera Online Sensor
     - binary_sensor.porch_camera_motion_detected # Porch Camera Motion Sensor
-    - binary_sensor.lumi_lumi_sensor_motion_aq2_033ad713_1_1280 # Porch Motion Sensor
+    - binary_sensor.motion_sensor_09 # Porch Motion Sensor
 SensorAlarmArmedSleep:
   module: sensor_alarm
   class: SensorAlarm
@@ -49,12 +51,14 @@ SensorAlarmArmedSleep:
     - binary_sensor.living_room_camera_online # Living Room Camera Online Sensor
     - binary_sensor.porch_camera_motion_detected # Porch Camera Motion Sensor
     - binary_sensor.living_room_camera_motion_detected # Living Room Camera Motion Sensor
-    - binary_sensor.lumi_lumi_sensor_motion_aq2_033ad713_1_1280 # Porch Motion Sensor
-    - binary_sensor.lumi_lumi_sensor_motion_aq2_036c7785_1_1280 # Kitchen Motion Sensor
-    - binary_sensor.lumi_lumi_sensor_motion_aq2_04143070_1_1280 # Garage Motion Sensor
-    - binary_sensor.lumi_lumi_sensor_motion_aq2_03f409b4_1_1280 # Hallway Motion Sensor
-    - binary_sensor.lumi_lumi_sensor_motion_aq2_0414306d_1_1280 # Staircase Bottom Motion Sensor
-    - binary_sensor.lumi_lumi_sensor_motion_aq2_036bef53_1_1280 # Staircase Top Motion Sensor
-    - binary_sensor.lumi_lumi_sensor_magnet_aq2_03e814c5_1_6 # Front Door Sensor
-    - binary_sensor.lumi_lumi_sensor_magnet_aq2_0444c1c2_1_6 # Garage Door Sensor
-    - binary_sensor.lumi_lumi_sensor_magnet_aq2_0444c14e_1_6 # Backyard Door Sensor
+    - binary_sensor.motion_sensor_09 # Porch Motion Sensor
+    - binary_sensor.motion_sensor_01 # Kitchen Motion Sensor
+    - binary_sensor.motion_sensor_02 # Garage Motion Sensor
+    - binary_sensor.motion_sensor_03 # Hallway Motion Sensor
+    - binary_sensor.motion_sensor_04 # Staircase Bottom Motion Sensor
+    - binary_sensor.motion_sensor_05 # Staircase Top Motion Sensor
+    - binary_sensor.motion_sensor_10 # Toilet Motion Sensor
+    - binary_sensor.motion_sensor_11 # Landry Room Motion Sensor
+    - binary_sensor.door_sensor_03 # Front Door Sensor
+    - binary_sensor.door_sensor_01 # Garage Door Sensor
+    - binary_sensor.door_sensor_02 # Backyard Door Sensor

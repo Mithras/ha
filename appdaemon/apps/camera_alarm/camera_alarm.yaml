@@ -20,7 +20,7 @@ CameraAlarmPorchMotion:
     - Common
   constrain_arm:
   config:
-    - sensor: binary_sensor.lumi_lumi_sensor_motion_aq2_033ad713_1_1280
+    - sensor: binary_sensor.motion_sensor_09
       camera: camera.porch_camera
       video_duration: 15
       send_video_delay: 20

@@ -154,10 +154,6 @@ input_boolean:
 lovelace:
   mode: yaml
 
-zha:
-  usb_path: /dev/ttyUSB1 # HUSBZB-1 (bottom usb 2.0)
-  database_path: /config/zigbee.db
-
 zwave:
   usb_path: /dev/ttyUSB0 # HUSBZB-1 (bottom usb 2.0)
   network_key: !secret zwave_network_key

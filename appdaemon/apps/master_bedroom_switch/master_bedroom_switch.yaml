@@ -6,7 +6,7 @@ MasterBedroomSwitch:
   dependencies:
     - Common
   config:
-    switch: "tradfri_on_off_switch"
-    master_bedroom_light: "light.master_bedroom"
-    master_bathroom_light: "light.master_bathroom"
-    master_toilet_light: "light.master_toilet"
+    unique_id: 00:0d:6f:ff:fe:be:48:86
+    master_bedroom_light: light.master_bedroom
+    master_bathroom_light: light.master_bathroom
+    master_toilet_light: light.master_toilet

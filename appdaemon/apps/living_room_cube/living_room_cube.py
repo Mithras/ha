@@ -12,7 +12,7 @@ ROTATE_PROFILES = [
 class LivingRoomCube(globals.Hass):
     def initialize(self):
         config = self.args["config"]
-        device_ieee = config["device_ieee"]
+        unique_id = config["unique_id"]
         self.light_kitchen = config["light_kitchen"]
         self.light_kitchen_app = config["light_kitchen_app"]
         self.light_living_room = config["light_living_room"]
@@ -22,40 +22,38 @@ class LivingRoomCube(globals.Hass):
         self.light_profiles = [x for x in self.common.get_light_profiles() if x.profile in [
             "Bright", "Dimmed", "Nightlight"]]
 
-        self.listen_event(self.flip_callback,
-                          event="zha_event",
-                          device_ieee=device_ieee,
-                          command="flip")
+        self.listen_event(self.flip_90_callback,
+                          event="deconz_event_custom",
+                          unique_id=unique_id,
+                          command="flip_90")
+        self.listen_event(self.flip_180_callback,
+                          event="deconz_event_custom",
+                          unique_id=unique_id,
+                          command="flip_180")
         self.listen_event(self.rotate_left_callback,
-                          event="zha_event",
-                          device_ieee=device_ieee,
+                          event="deconz_event_custom",
+                          unique_id=unique_id,
                           command="rotate_left")
         self.listen_event(self.rotate_right_callback,
-                          event="zha_event",
-                          device_ieee=device_ieee,
+                          event="deconz_event_custom",
+                          unique_id=unique_id,
                           command="rotate_right")
-        self.listen_event(self.knock_callback,
-                          event="zha_event",
-                          device_ieee=device_ieee,
-                          command="knock")
-        self.listen_event(self.drop_callback,
-                          event="zha_event",
-                          device_ieee=device_ieee,
-                          command="drop")
-        self.listen_event(self.slide_callback,
-                          event="zha_event",
-                          device_ieee=device_ieee,
-                          command="slide")
-        self.listen_event(self.shake_callback,
-                          event="zha_event",
-                          device_ieee=device_ieee,
-                          command="shake")
-
-    def flip_callback(self, event_name, data, kwargs):
-        if data["args"]["flip_degrees"] == 90:
-            self.flip_90_callback(event_name, data, kwargs)
-        else:
-            self.flip_180_callback(event_name, data, kwargs)
+        self.listen_event(self.double_tap_callback,
+                          event="deconz_event_custom",
+                          unique_id=unique_id,
+                          command="double_tap")
+        # self.listen_event(self.drop_callback,
+        #                   event="deconz_event_custom",
+        #                   unique_id=unique_id,
+        #                   command="drop")
+        # self.listen_event(self.push_callback,
+        #                   event="deconz_event_custom",
+        #                   unique_id=unique_id,
+        #                   command="push")
+        # self.listen_event(self.shake_callback,
+        #                   event="deconz_event_custom",
+        #                   unique_id=unique_id,
+        #                   command="shake")
 
     def flip_90_callback(self, event_name, data, kwargs):
         # TODO: kitchen light: lower -> upper -> both -> off
@@ -97,7 +95,7 @@ class LivingRoomCube(globals.Hass):
         self.common.light_turn_profile(
             self.light_living_room_back, new_back_profile)
 
-    def knock_callback(self, event_name, data, kwargs):
+    def double_tap_callback(self, event_name, data, kwargs):
         main_profile = self.common.get_light_profile(
             self.light_living_room_main, self.light_profiles)
         back_profile = self.common.get_light_profile(
@@ -107,12 +105,12 @@ class LivingRoomCube(globals.Hass):
         else:
             self.common.light_turn_off(self.light_living_room)
 
-    def drop_callback(self, event_name, data, kwargs):
-        pass
+    # def drop_callback(self, event_name, data, kwargs):
+    #     pass
 
-    def slide_callback(self, event_name, data, kwargs):
-        pass
+    # def push_callback(self, event_name, data, kwargs):
+    #     pass
 
-    def shake_callback(self, event_name, data, kwargs):
-        # TODO: fireplace on/off
-        pass
+    # TODO: fireplace on/off
+    # def shake_callback(self, event_name, data, kwargs):
+    #     pass

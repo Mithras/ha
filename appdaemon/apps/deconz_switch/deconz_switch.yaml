@@ -6,5 +6,5 @@ DeconzSwitch:
   dependencies:
     - Common
   config:
-    - tradfri_on_off_switch # 123
-    - smart_switch # 1234
+    - tradfri_on_off_switch_01 # 123
+    - smart_switch_01 # 1234

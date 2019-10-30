@@ -1,17 +1,17 @@
 import globals
 
-EVENT_CODE_DESCRIPTION_MAP = {
-    "x000": "Initial Press",
-    "x001": "Hold",
-    "x002": "Release(after press)",
-    "x003": "Release(after hold)",
-    "x004": "Double press",
-    "x005": "Triple press",
-    "x006": "Quadruple press",
-    "x007": "Shake",
-    "x008": "Drop",
-    "x009": "Tilt",
-    "x010": "Many press"
+CODE_COMMAND_MAP = {
+    "000": "initial_press",
+    "001": "hold",
+    "002": "release_after_press",
+    "003": "release_after_hold",
+    "004": "double_press",
+    "005": "triple_press",
+    "006": "quadruple_press",
+    "007": "shake",
+    "008": "drop",
+    "009": "tilt",
+    "010": "many_press"
 }
 
 
@@ -23,14 +23,11 @@ class DeconzSwitch(globals.Hass):
                               id=entity)
 
     def callback(self, event_name, data, kwargs):
-        entity = data["id"]
+        unique_id = data["unique_id"]
         deconz_event = str(data["event"])
         button = int(deconz_event[0])
-        code = f"x{deconz_event[1:]}"
-        description = EVENT_CODE_DESCRIPTION_MAP.get(code, "Unknown")
+        code = deconz_event[1:]
         self.fire_event("deconz_event_custom",
-                        entity_id=entity,
-                        deconz_event=deconz_event,
+                        unique_id=unique_id,
                         button=button,
-                        code=code,
-                        description=description)
+                        command=CODE_COMMAND_MAP[code])

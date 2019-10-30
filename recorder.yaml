@@ -9,16 +9,6 @@ exclude:
     # camera
     - camera.living_room_camera
     - camera.porch_camera
-    # occupancy
-    - binary_sensor.lumi_lumi_sensor_motion_aq2_033ad713_1_1030
-    - binary_sensor.lumi_lumi_sensor_motion_aq2_035fe990_1_1030
-    - binary_sensor.lumi_lumi_sensor_motion_aq2_036018e1_1_1030
-    - binary_sensor.lumi_lumi_sensor_motion_aq2_03f42a68_1_1030
-    - binary_sensor.lumi_lumi_sensor_motion_aq2_036c7785_1_1030
-    - binary_sensor.lumi_lumi_sensor_motion_aq2_04143070_1_1030
-    - binary_sensor.lumi_lumi_sensor_motion_aq2_0414306d_1_1030
-    - binary_sensor.lumi_lumi_sensor_motion_aq2_036bef53_1_1030
-    - binary_sensor.lumi_lumi_sensor_motion_aq2_03f409b4_1_1030
     # light
     - light.hue_color_lamp_1
     - light.hue_color_lamp_2
@@ -46,33 +36,38 @@ exclude:
     - light.hue_ambiance_lamp_17
     - light.hue_ambiance_lamp_18
     - light.hue_ambiance_lamp_19
+    - light.hue_ambiance_lamp_20
     - light.entertainment_area
     # battery
-    - sensor.lumi_lumi_sensor_motion_aq2_035fe990_1_1
-    - sensor.lumi_lumi_sensor_motion_aq2_033ad713_1_1
-    - sensor.lumi_lumi_sensor_motion_aq2_036c7785_1_1
-    - sensor.lumi_lumi_sensor_motion_aq2_04143070_1_1
-    - sensor.lumi_lumi_sensor_motion_aq2_036018e1_1_1
-    - sensor.lumi_lumi_sensor_motion_aq2_03f42a68_1_1
-    - sensor.lumi_lumi_sensor_motion_aq2_03f409b4_1_1
-    - sensor.lumi_lumi_sensor_motion_aq2_0414306d_1_1
-    - sensor.lumi_lumi_sensor_motion_aq2_036bef53_1_1
-    - sensor.lumi_lumi_sensor_magnet_aq2_0444c14e_1_1
-    - sensor.lumi_lumi_sensor_magnet_aq2_03e814c5_1_1
-    - sensor.lumi_lumi_sensor_magnet_aq2_0444c1c2_1_1
-    - sensor.lumi_lumi_weather_03230927_1_1
-    - sensor.lumi_lumi_weather_03499b40_1_1
-    - sensor.lumi_lumi_remote_b1acn01_044dd3a2_1_1
-    - sensor.tradfri_on_off_switch_battery_level
-    - sensor.lumi_lumi_sensor_cube_029ba0dd_1_1
+    - sensor.motion_sensor_01_battery_level
+    - sensor.motion_sensor_02_battery_level
+    - sensor.motion_sensor_03_battery_level
+    - sensor.motion_sensor_04_battery_level
+    - sensor.motion_sensor_05_battery_level
+    - sensor.motion_sensor_06_battery_level
+    - sensor.motion_sensor_07_battery_level
+    - sensor.motion_sensor_08_battery_level
+    - sensor.motion_sensor_09_battery_level
+    - sensor.motion_sensor_10_battery_level
+    - sensor.motion_sensor_11_battery_level
+    - sensor.door_sensor_01_battery_level
+    - sensor.door_sensor_02_battery_level
+    - sensor.door_sensor_03_battery_level
+    - sensor.multi_sensor_01_battery_level
+    - sensor.multi_sensor_02_battery_level
+    - sensor.tradfri_on_off_switch_01_battery_level
+    - sensor.smart_switch_01_battery_level
+    - sensor.mi_magic_cube_01_battery_level
     - sensor.linear_nortek_security_control_llc_gc_tbz48_battery_powered_z_wave_thermostat_battery_level
     # illuminance
-    - sensor.lumi_lumi_sensor_motion_aq2_035fe990_1_1024
-    - sensor.lumi_lumi_sensor_motion_aq2_033ad713_1_1024
-    - sensor.lumi_lumi_sensor_motion_aq2_036c7785_1_1024
-    - sensor.lumi_lumi_sensor_motion_aq2_04143070_1_1024
-    - sensor.lumi_lumi_sensor_motion_aq2_036018e1_1_1024
-    - sensor.lumi_lumi_sensor_motion_aq2_03f42a68_1_1024
-    - sensor.lumi_lumi_sensor_motion_aq2_03f409b4_1_1024
-    - sensor.lumi_lumi_sensor_motion_aq2_0414306d_1_1024
-    - sensor.lumi_lumi_sensor_motion_aq2_036bef53_1_1024
+    - sensor.motion_sensor_01
+    - sensor.motion_sensor_02
+    - sensor.motion_sensor_03
+    - sensor.motion_sensor_04
+    - sensor.motion_sensor_05
+    - sensor.motion_sensor_06
+    - sensor.motion_sensor_07
+    - sensor.motion_sensor_08
+    - sensor.motion_sensor_09
+    - sensor.motion_sensor_10
+    - sensor.motion_sensor_11
