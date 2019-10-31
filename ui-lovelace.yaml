@@ -23,6 +23,7 @@ views:
             entities:
               - input_boolean.sleep
               - input_select.security_override
+              - lock.schlage_allegion_be469zp_connect_smart_deadbolt_locked
           - type: entities
             title: Living Room
             show_header_toggle: false
@@ -165,6 +166,7 @@ views:
           - sensor.smart_switch_01_battery_level
           - sensor.mi_magic_cube_01_battery_level
           - sensor.linear_nortek_security_control_llc_gc_tbz48_battery_powered_z_wave_thermostat_battery_level
+          - sensor.schlage_allegion_be469zp_connect_smart_deadbolt_battery_level
       - type: entities
         title: Illuminance
         show_header_toggle: false
@@ -180,6 +182,17 @@ views:
           - sensor.motion_sensor_03
           - sensor.motion_sensor_04
           - sensor.motion_sensor_05
+      - type: entities
+        title: TODO
+        show_header_toggle: false
+        entities:
+          - sensor.schlage_allegion_be469zp_connect_smart_deadbolt_access_control
+          - sensor.schlage_allegion_be469zp_connect_smart_deadbolt_alarm_level
+          - sensor.schlage_allegion_be469zp_connect_smart_deadbolt_alarm_type
+          - sensor.schlage_allegion_be469zp_connect_smart_deadbolt_burglar
+          - sensor.schlage_allegion_be469zp_connect_smart_deadbolt_power_management
+          - sensor.schlage_allegion_be469zp_connect_smart_deadbolt_sourcenodeid
+          - sensor.schlage_allegion_be469zp_connect_smart_deadbolt_system
 
   - title: Graphs
     path: graphs
