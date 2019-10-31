@@ -9,8 +9,8 @@ class Location(globals.Hass):
         if not entity.startswith("person.") or old == new:
             return
         if new == "not_home":
-            self.common.send_location(
-                f"*{self.friendly_name(entity)}* has left *{old}*.")
+            self.common.send_location(entity,
+                                      f"*{self.friendly_name(entity)}* has left *{old}*.")
         else:
-            self.common.send_location(
-                f"*{self.friendly_name(entity)}* is at *{new}*.")
+            self.common.send_location(entity,
+                                      f"*{self.friendly_name(entity)}* is at *{new}*.")

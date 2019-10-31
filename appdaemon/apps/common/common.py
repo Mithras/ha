@@ -24,7 +24,8 @@ class Common(hass.Hass):
         config = self.args["config"]
         self.telegram_mithras = config["telegram_mithras"]
         self.telegram_debug_chat = config["telegram_debug_chat"]
-        self.telegram_location_chat = config["telegram_location_chat"]
+        self.telegram_location_chat_mithras = config["telegram_location_chat_mithras"]
+        self.telegram_location_chat_diana = config["telegram_location_chat_diana"]
         self.telegram_alarm_chat = config["telegram_alarm_chat"]
         self.http_base_url = config["http_base_url"]
 
@@ -34,10 +35,14 @@ class Common(hass.Hass):
     def escapeMarkdown(self, string: str):
         return string.replace("_", "\\_").replace("*", "\\*").replace("[", "\\[").replace("`", "\\`")
 
-    def send_location(self, message: str, **kwargs):
+    def send_location(self, person: str, message: str, **kwargs):
+        if person == "person.mithras":
+            target = self.telegram_location_chat_mithras
+        elif person == "person.diana":
+            target = self.telegram_location_chat_diana
         parse_mode = kwargs.get("parse_mode", "markdown")
         self.call_service("telegram_bot/send_message",
-                          target=[self.telegram_location_chat],
+                          target=[target],
                           message=message,
                           parse_mode=parse_mode)
 
