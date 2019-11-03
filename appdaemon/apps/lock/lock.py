@@ -10,13 +10,14 @@ class Lock(globals.Hass):
         self.alarm_type = config["alarm_type"]
         self.alarm_level = config["alarm_level"]
         self.lock_entity = config["lock_entity"]
+        self.access_control_sensor = config["access_control_sensor"]
         self.alarm_type_sensor = config["alarm_type_sensor"]
         self.alarm_level_sensor = config["alarm_level_sensor"]
 
         self.listen_state(self.lock_state_callback,
-                          entity=self.lock_entity)
+                          entity=self.access_control_sensor)
 
-    def lock_state_callback(self, entity, attribute, old, new, kwargs):
+    def access_control_callback(self, entity, attribute, old, new, kwargs):
         if old == new:
             return
 
@@ -24,7 +25,7 @@ class Lock(globals.Hass):
             entity=self.lock_entity,
             attribute="lock_status")
         self.common.send_debug(
-            f"*{self.lock_name}* has been {lock_status.lower()}")
+            f"*{self.lock_name}* has been {lock_status.lower()}.")
 
         alarm_type = int(self.get_state(
             entity=self.alarm_type_sensor))
