@@ -1,0 +1,15 @@
+Lock:
+  module: lock
+  class: Lock
+  global_dependencies:
+    - globals
+  dependencies:
+    - Common
+  config:
+    lock_name: Front Door
+    lock_node_id: 3
+    alarm_type: 19
+    alarm_level: 1
+    lock_entity: lock.schlage_allegion_be469zp_connect_smart_deadbolt_locked
+    alarm_type_sensor: sensor.schlage_allegion_be469zp_connect_smart_deadbolt_alarm_type
+    alarm_level_sensor: sensor.schlage_allegion_be469zp_connect_smart_deadbolt_alarm_level
