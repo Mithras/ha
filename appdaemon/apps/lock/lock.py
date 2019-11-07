@@ -14,7 +14,7 @@ class Lock(globals.Hass):
         self.alarm_type_sensor = config["alarm_type_sensor"]
         self.alarm_level_sensor = config["alarm_level_sensor"]
 
-        self.listen_state(self.lock_state_callback,
+        self.listen_state(self.access_control_callback,
                           entity=self.access_control_sensor)
 
     def access_control_callback(self, entity, attribute, old, new, kwargs):

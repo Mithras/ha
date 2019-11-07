@@ -13,12 +13,20 @@ wake = ("7000")
 
 class DeconzCube(globals.Hass):
     def initialize(self):
-        for unique_id in self.args["config"]:
-            self.listen_event(self.callback,
+        for config in self.args["config"]:
+            unique_id = config["unique_id"]
+            digital_id = config["digital_id"]
+            analog_id = config["analog_id"]
+            self.listen_event(self.digital_callback,
                               event="deconz_event",
-                              unique_id=unique_id)
+                              unique_id=unique_id,
+                              id=digital_id)
+            self.listen_event(self.analog_callback,
+                              event="deconz_event",
+                              unique_id=unique_id,
+                              id=analog_id)
 
-    def callback(self, event_name, data, kwargs):
+    def digital_callback(self, event_name, data, kwargs):
         unique_id = data["unique_id"]
         deconz_event = str(data["event"])
 
@@ -36,6 +44,11 @@ class DeconzCube(globals.Hass):
             return self.fire_deconz_event(unique_id, "drop")
         if deconz_event in wake:
             return self.fire_deconz_event(unique_id, "wake")
+
+    def analog_callback(self, event_name, data, kwargs):
+        unique_id = data["unique_id"]
+        deconz_event = str(data["event"])
+
         if deconz_event[0] == "-":
             return self.fire_deconz_event(unique_id, "rotate_left")
         return self.fire_deconz_event(unique_id, "rotate_right")

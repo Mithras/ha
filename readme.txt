@@ -28,3 +28,9 @@
     /dev/ttyUSB1 # zigbee
 * ConBee II (top usb 2.0)
     /dev/ttyACM0
+* Deconz
+    * Change a specific sensor name
+        # deconz.configure
+        field: /sensors/4
+        data:
+          name: Mi Magic Cube 01 (Analog)

@@ -160,6 +160,7 @@ LightToilet:
     sensors:
       - entity: binary_sensor.motion_sensor_10
     light_group: light.toilet
+    sun_up_on_profile: Bright
     sun_down_on_profile: Bright
     sleep_on_profile: Nightlight
     sun_up_off_profile: "off"

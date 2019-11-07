@@ -28,12 +28,12 @@ class CameraAlarm(globals.Hass):
             entity=entity,
             attribute="last_updated"))
         random_string = self.random_string(10)
-        snapshot = last_updated.strftime(
-            f"/config/www/camera/[{camera}][%Y-%m-%d][%H-%M-%S].{random_string}.jpg")
-        video_filename = last_updated.strftime(
-            f"[{camera}][%Y-%m-%d][%H-%M-%S].{random_string}.mp4")
-        video = f"/config/www/camera/{video_filename}"
-        video_public_url = f"{self.common.http_base_url}/local/camera/{self.common.escapeMarkdown(video_filename)}"
+        name = last_updated.strftime(
+            f"[{camera}][%Y-%m-%d][%H-%M-%S].{random_string}")
+        snapshot = f"/config/www/camera/{name}.jpg"
+        video = f"/config/www/camera/{name}.mp4"
+        # snapshot_public_url = f"{self.common.http_base_url}/local/camera/{self.common.escapeMarkdown(name)}.jpg"
+        video_public_url = f"{self.common.http_base_url}/local/camera/{self.common.escapeMarkdown(name)}.mp4"
 
         self.call_service("camera/snapshot",
                           entity_id=camera,
@@ -46,16 +46,11 @@ class CameraAlarm(globals.Hass):
         self.call_service("telegram_bot/send_photo",
                           target=[self.common.telegram_alarm_chat],
                           file=snapshot)
-        # self.run_in(self.timer_callback, send_video_delay,
-        #             video=video)
+        # self.common.send_alarm(snapshot_public_url)
         self.run_in(self.timer_callback, send_video_delay,
                     video_public_url=video_public_url)
 
     def timer_callback(self, kwargs):
-        # video = kwargs["video"]
-        # self.call_service("telegram_bot/send_video",
-        #                   target=[self.common.telegram_alarm_chat],
-        #                   file=video)
         video_public_url = kwargs["video_public_url"]
         self.common.send_alarm(video_public_url)
 
