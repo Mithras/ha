@@ -45,14 +45,16 @@ class CameraAlarm(globals.Hass):
 
         self.call_service("telegram_bot/send_photo",
                           target=[self.common.telegram_alarm_chat],
-                          file=snapshot)
+                          file=snapshot,
+                          disable_notification=True)
         # self.common.send_alarm(snapshot_public_url)
         self.run_in(self.timer_callback, send_video_delay,
                     video_public_url=video_public_url)
 
     def timer_callback(self, kwargs):
         video_public_url = kwargs["video_public_url"]
-        self.common.send_alarm(video_public_url)
+        self.common.send_alarm(video_public_url,
+                               disable_notification=True)
 
     def random_string(self, length: int):
         return "".join(random.choice(SYMBOLS) for i in range(length))

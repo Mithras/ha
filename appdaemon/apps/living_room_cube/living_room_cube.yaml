@@ -12,3 +12,4 @@ LivingRoomCube:
     light_living_room: light.living_room
     light_living_room_back: light.living_room_back
     light_living_room_main: light.living_room_main
+    switch_fireplace: light.on_off_output_7

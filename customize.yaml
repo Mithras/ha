@@ -155,6 +155,9 @@ switch.tradfri_control_outlet_03:
 # TRÅDFRI control outlet 04
 switch.tradfri_control_outlet_04:
   friendly_name: TRÅDFRI control outlet 04
+# Smart Light Switch 01
+light.on_off_output_7:
+  friendly_name: Fireplace
 
 # Thermostat
 # zwave.linear_nortek_security_control_llc_gc_tbz48_battery_powered_z_wave_thermostat:

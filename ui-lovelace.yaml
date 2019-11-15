@@ -31,13 +31,20 @@ views:
               - sensor.multi_sensor_01_2
               - sensor.multi_sensor_01
               - sensor.multi_sensor_01_3
-              - switch.mithras_desktop
+              - entity: switch.mithras_desktop
+                icon: mdi:desktop-tower
               - media_player.samsung_smart_tv
-              - switch.tradfri_control_outlet_03
-              - switch.tradfri_control_outlet_01
-              - switch.tradfri_control_outlet_02
-              - switch.levoit_humidifier
+              - entity: switch.tradfri_control_outlet_03
+                icon: mdi:amplifier
+              - entity: switch.tradfri_control_outlet_01
+                icon: mdi:speaker-multiple
+              - entity: switch.tradfri_control_outlet_02
+                icon: mdi:amplifier
+              - entity: switch.levoit_humidifier
+                icon: mdi:air-humidifier
               - vacuum.roomba
+              - entity: switch.fireplace_inverted
+                icon: mdi:fireplace
           - type: entities
             title: Master Bedroom
             show_header_toggle: false
@@ -182,17 +189,6 @@ views:
           - sensor.motion_sensor_03
           - sensor.motion_sensor_04
           - sensor.motion_sensor_05
-      - type: entities
-        title: TODO
-        show_header_toggle: false
-        entities:
-          - sensor.schlage_allegion_be469zp_connect_smart_deadbolt_access_control
-          - sensor.schlage_allegion_be469zp_connect_smart_deadbolt_alarm_level
-          - sensor.schlage_allegion_be469zp_connect_smart_deadbolt_alarm_type
-          - sensor.schlage_allegion_be469zp_connect_smart_deadbolt_burglar
-          - sensor.schlage_allegion_be469zp_connect_smart_deadbolt_power_management
-          - sensor.schlage_allegion_be469zp_connect_smart_deadbolt_sourcenodeid
-          - sensor.schlage_allegion_be469zp_connect_smart_deadbolt_system
 
   - title: Graphs
     path: graphs

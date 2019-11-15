@@ -40,25 +40,22 @@ class Common(hass.Hass):
             target = self.telegram_location_chat_mithras
         elif person == "person.diana":
             target = self.telegram_location_chat_diana
-        parse_mode = kwargs.get("parse_mode", "markdown")
         self.call_service("telegram_bot/send_message",
                           target=[target],
                           message=message,
-                          parse_mode=parse_mode)
+                          **kwargs)
 
     def send_alarm(self, message: str, **kwargs):
-        parse_mode = kwargs.get("parse_mode", "markdown")
         self.call_service("telegram_bot/send_message",
                           target=[self.telegram_debug_chat],
                           message=message,
-                          parse_mode=parse_mode)
+                          **kwargs)
 
     def send_debug(self, message: str, **kwargs):
-        parse_mode = kwargs.get("parse_mode", "markdown")
         self.call_service("telegram_bot/send_message",
                           target=[self.telegram_debug_chat],
                           message=message,
-                          parse_mode=parse_mode)
+                          **kwargs)
 
     def light_turn_bright(self, light_group: str):
         self.light_turn_profile(light_group, "Bright")

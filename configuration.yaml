@@ -84,6 +84,19 @@ switch:
       data:
         addon: core_rpc_shutdown
         input: mithras_desktop
+  - platform: template
+    switches:
+      fireplace_inverted:
+        friendly_name: Fireplace
+        value_template: "{{ is_state('light.on_off_output_7', 'off') }}"
+        turn_on:
+          service: light.turn_off
+          data:
+            entity_id: light.on_off_output_7
+        turn_off:
+          service: light.turn_on
+          data:
+            entity_id: light.on_off_output_7
 
 media_player:
   # https://github.com/xchwarze/ha-samsungtv-custom
