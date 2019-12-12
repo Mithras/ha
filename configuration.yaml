@@ -111,6 +111,10 @@ vacuum:
     host: 192.168.1.6
     username: !secret roomba_username
     password: !secret roomba_password
+  - platform: xiaomi_miio
+    name: Roborock S5
+    host: 192.168.1.10
+    token: !secret roborock_s5_token
 
 owntracks:
   max_gps_accuracy: 100

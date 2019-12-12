@@ -34,3 +34,5 @@
         field: /sensors/4
         data:
           name: Mi Magic Cube 01 (Analog)
+* owntracks
+    TODO

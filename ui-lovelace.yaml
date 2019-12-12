@@ -42,6 +42,7 @@ views:
                 icon: mdi:amplifier
               - entity: switch.levoit_humidifier
                 icon: mdi:air-humidifier
+              - vacuum.roborock_s5
               - vacuum.roomba
               - entity: switch.fireplace_inverted
                 icon: mdi:fireplace
@@ -193,11 +194,6 @@ views:
   - title: Graphs
     path: graphs
     cards:
-      - type: history-graph
-        title: Network throughput
-        entities:
-          - sensor.network_throughput_in_eth0
-          - sensor.network_throughput_out_eth0
       - type: history-graph
         title: Temperature
         entities:

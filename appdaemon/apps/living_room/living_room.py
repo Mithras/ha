@@ -11,6 +11,7 @@ class LivingRoom(globals.Hass):
         self.levoit_humidifier = config["levoit_humidifier"]
         self.living_room_main_light = config["living_room_main_light"]
         self.living_room_back_light = config["living_room_back_light"]
+        self.light_strip = config["light_strip"]
 
         self.listen_state(self.mithras_desktop_callback,
                           entity=self.mithras_desktop)
@@ -66,5 +67,6 @@ class LivingRoom(globals.Hass):
         self.turn_off(self.samsung_tv)
         self.common.light_turn_off(self.living_room_main_light)
         self.common.light_turn_off(self.living_room_back_light)
+        self.common.light_turn_off(self.light_strip)
         if toggle:
             self.toggle(self.levoit_humidifier)

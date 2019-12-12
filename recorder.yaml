@@ -37,7 +37,9 @@ exclude:
     - light.hue_ambiance_lamp_18
     - light.hue_ambiance_lamp_19
     - light.hue_ambiance_lamp_20
+    - light.hue_lightstrip_plus_1
     - light.entertainment_area
+    - light.light_strip_area
     # battery
     - sensor.motion_sensor_01_battery_level
     - sensor.motion_sensor_02_battery_level
@@ -71,3 +73,33 @@ exclude:
     - sensor.motion_sensor_09
     - sensor.motion_sensor_10
     - sensor.motion_sensor_11
+    # appdaemon_app
+    - appdaemon_app.camera_alarm_living_room
+    - appdaemon_app.camera_alarm_porch
+    - appdaemon_app.camera_alarm_porch_motion
+    - appdaemon_app.climate
+    - appdaemon_app.deconz_cube
+    - appdaemon_app.deconz_switch
+    - appdaemon_app.light_backyard
+    - appdaemon_app.light_driveway
+    - appdaemon_app.light_garage
+    - appdaemon_app.light_hallway
+    - appdaemon_app.light_kitchen
+    - appdaemon_app.light_landry_room
+    - appdaemon_app.light_master_bathroom
+    - appdaemon_app.light_master_bedroom
+    - appdaemon_app.light_master_toilet
+    - appdaemon_app.light_porch
+    - appdaemon_app.light_staircase
+    - appdaemon_app.light_toilet
+    - appdaemon_app.living_room
+    - appdaemon_app.living_room_cube
+    - appdaemon_app.location
+    - appdaemon_app.lock
+    - appdaemon_app.master_bedroom_switch
+    - appdaemon_app.security
+    - appdaemon_app.sensor_alarm_armed_away
+    - appdaemon_app.sensor_alarm_armed_home
+    - appdaemon_app.sensor_alarm_armed_sleep
+    - appdaemon_app.sleep_switch
+    - appdaemon_app.sun
