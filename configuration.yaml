@@ -76,7 +76,7 @@ switch:
         command_on: !secret levoit_humidifier_ir_command
         command_off: !secret levoit_humidifier_ir_command
   - platform: wake_on_lan
-    mac_address: !secret mithras_desktop_mac
+    mac: !secret mithras_desktop_mac
     name: Mithras Desktop
     host: 192.168.1.2
     turn_off:

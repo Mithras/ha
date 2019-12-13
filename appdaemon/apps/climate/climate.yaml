@@ -6,14 +6,13 @@ Climate:
   dependencies:
     - Common
   config:
-    cooling: climate.linear_nortek_security_control_llc_gc_tbz48_battery_powered_z_wave_thermostat_cooling_1
-    heating: climate.linear_nortek_security_control_llc_gc_tbz48_battery_powered_z_wave_thermostat_heating_1
+    climate: climate.linear_nortek_security_control_llc_gc_tbz48_battery_powered_z_wave_thermostat_mode
     temperature: sensor.linear_nortek_security_control_llc_gc_tbz48_battery_powered_z_wave_thermostat_temperature
     person: person.mithras
     sleep_input: input_boolean.sleep
     home_params:
       hvac_mode: heat
-      low_temperature: 20
+      temperature: 20
     not_home_params:
       hvac_mode: "off"
     sleep_params:

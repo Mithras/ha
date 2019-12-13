@@ -35,4 +35,10 @@
         data:
           name: Mi Magic Cube 01 (Analog)
 * owntracks
-    TODO
+    owntracks/<user>/<device>/cmd
+    {
+        "_type": "configuration",
+        "locatorDisplacement": 100,
+        "locatorInterval": 60,
+        "mqttProtocolLevel": 4
+    }

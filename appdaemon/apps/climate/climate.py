@@ -8,8 +8,7 @@ DO_NOTHING_CMD = "/climate-do-nothing"
 class Climate(globals.Hass):
     def initialize(self):
         config = self.args["config"]
-        self.cooling = config["cooling"]
-        self.heating = config["heating"]
+        self.climate = config["climate"]
         self.temperature = config["temperature"]
         self.person = config["person"]
         self.home_params = config["home_params"]
@@ -49,7 +48,7 @@ class Climate(globals.Hass):
     def person_not_home_callback(self, entity, attribute, old, new, kwargs):
         if old == new or old == "home":
             return
-        hvac_mode = self.get_state(self.cooling)
+        hvac_mode = self.get_state(self.climate)
         if(hvac_mode != "off"):
             return
         temperature = self.get_state(self.temperature)
@@ -89,19 +88,16 @@ class Climate(globals.Hass):
     def update_climate(self):
         params = self.getParams()
         hvac_mode = params["hvac_mode"]
-        low_temperature = params.get("low_temperature", None)
-        high_temperature = params.get("high_temperature", None)
+        temperature = params.get("temperature", None)
 
-        if low_temperature is not None:
-            self.call_service("climate/set_temperature",
-                              entity_id=self.heating,
-                              temperature=low_temperature)
-        if high_temperature is not None:
-            self.call_service("climate/set_temperature",
-                              entity_id=self.cooling,
-                              temperature=high_temperature)
         self.call_service("climate/set_hvac_mode",
-                          entity_id=self.cooling,
+                          entity_id=self.climate,
+                          hvac_mode=hvac_mode)
+        self.call_service("climate/set_temperature",
+                          entity_id=self.climate,
+                          temperature=temperature)
+        self.call_service("climate/set_hvac_mode",
+                          entity_id=self.climate,
                           hvac_mode=hvac_mode)
 
     def getParams(self):

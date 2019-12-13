@@ -160,11 +160,8 @@ light.on_off_output_7:
   friendly_name: Fireplace
 
 # Thermostat
-# zwave.linear_nortek_security_control_llc_gc_tbz48_battery_powered_z_wave_thermostat:
-? climate.linear_nortek_security_control_llc_gc_tbz48_battery_powered_z_wave_thermostat_cooling_1
-: friendly_name: Thermostat Cooling
-? climate.linear_nortek_security_control_llc_gc_tbz48_battery_powered_z_wave_thermostat_heating_1
-: friendly_name: Thermostat Heating
+? climate.linear_nortek_security_control_llc_gc_tbz48_battery_powered_z_wave_thermostat_mode
+: friendly_name: Thermostat
 ? sensor.linear_nortek_security_control_llc_gc_tbz48_battery_powered_z_wave_thermostat_battery_level
 : friendly_name: Thermostat Battery
 ? sensor.linear_nortek_security_control_llc_gc_tbz48_battery_powered_z_wave_thermostat_temperature

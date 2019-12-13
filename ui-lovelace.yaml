@@ -1,8 +1,5 @@
 title: Home Assistant
 resources:
-  # https://github.com/enriqg9/dual-thermostat
-  - url: /local/ui-lovelace/dual-thermostat/dual-thermostat.js?v=1
-    type: js
   # https://github.com/custom-cards/monster-card
   - url: /local/ui-lovelace/monster-card/monster-card.js
     type: js
@@ -56,16 +53,8 @@ views:
 
       - type: vertical-stack
         cards:
-          - type: custom:dual-thermostat
-            name: Climate
-            entities:
-              - entity: climate.linear_nortek_security_control_llc_gc_tbz48_battery_powered_z_wave_thermostat_cooling_1
-                type: cool
-              - entity: climate.linear_nortek_security_control_llc_gc_tbz48_battery_powered_z_wave_thermostat_heating_1
-                type: heat
-            fan_control: true
-            min_slider: 15
-            max_slider: 40
+          - type: thermostat
+            entity: climate.linear_nortek_security_control_llc_gc_tbz48_battery_powered_z_wave_thermostat_mode
           - type: entities
             title: Light
             entities:
