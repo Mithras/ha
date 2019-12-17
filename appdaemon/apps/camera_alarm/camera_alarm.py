@@ -1,60 +1,76 @@
 import globals
 import string
 import random
+from datetime import date
 
 
 SYMBOLS = string.ascii_lowercase + string.digits
+OUTPUT_DIR = f"/config/www/camera"
 
 
-# TODO: support multiple sensors per camera
-# TODO: write videos until sensor(s) are clear
 class CameraAlarm(globals.Hass):
     def initialize(self):
-        for config in self.args["config"]:
-            self.listen_state(self.sensor_callback,
-                              entity=config["sensor"],
-                              new="on",
-                              camera=config["camera"],
-                              video_duration=config["video_duration"],
-                              send_video_delay=config["send_video_delay"])
+        config = self.args["config"]
+        self._camera = config["camera"]
+        self._video_duration = config["video_duration"]
+        self._sensorStateMap = {}
+        self._record_timer = None
+        for entity in config["sensors"]:
+            self._sensorStateMap[entity] = self.get_state(entity=entity)
+            self.listen_state(self._sensor_callback,
+                              entity=entity)
 
-    def sensor_callback(self, entity, attribute, old, new, kwargs):
+    def _sensor_callback(self, entity, attribute, old, new, kwargs):
         if old == new:
             return
-        camera = kwargs["camera"]
-        video_duration = kwargs["video_duration"]
-        send_video_delay = kwargs["send_video_delay"]
-        last_updated = self.convert_utc(self.get_state(
-            entity=entity,
-            attribute="last_updated"))
-        random_string = self.random_string(10)
-        name = last_updated.strftime(
-            f"[{camera}][%Y-%m-%d][%H-%M-%S].{random_string}")
-        snapshot = f"/config/www/camera/{name}.jpg"
-        video = f"/config/www/camera/{name}.mp4"
-        # snapshot_public_url = f"{self.common.http_base_url}/local/camera/{self.common.escapeMarkdown(name)}.jpg"
-        video_public_url = f"{self.common.http_base_url}/local/camera/{self.common.escapeMarkdown(name)}.mp4"
+
+        self._sensorStateMap[entity] = new
+
+        if new == "on":
+            self._send_snapshot()
+            self._start_recording()
+        else:
+            self._stop_recording()
+
+    def _send_snapshot(self):
+        name = self._get_name()
+        filename = f"{OUTPUT_DIR}/{name}.jpg"
 
         self.call_service("camera/snapshot",
-                          entity_id=camera,
-                          filename=snapshot)
-        self.call_service("camera/record",
-                          entity_id=camera,
-                          filename=video,
-                          duration=video_duration)
-
+                          entity_id=self._camera,
+                          filename=filename)
         self.call_service("telegram_bot/send_photo",
                           target=[self.common.telegram_alarm_chat],
-                          file=snapshot,
-                          disable_notification=True)
-        # self.common.send_alarm(snapshot_public_url)
-        self.run_in(self.timer_callback, send_video_delay,
-                    video_public_url=video_public_url)
+                          file=filename)
 
-    def timer_callback(self, kwargs):
-        video_public_url = kwargs["video_public_url"]
-        self.common.send_alarm(video_public_url,
-                               disable_notification=True)
+    def _start_recording(self):
+        if self._record_timer:
+            return
+        self._record()
 
-    def random_string(self, length: int):
+    def _stop_recording(self):
+        if all(state == "off" for state in self._sensorStateMap.values()):
+            self.cancel_timer(self._record_timer)
+            self._record_timer = None
+
+    def _record(self):
+        name = self._get_name()
+        filename = f"{OUTPUT_DIR}/{name}.mp4"
+        self.call_service("camera/record",
+                          entity_id=self._camera,
+                          filename=filename,
+                          duration=self._video_duration)
+        self._record_timer = self.run_in(
+            self._record_timer_callback, self._video_duration)
+
+    def _record_timer_callback(self, kwargs):
+        self._record()
+
+    def _get_name(self):
+        today = date.today()
+        random_string = self._random_string(10)
+        return today.strftime(
+            f"[{self._camera}][%Y-%m-%d][%H-%M-%S].{random_string}")
+
+    def _random_string(self, length: int):
         return "".join(random.choice(SYMBOLS) for i in range(length))
