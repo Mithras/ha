@@ -22,3 +22,6 @@ class SensorAlarm(globals.Hass):
         elif device_type == "connectivity":
             self.common.send_alarm(
                 f"*{self.friendly_name(entity)}* has {'connected' if new=='on' else 'disconnected'}.")
+        else:
+            self.common.send_alarm(
+                f"*{self.friendly_name(entity)}* is in {new} state.")

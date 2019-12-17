@@ -57,7 +57,6 @@ class LivingRoomCube(globals.Hass):
         #                   command="push")
 
     def flip_90_callback(self, event_name, data, kwargs):
-        # TODO: kitchen light: lower -> upper -> both -> off
         if self.get_state(self.light_kitchen) == "off":
             self.common.light_turn_bright(self.light_kitchen)
         else:

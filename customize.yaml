@@ -161,7 +161,7 @@ light.on_off_output_7:
 
 # Thermostat
 ? climate.linear_nortek_security_control_llc_gc_tbz48_battery_powered_z_wave_thermostat_mode
-: friendly_name: Thermostat
+: friendly_name: Climate
 ? sensor.linear_nortek_security_control_llc_gc_tbz48_battery_powered_z_wave_thermostat_battery_level
 : friendly_name: Thermostat Battery
 ? sensor.linear_nortek_security_control_llc_gc_tbz48_battery_powered_z_wave_thermostat_temperature

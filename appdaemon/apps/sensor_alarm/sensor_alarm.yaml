@@ -25,6 +25,7 @@ SensorAlarmArmedAway:
     - binary_sensor.door_sensor_03 # Front Door Sensor
     - binary_sensor.door_sensor_01 # Garage Door Sensor
     - binary_sensor.door_sensor_02 # Backyard Door Sensor
+    - sensor.schlage_allegion_be469zp_connect_smart_deadbolt_burglar # Schlage Connect Smart Deadbolt Burglar
 SensorAlarmArmedHome:
   module: sensor_alarm
   class: SensorAlarm
@@ -38,6 +39,7 @@ SensorAlarmArmedHome:
     - binary_sensor.living_room_camera_online # Living Room Camera Online Sensor
     - binary_sensor.porch_camera_motion_detected # Porch Camera Motion Sensor
     - binary_sensor.motion_sensor_09 # Porch Motion Sensor
+    - sensor.schlage_allegion_be469zp_connect_smart_deadbolt_burglar # Schlage Connect Smart Deadbolt Burglar
 SensorAlarmArmedSleep:
   module: sensor_alarm
   class: SensorAlarm
@@ -62,3 +64,4 @@ SensorAlarmArmedSleep:
     - binary_sensor.door_sensor_03 # Front Door Sensor
     - binary_sensor.door_sensor_01 # Garage Door Sensor
     - binary_sensor.door_sensor_02 # Backyard Door Sensor
+    - sensor.schlage_allegion_be469zp_connect_smart_deadbolt_burglar # Schlage Connect Smart Deadbolt Burglar
