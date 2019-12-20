@@ -30,10 +30,8 @@ class Hass(hass.Hass):
             if x.isupper():
                 friendly_name_list.append(" ")
                 state_list.append("_")
-                state_list.append(x.lower())
-            else:
-                state_list.append(x)
             friendly_name_list.append(x)
+            state_list.append(x.lower())
 
         self.app_friendly_name = "".join(friendly_name_list)
         self.app_state_name = "".join(state_list)

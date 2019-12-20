@@ -93,12 +93,10 @@ class Climate(globals.Hass):
         self.call_service("climate/set_hvac_mode",
                           entity_id=self.climate,
                           hvac_mode=hvac_mode)
-        self.call_service("climate/set_temperature",
-                          entity_id=self.climate,
-                          temperature=temperature)
-        self.call_service("climate/set_hvac_mode",
-                          entity_id=self.climate,
-                          hvac_mode=hvac_mode)
+        if temperature is not None:
+            self.call_service("climate/set_temperature",
+                              entity_id=self.climate,
+                              temperature=temperature)
 
     def getParams(self):
         if self.override is not None:

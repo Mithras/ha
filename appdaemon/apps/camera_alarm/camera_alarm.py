@@ -1,11 +1,12 @@
 import globals
 import string
 import random
-from datetime import date
+from datetime import datetime
 
 
 SYMBOLS = string.ascii_lowercase + string.digits
 OUTPUT_DIR = f"/config/www/camera"
+MAX_RETRY = 10
 
 
 class CameraAlarm(globals.Hass):
@@ -27,12 +28,12 @@ class CameraAlarm(globals.Hass):
         self._sensorStateMap[entity] = new
 
         if new == "on":
-            self._send_snapshot()
-            self._start_recording()
-        else:
-            self._stop_recording()
+            self.run_in(
+                self._snapshot_timer_callback, 0)
+            if not self._record_timer:
+                self._record()
 
-    def _send_snapshot(self):
+    def _snapshot_timer_callback(self, kwargs):
         name = self._get_name()
         filename = f"{OUTPUT_DIR}/{name}.jpg"
 
@@ -43,33 +44,35 @@ class CameraAlarm(globals.Hass):
                           target=[self.common.telegram_alarm_chat],
                           file=filename)
 
-    def _start_recording(self):
-        if self._record_timer:
-            return
-        self._record()
-
-    def _stop_recording(self):
+    def _record(self, retry=0):
         if all(state == "off" for state in self._sensorStateMap.values()):
             self.cancel_timer(self._record_timer)
             self._record_timer = None
+            return
 
-    def _record(self):
         name = self._get_name()
         filename = f"{OUTPUT_DIR}/{name}.mp4"
-        self.call_service("camera/record",
-                          entity_id=self._camera,
-                          filename=filename,
-                          duration=self._video_duration)
-        self._record_timer = self.run_in(
-            self._record_timer_callback, self._video_duration)
+        try:
+            self.call_service("camera/record",
+                              entity_id=self._camera,
+                              filename=filename,
+                              duration=self._video_duration)
+            self._record_timer = self.run_in(
+                self._record_timer_callback, self._video_duration + 1, retry=0)
+        except:
+            if retry == MAX_RETRY:
+                self._record_timer = None
+                raise
+            self._record_timer = self.run_in(
+                self._record_timer_callback, 1, retry=retry + 1)
 
     def _record_timer_callback(self, kwargs):
-        self._record()
+        self._record(kwargs["retry"])
 
     def _get_name(self):
-        today = date.today()
+        now = datetime.now()
         random_string = self._random_string(10)
-        return today.strftime(
+        return now.strftime(
             f"[{self._camera}][%Y-%m-%d][%H-%M-%S].{random_string}")
 
     def _random_string(self, length: int):

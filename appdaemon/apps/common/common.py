@@ -19,6 +19,9 @@ with open("/config/light_profiles.csv") as profiles_file:
             row1[2])), int(row1[3]), int(row2[1])) for row1, row2 in zip(profiles_reader, profile_temps_reader)]
 
 
+# TODO: run_in
+# TODO: call_service_async
+# TODO: turn_on / turn_off -> call_service_async
 class Common(hass.Hass):
     def initialize(self):
         config = self.args["config"]
