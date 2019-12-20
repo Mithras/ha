@@ -23,8 +23,14 @@ def setup(hass, config):
                         STATE_ON if state_obj.state == STATE_OFF else STATE_OFF,
                         state_obj.attributes)
 
+    def fire_event(call):
+        event = call.data["event"]
+        hass.bus.fire(event, call.data)
+
     hass.services.register(DOMAIN, SERVICE_TURN_ON, turn_on)
     hass.services.register(DOMAIN, SERVICE_TURN_OFF, turn_off)
     hass.services.register(DOMAIN, SERVICE_TOGGLE, toggle)
+    hass.services.register(
+        DOMAIN, "fire_event", fire_event)
 
     return True

@@ -6,11 +6,13 @@ Lock:
   dependencies:
     - Common
   config:
-    lock_name: Front Door
-    lock_node_id: 3
+    name: Front Door
+    state: front_door
+    node_id: 3
+    code_slot: 1
     alarm_type: 19
     alarm_level: 1
-    lock_entity: lock.schlage_allegion_be469zp_connect_smart_deadbolt_locked
+    lock: lock.schlage_allegion_be469zp_connect_smart_deadbolt_locked
     access_control_sensor: sensor.schlage_allegion_be469zp_connect_smart_deadbolt_access_control
     alarm_type_sensor: sensor.schlage_allegion_be469zp_connect_smart_deadbolt_alarm_type
     alarm_level_sensor: sensor.schlage_allegion_be469zp_connect_smart_deadbolt_alarm_level

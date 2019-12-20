@@ -104,6 +104,20 @@ views:
     path: details
     cards:
       - type: entities
+        title: Front Door
+        show_header_toggle: false
+        entities:
+          - entity: appdaemon_lock.front_door
+            name: Code
+            icon: mdi:shield
+          - type: call-service
+            name: Rotate
+            service: appdaemon_app.fire_event
+            icon: mdi:shield-refresh
+            service_data:
+              event: appdaemon_lock_rotate
+              state: front_door
+      - type: entities
         title: Person
         show_header_toggle: false
         entities:
