@@ -9,6 +9,7 @@ CameraAlarmLivingRoom:
   config:
     camera: camera.living_room_camera
     video_duration: 30
+    camera_output_dir: !secret camera_output_dir
     sensors:
       - binary_sensor.living_room_camera_motion_detected
 CameraAlarmPorch:
@@ -22,6 +23,7 @@ CameraAlarmPorch:
   config:
     camera: camera.porch_camera
     video_duration: 30
+    camera_output_dir: !secret camera_output_dir
     sensors:
       - binary_sensor.porch_camera_motion_detected
       - binary_sensor.motion_sensor_09

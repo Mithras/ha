@@ -5,7 +5,6 @@ from datetime import datetime
 
 
 SYMBOLS = string.ascii_lowercase + string.digits
-OUTPUT_DIR = f"/config/www/camera"
 MAX_RETRY = 10
 
 
@@ -14,6 +13,7 @@ class CameraAlarm(globals.Hass):
         config = self.args["config"]
         self._camera = config["camera"]
         self._video_duration = config["video_duration"]
+        self._camera_output_dir = config["camera_output_dir"]
         self._sensorStateMap = {}
         self._record_timer = None
         for entity in config["sensors"]:
@@ -35,7 +35,7 @@ class CameraAlarm(globals.Hass):
 
     def _snapshot_timer_callback(self, kwargs):
         name = self._get_name()
-        filename = f"{OUTPUT_DIR}/{name}.jpg"
+        filename = f"{self._camera_output_dir}/{name}.jpg"
 
         self.call_service("camera/snapshot",
                           entity_id=self._camera,
@@ -51,7 +51,7 @@ class CameraAlarm(globals.Hass):
             return
 
         name = self._get_name()
-        filename = f"{OUTPUT_DIR}/{name}.mp4"
+        filename = f"{self._camera_output_dir}/{name}.mp4"
         try:
             self.call_service("camera/record",
                               entity_id=self._camera,

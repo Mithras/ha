@@ -1,8 +1,8 @@
 title: Home Assistant
 resources:
-  # https://github.com/custom-cards/monster-card
-  - url: /local/ui-lovelace/monster-card/monster-card.js
-    type: js
+  # https://github.com/thomasloven/lovelace-auto-entities
+  - url: /local/ui-lovelace/auto-entities/auto-entities.js
+    type: module
 views:
   - title: Home
     path: home
@@ -104,20 +104,6 @@ views:
     path: details
     cards:
       - type: entities
-        title: Front Door
-        show_header_toggle: false
-        entities:
-          - entity: appdaemon_lock.front_door
-            name: Code
-            icon: mdi:shield
-          - type: call-service
-            name: Rotate
-            service: appdaemon_app.fire_event
-            icon: mdi:shield-refresh
-            service_data:
-              event: appdaemon_lock_rotate
-              state: front_door
-      - type: entities
         title: Person
         show_header_toggle: false
         entities:
@@ -217,7 +203,21 @@ views:
   - title: AppDaemon
     path: appdaemon
     cards:
-      - type: custom:monster-card
+      - type: entities
+        title: Front Door Lock
+        show_header_toggle: false
+        entities:
+          - entity: appdaemon_lock.front_door
+            name: Code
+            icon: mdi:shield
+          - type: call-service
+            name: Rotate
+            service: appdaemon_app.fire_event
+            icon: mdi:shield-refresh
+            service_data:
+              event: appdaemon_lock_rotate
+              state: front_door
+      - type: custom:auto-entities
         card:
           type: entities
           title: AppDaemon
@@ -228,3 +228,5 @@ views:
               options:
                 icon: mdi:language-python
                 type: custom:hui-toggle-entity-row
+        sort:
+          method: name
