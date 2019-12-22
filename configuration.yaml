@@ -181,3 +181,9 @@ hue:
     - host: 192.168.1.7
 
 appdaemon_app:
+
+folder_watcher:
+  - folder: !secret camera_output_dir
+    patterns:
+      - "*.jpg"
+      - "*.mp4"

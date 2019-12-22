@@ -1,0 +1,10 @@
+CameraOutput:
+  module: camera_output
+  class: CameraOutput
+  global_dependencies:
+    - globals
+  dependencies:
+    - Common
+  config:
+    camera_output_dir: !secret camera_output_dir
+    camera_output_external_path: !secret camera_output_external_path

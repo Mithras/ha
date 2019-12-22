@@ -230,3 +230,47 @@ views:
                 type: custom:hui-toggle-entity-row
         sort:
           method: name
+      - type: entities
+        title: Camera Stats
+        show_header_toggle: false
+        entities:
+          - type: custom:auto-entities
+            card:
+              type: markdown
+              content: |
+                {% set count = state_attr("appdaemon_camera_output.stats", "count") %}
+                {% set size = (state_attr("appdaemon_camera_output.stats", "size") | int() / 1024 / 1024) | round(2) %}
+
+                **Count: {{ count }}**
+                **Size: {{ size }} Mb**
+            filter:
+              include:
+                - entity_id: appdaemon_camera_output.stats
+          - type: call-service
+            name: Clear
+            service: appdaemon_app.fire_event
+            icon: mdi:delete
+            service_data:
+              event: appdaemon_camera_output_clear
+      - type: markdown
+        title: Camera Snapshots
+        content: |
+          {% set snapshots = state_attr("appdaemon_camera_output.stats", "snapshots") | from_json %}
+
+          {% for snapshot in snapshots %}
+            <a href="{{ snapshot }}" target="_blank">
+              <img src="{{ snapshot }}" title="{{ snapshot }}"></img>
+            </a>
+          {%- endfor %}
+        entity_id: appdaemon_camera_output.stats
+      - type: markdown
+        title: Camera Videos
+        content: |
+          {% set videos = state_attr("appdaemon_camera_output.stats", "videos") | from_json %}
+
+          {% for video in videos %}
+            <a href="{{ video }}" target="_blank">
+              <p>{{ video }}</p>
+            </a>
+          {%- endfor %}
+        entity_id: appdaemon_camera_output.stats
