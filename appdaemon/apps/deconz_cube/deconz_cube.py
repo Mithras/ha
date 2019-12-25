@@ -54,6 +54,7 @@ class DeconzCube(globals.Hass):
         return self.fire_deconz_event(unique_id, "rotate_right")
 
     def fire_deconz_event(self, unique_id: str, command: str):
-        self.fire_event("deconz_event_custom",
-                        unique_id=unique_id,
-                        command=command)
+        self.common.run_async(self.fire_event,
+                              "deconz_event_custom",
+                              unique_id=unique_id,
+                              command=command)

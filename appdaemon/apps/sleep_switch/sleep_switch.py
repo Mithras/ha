@@ -12,4 +12,5 @@ class SleepSwitch(globals.Hass):
                           command="release_after_press")
 
     def single_callback(self, event_name, data, kwargs):
-        self.toggle(self.input)
+        self.common.run_async(self.toggle,
+                              self.input)

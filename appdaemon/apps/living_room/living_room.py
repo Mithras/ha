@@ -37,7 +37,8 @@ class LivingRoom(globals.Hass):
         if old == new:
             return
         self.activate(toggle=False)
-        self.turn_on(self.mithras_desktop)
+        self.common.run_async(self.turn_on,
+                              self.mithras_desktop)
 
     def person_not_home_callback(self, entity, attribute, old, new, kwargs):
         if old == new or self.anyone_home:
@@ -48,25 +49,34 @@ class LivingRoom(globals.Hass):
     def awake_callback(self, entity, attribute, old, new, kwargs):
         if old == new:
             return
-        self.turn_on(self.mithras_desktop)
+        self.common.run_async(self.turn_on,
+                              self.mithras_desktop)
 
     def activate(self, **kwargs):
         toggle = kwargs.get("toggle", True)
-        self.turn_on(self.wyrd_and_jotunheim)
-        self.turn_on(self.rokit6)
-        self.turn_on(self.samsung_tv)
+        self.common.run_async(self.turn_on,
+                              self.wyrd_and_jotunheim)
+        self.common.run_async(self.turn_on,
+                              self.rokit6)
+        self.common.run_async(self.turn_on,
+                              self.samsung_tv)
         self.common.light_turn_bright(self.living_room_main_light)
         self.common.light_turn_dimmed(self.living_room_back_light)
         if toggle:
-            self.toggle(self.levoit_humidifier)
+            self.common.run_async(self.toggle,
+                                  self.levoit_humidifier)
 
     def deactivate(self, **kwargs):
         toggle = kwargs.get("toggle", True)
-        self.turn_off(self.wyrd_and_jotunheim)
-        self.turn_off(self.rokit6)
-        self.turn_off(self.samsung_tv)
+        self.common.run_async(self.turn_off,
+                              self.wyrd_and_jotunheim)
+        self.common.run_async(self.turn_off,
+                              self.rokit6)
+        self.common.run_async(self.turn_off,
+                              self.samsung_tv)
         self.common.light_turn_off(self.living_room_main_light)
         self.common.light_turn_off(self.living_room_back_light)
         self.common.light_turn_off(self.light_strip)
         if toggle:
-            self.toggle(self.levoit_humidifier)
+            self.common.run_async(self.toggle,
+                                  self.levoit_humidifier)

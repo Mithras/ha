@@ -63,7 +63,8 @@ class LivingRoomCube(globals.Hass):
             self.common.light_turn_off(self.light_kitchen)
 
     def flip_180_callback(self, event_name, data, kwargs):
-        self.toggle(self.light_kitchen_app)
+        self.common.run_async(self.toggle,
+                              self.light_kitchen_app)
 
     def rotate_left_callback(self, event_name, data, kwargs):
         self.rotate_profile(-1)
@@ -106,7 +107,8 @@ class LivingRoomCube(globals.Hass):
             self.common.light_turn_off(self.light_living_room)
 
     def shake_callback(self, event_name, data, kwargs):
-        self.toggle(self.switch_fireplace)
+        self.common.run_async(self.toggle,
+                              self.switch_fireplace)
 
     # def drop_callback(self, event_name, data, kwargs):
     #     pass

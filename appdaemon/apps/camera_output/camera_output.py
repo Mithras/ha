@@ -42,7 +42,7 @@ class CameraOutput(globals.Hass):
         self._dir = config["camera_output_dir"]
         self._external_path = config["camera_output_external_path"]
 
-        self._reload()
+        self.common.run_async(self._reload)
         self.listen_event(self._created_event_callback,
                           event="folder_watcher",
                           event_type="created",
@@ -50,7 +50,6 @@ class CameraOutput(globals.Hass):
         self.listen_event(self._clear_event_callback,
                           event=CLEAR_EVENT)
 
-    # TODO: timer
     def _reload(self):
         self.dir_state = DirState(self._dir, self._external_path)
         for file in sorted(listdir(self._dir)):
@@ -68,14 +67,15 @@ class CameraOutput(globals.Hass):
             if len(snapshots) == SNAPSHOT_COUNT and len(videos) == VIDEO_COUNT:
                 break
 
-        self.set_state(STATE,
-                       state="on",
-                       attributes={
-                           "count": self.dir_state.count,
-                           "size": self.dir_state.size,
-                           "snapshots": json.dumps(snapshots),
-                           "videos": json.dumps(videos)
-                       })
+        self.common.run_async(self.set_state,
+                              STATE,
+                              state="on",
+                              attributes={
+                                  "count": self.dir_state.count,
+                                  "size": self.dir_state.size,
+                                  "snapshots": json.dumps(snapshots),
+                                  "videos": json.dumps(videos)
+                              })
 
     def _created_event_callback(self, event_name, data, kwargs):
         self.dir_state.add_file(data["file"])

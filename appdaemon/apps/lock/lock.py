@@ -50,11 +50,13 @@ class Lock(globals.Hass):
 
     def _rotate_usercode(self):
         usercode = str(randint(0, 9999)).zfill(4)
-        self.call_service("lock/set_usercode",
-                          node_id=self._node_id,
-                          code_slot=self._code_slot,
-                          usercode=usercode)
-        self.set_state(self._state,
-                       state=usercode)
+        self.common.run_async(self.call_service,
+                              "lock/set_usercode",
+                              node_id=self._node_id,
+                              code_slot=self._code_slot,
+                              usercode=usercode)
+        self.common.run_async(self.set_state,
+                              self._state,
+                              state=usercode)
         self.common.send_debug(
             f"*User Code #{self._code_slot}* has been changed.")

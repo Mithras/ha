@@ -37,6 +37,7 @@ class Hass(hass.Hass):
         self.app_state_name = "".join(state_list)
 
         if self.get_state(entity=self.app_state_name) is None:
-            self.set_state(self.app_state_name,
-                           state="on",
-                           attributes={"friendly_name": self.app_friendly_name})
+            self.common.run_async(self.set_state,
+                                  self.app_state_name,
+                                  state="on",
+                                  attributes={"friendly_name": self.app_friendly_name})

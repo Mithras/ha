@@ -28,12 +28,11 @@ class CameraAlarm(globals.Hass):
         self._sensorStateMap[entity] = new
 
         if new == "on":
-            self.run_in(
-                self._snapshot_timer_callback, 0)
+            self.common.run_async(self._snapshot_timer_callback)
             if not self._record_timer:
                 self._record()
 
-    def _snapshot_timer_callback(self, kwargs):
+    def _snapshot_timer_callback(self):
         name = self._get_name()
         filename = f"{self._camera_output_dir}/{name}.jpg"
 
@@ -53,10 +52,11 @@ class CameraAlarm(globals.Hass):
         name = self._get_name()
         filename = f"{self._camera_output_dir}/{name}.mp4"
         try:
-            self.call_service("camera/record",
-                              entity_id=self._camera,
-                              filename=filename,
-                              duration=self._video_duration)
+            self.common.run_async(self.call_service,
+                                  "camera/record",
+                                  entity_id=self._camera,
+                                  filename=filename,
+                                  duration=self._video_duration)
             self._record_timer = self.run_in(
                 self._record_timer_callback, self._video_duration + 1, retry=0)
         except:

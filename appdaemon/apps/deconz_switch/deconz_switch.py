@@ -27,7 +27,8 @@ class DeconzSwitch(globals.Hass):
         deconz_event = str(data["event"])
         button = int(deconz_event[0])
         code = deconz_event[1:]
-        self.fire_event("deconz_event_custom",
-                        unique_id=unique_id,
-                        button=button,
-                        command=CODE_COMMAND_MAP[code])
+        self.common.run_async(self.fire_event,
+                              "deconz_event_custom",
+                              unique_id=unique_id,
+                              button=button,
+                              command=CODE_COMMAND_MAP[code])

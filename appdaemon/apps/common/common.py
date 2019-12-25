@@ -19,9 +19,6 @@ with open("/config/light_profiles.csv") as profiles_file:
             row1[2])), int(row1[3]), int(row2[1])) for row1, row2 in zip(profiles_reader, profile_temps_reader)]
 
 
-# TODO: run_in
-# TODO: call_service_async
-# TODO: turn_on / turn_off -> call_service_async
 class Common(hass.Hass):
     def initialize(self):
         config = self.args["config"]
@@ -43,22 +40,25 @@ class Common(hass.Hass):
             target = self.telegram_location_chat_mithras
         elif person == "person.diana":
             target = self.telegram_location_chat_diana
-        self.call_service("telegram_bot/send_message",
-                          target=[target],
-                          message=message,
-                          **kwargs)
+        self.run_async(self.call_service,
+                       "telegram_bot/send_message",
+                       target=[target],
+                       message=message,
+                       **kwargs)
 
     def send_alarm(self, message: str, **kwargs):
-        self.call_service("telegram_bot/send_message",
-                          target=[self.telegram_debug_chat],
-                          message=message,
-                          **kwargs)
+        self.run_async(self.call_service,
+                       "telegram_bot/send_message",
+                       target=[self.telegram_debug_chat],
+                       message=message,
+                       **kwargs)
 
     def send_debug(self, message: str, **kwargs):
-        self.call_service("telegram_bot/send_message",
-                          target=[self.telegram_debug_chat],
-                          message=message,
-                          **kwargs)
+        self.run_async(self.call_service,
+                       "telegram_bot/send_message",
+                       target=[self.telegram_debug_chat],
+                       message=message,
+                       **kwargs)
 
     def light_turn_bright(self, light_group: str):
         self.light_turn_profile(light_group, "Bright")
@@ -73,13 +73,15 @@ class Common(hass.Hass):
         if profile == "off":
             self.light_turn_off(light_group)
         else:
-            self.call_service("light/turn_on",
-                              entity_id=light_group,
-                              profile=profile)
+            self.run_async(self.call_service,
+                           "light/turn_on",
+                           entity_id=light_group,
+                           profile=profile)
 
     def light_turn_off(self, light_group: str):
-        self.call_service("light/turn_off",
-                          entity_id=light_group)
+        self.run_async(self.call_service,
+                       "light/turn_off",
+                       entity_id=light_group)
 
     def get_light_profiles(self):
         return LIGHT_PROFILES
@@ -103,3 +105,15 @@ class Common(hass.Hass):
             return sorted(light_profiles, key=lambda profile:
                           abs(profile.color_temp - color_temp) +
                           abs(profile.brightness - brightness))[0].profile
+
+    def run_async(self, callback, *args, **kwargs):
+        self.run_in(self._run_async_callback, 0,
+                    inner_callback=callback,
+                    args=args,
+                    kwargs=kwargs)
+
+    def _run_async_callback(self, kwargs):
+        callback = kwargs["inner_callback"]
+        args = kwargs["args"]
+        kwargs = kwargs["kwargs"]
+        callback(*args, ** kwargs)

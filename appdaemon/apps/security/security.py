@@ -17,8 +17,9 @@ class Security(globals.Hass):
         self.update_security()
 
     def update_security(self):
-        self.set_state("appdaemon.security",
-                       state=self.get_security())
+        self.common.run_async(self.set_state,
+                              "appdaemon.security",
+                              state=self.get_security())
 
     def get_security(self):
         security_override = self.get_state(
