@@ -10,6 +10,7 @@ STATE = f"{DOMAIN}.stats"
 SNAPSHOT_COUNT = 5
 VIDEO_COUNT = 25
 CLEAR_EVENT = f"{DOMAIN}_clear"
+FILE_SIZE_DELAY = 15
 
 
 File = namedtuple(
@@ -17,7 +18,8 @@ File = namedtuple(
 
 
 class DirState():
-    def __init__(self, dir, external_path):
+    def __init__(self, common, dir, external_path):
+        self._common = common
         self._dir = dir
         self._external_path = external_path
 
@@ -25,15 +27,24 @@ class DirState():
         self.size = 0
         self.files = []
 
-    def add_file(self, file):
-        file_path = join(self._dir, file)
-        external_path = f"{self._external_path}/{file}"
-        _, ext = splitext(file)
-        size = stat(file_path).st_size
+    def add_file(self, file_name):
+        file_path = join(self._dir, file_name)
+        external_path = f"{self._external_path}/{file_name}"
+        _, ext = splitext(file_name)
 
-        self.files.append(File(file, file_path, external_path, ext, size))
+        file = File(file_name, file_path, external_path, ext, 0)
+
+        self.files.append(file)
         self.count += 1
-        self.size += size
+        self._common.run_in(self.update_size, FILE_SIZE_DELAY,
+                            file,
+                            len(self.files) - 1)
+
+    def update_size(self, file: File, index: int):
+        new_file = File(file.file, file.file_path, file.external_path,
+                        file.ext, stat(file.file_path).st_size)
+        self.files[index] = new_file
+        self.size += new_file.size
 
 
 class CameraOutput(globals.Hass):
@@ -51,7 +62,7 @@ class CameraOutput(globals.Hass):
                           event=CLEAR_EVENT)
 
     def _reload(self):
-        self.dir_state = DirState(self._dir, self._external_path)
+        self.dir_state = DirState(self.common, self._dir, self._external_path)
         for file in sorted(listdir(self._dir)):
             self.dir_state.add_file(file)
         self._update_state()

@@ -17,3 +17,4 @@ __pycache__
 !light_profiles.csv
 !light_profile_temps.csv
 !recorder.yaml
+!install.txt

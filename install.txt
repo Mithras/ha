@@ -1,0 +1,43 @@
+1. Get Raspbian Buster Lite
+	https://www.raspberrypi.org/downloads/raspbian/
+2. Flash
+	https://www.raspberrypi.org/documentation/installation/installing-images/README.md
+3. Enable ssh
+	Create "ssh" file on boot partition (https://www.raspberrypi.org/documentation/remote-access/ssh/)
+4. Copy usb-boot to boot partition
+	https://www.raspberrypi.org/forums/viewtopic.php?f=29&t=196778
+5. Setup usb-boot
+	cd /boot
+	sudo touch ssh
+	cd ./usb-boot
+	sudo ./usb-boot
+	sudo reboot
+	lsblk # Check sda2 mountpoint
+6. Install Hass.io
+	sudo apt update
+
+	sudo apt install apparmor-utils -y
+	sudo apt install apt-transport-https -y
+	sudo apt install avahi-daemon -y
+	sudo apt install ca-certificates -y
+	sudo apt install curl -y
+	sudo apt install dbus -y
+	sudo apt install jq -y
+	sudo apt install socat -y
+	sudo apt install software-properties-common -y
+	sudo apt install network-manager -y
+
+	sudo systemctl disable ModemManager
+	sudo apt-get purge modemmanager -y
+
+	sudo apt-get remove docker docker-engine docker.io containerd runc
+	cd ~
+	curl -fsSL https://get.docker.com -o get-docker.sh
+	sudo sh get-docker.sh
+
+	sudo sed -i "s/raspberrypi/hassio/g" /etc/hostname
+	sudo sed -i "s/raspberrypi/hassio/g" /etc/hosts
+
+	sudo -i
+	curl -sL "https://raw.githubusercontent.com/home-assistant/hassio-installer/master/hassio_install.sh" | bash -s -- -m raspberrypi3
+7. Restore backup

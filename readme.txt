@@ -42,3 +42,28 @@
         "locatorInterval": 60,
         "mqttProtocolLevel": 4
     }
+* VS Code Remote - SSH
+    * Permissions (root@hassio)
+        chmod o+w -R /config # https://ss64.com/bash/chmod.html
+    * Git (pi@hassio)
+        sudo apt install git-all # BUG: git-all removes "network-manager". Try "sudo apt install git" instead?
+        git config --global core.autocrlf true
+        git config --global user.name "Mithras"
+    * Pip, pylint, autopep8 (pi@hassio)
+        sudo apt-get install python3-pip
+        ls /usr/bin/python*
+        alias py='/usr/bin/python3'
+        py -V
+        py -m pip install pylint
+        py -m pip install autopep8
+    * .ssh/config
+        Host hassio
+        HostName hassio
+        User root
+        Port 23
+        IdentityFile ~/.ssh/ha-ssh-key
+
+        Host raspberry
+        HostName hassio
+        User pi
+        Port 22

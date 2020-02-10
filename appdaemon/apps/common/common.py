@@ -107,7 +107,13 @@ class Common(hass.Hass):
                           abs(profile.brightness - brightness))[0].profile
 
     def run_async(self, callback, *args, **kwargs):
-        self.run_in(self._run_async_callback, 0,
+        hass.Hass.run_in(self, self._run_async_callback, 0,
+                    inner_callback=callback,
+                    args=args,
+                    kwargs=kwargs)
+
+    def run_in(self, callback, delay, *args, **kwargs):
+        hass.Hass.run_in(self, self._run_async_callback, delay,
                     inner_callback=callback,
                     args=args,
                     kwargs=kwargs)
