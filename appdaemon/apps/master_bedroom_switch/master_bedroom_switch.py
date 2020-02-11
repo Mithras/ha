@@ -7,27 +7,16 @@ class MasterBedroomSwitch(globals.Hass):
         unique_id = config["unique_id"]
         self.master_bedroom_light = config["master_bedroom_light"]
 
-        self.listen_event(self.on_click_callback,
-                          event="deconz_event_custom",
-                          unique_id=unique_id,
-                          button=1,
-                          command="release_after_press")
-        self.listen_event(self.on_hold_callback,
-                          event="deconz_event_custom",
-                          unique_id=unique_id,
-                          button=1,
-                          command="hold")
-        self.listen_event(self.off_click_callback,
-                          event="deconz_event_custom",
-                          unique_id=unique_id,
-                          button=2,
-                          command="release_after_press")
+        self.listen_event(self._callback,
+                          event="deconz_event",
+                          unique_id=unique_id)
 
-    def on_click_callback(self, event_name, data, kwargs):
-        self.common.light_turn_nightlight(self.master_bedroom_light)
-
-    def on_hold_callback(self, event_name, data, kwargs):
-        self.common.light_turn_bright(self.master_bedroom_light)
-
-    def off_click_callback(self, event_name, data, kwargs):
-        self.common.light_turn_off(self.master_bedroom_light)
+    def _callback(self, event_name, data, kwargs):
+        event, button = self.common.get_deconz_event(data)
+        if event == "release_after_press":
+            if button == 1:
+                self.common.light_turn_nightlight(self.master_bedroom_light)
+            elif button == 2:
+                self.common.light_turn_off(self.master_bedroom_light)
+        elif event == "hold":
+            self.common.light_turn_bright(self.master_bedroom_light)

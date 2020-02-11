@@ -41,3 +41,12 @@
 	sudo -i
 	curl -sL "https://raw.githubusercontent.com/home-assistant/hassio-installer/master/hassio_install.sh" | bash -s -- -m raspberrypi3
 7. Restore backup
+8. Setup ssh
+    cd ~/.ssh
+    ssh-keygen -N "" -f "./id_rsa"
+    cat ./id_rsa # copy
+    cat ./id_rsa.pub # copy
+    cat ./id_rsa.pub | cat >> ./authorized_keys
+    rm id_rsa
+    rm id_rsa.pub
+    sudo nano /etc/ssh/sshd_config # #PasswordAuthentication no

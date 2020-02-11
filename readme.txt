@@ -57,13 +57,8 @@
         py -m pip install pylint
         py -m pip install autopep8
     * .ssh/config
-        Host hassio
-        HostName hassio
-        User root
-        Port 23
-        IdentityFile ~/.ssh/ha-ssh-key
-
         Host raspberry
         HostName hassio
         User pi
         Port 22
+        IdentityFile ~/.ssh/raspberry_rsa

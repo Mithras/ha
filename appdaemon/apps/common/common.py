@@ -18,6 +18,29 @@ with open("/config/light_profiles.csv") as profiles_file:
         LIGHT_PROFILES = [Profile(row1[0], xy_color_to_weight(float(row1[1])), xy_color_to_weight(float(
             row1[2])), int(row1[3]), int(row2[1])) for row1, row2 in zip(profiles_reader, profile_temps_reader)]
 
+CUBE_PUSH = (1000, 2000, 3000, 4000, 5000, 6000)
+CUBE_DOUBLE_TAP = (1001, 2002, 3003, 4004, 5005, 6006)
+CUBE_FLIP_180 = (1006, 2005, 3004, 4003, 5002, 6001)
+CUBE_FLIP_90 = (1002, 1003, 1004, 1005, 2001, 2003, 2004, 2006, 3001, 3002, 3005,
+                3006, 4001, 4002, 4005, 4006, 5001, 5003, 5004, 5006, 6002, 6003, 6004, 6005)
+CUBE_SHAKE = (7007,)
+CUBE_DROP = (7008,)
+CUBE_WAKE = (7000,)
+
+DECONZ_EVENTS = [
+    "initial_press",
+    "hold",
+    "release_after_press",
+    "release_after_hold",
+    "double_press",
+    "triple_press",
+    "quadruple_press",
+    "shake",
+    "drop",
+    "tilt",
+    "many_press"
+]
+
 
 class Common(hass.Hass):
     def initialize(self):
@@ -108,15 +131,44 @@ class Common(hass.Hass):
 
     def run_async(self, callback, *args, **kwargs):
         hass.Hass.run_in(self, self._run_async_callback, 0,
-                    inner_callback=callback,
-                    args=args,
-                    kwargs=kwargs)
+                         inner_callback=callback,
+                         args=args,
+                         kwargs=kwargs)
 
     def run_in(self, callback, delay, *args, **kwargs):
         hass.Hass.run_in(self, self._run_async_callback, delay,
-                    inner_callback=callback,
-                    args=args,
-                    kwargs=kwargs)
+                         inner_callback=callback,
+                         args=args,
+                         kwargs=kwargs)
+
+    def get_deconz_event(self, data):
+        event = data["event"]
+        button = event // 1000
+        code = event - button * 1000
+        return (DECONZ_EVENTS[code], button)
+
+    def get_cube_digital_event(self, data):
+        event = data["event"]
+        if event in CUBE_PUSH:
+            return "push"
+        if event in CUBE_DOUBLE_TAP:
+            return "double_tap"
+        if event in CUBE_FLIP_180:
+            return "flip_180"
+        if event in CUBE_FLIP_90:
+            return "flip_90"
+        if event in CUBE_SHAKE:
+            return "shake"
+        if event in CUBE_DROP:
+            return "drop"
+        if event in CUBE_WAKE:
+            return "wake"
+
+    def get_cube_analog_event(self, data):
+        event = data["event"]
+        if event < 0:
+            return "rotate_left"
+        return "rotate_right"
 
     def _run_async_callback(self, kwargs):
         callback = kwargs["inner_callback"]

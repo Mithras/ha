@@ -7,6 +7,8 @@ LivingRoomCube:
     - Common
   config:
     unique_id: 00:15:8d:00:02:9b:a0:dd
+    digital_id: mi_magic_cube_01_digital
+    analog_id: mi_magic_cube_01_analog
     light_kitchen: light.kitchen
     light_kitchen_app: appdaemon_app.light_kitchen
     light_living_room: light.living_room
