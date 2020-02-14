@@ -109,10 +109,28 @@ class Common(hass.Hass):
     def get_light_profiles(self):
         return LIGHT_PROFILES
 
-    def get_light_profile(self, light_group, light_profiles=LIGHT_PROFILES):
+    def get_light_profile_weights(self, light_group, light_profiles=LIGHT_PROFILES):
+        state_profile = self._get_light_profile(light_group)
+        return [self._get_diff(state_profile, light_profile)
+                for light_profile in light_profiles]
+
+    def _get_diff(self, profileA, profileB):
+        diff = abs(profileA.brightness - profileB.brightness)
+        if profileA.color_temp is not None and profileB.color_temp is not None:
+            diff += abs(profileA.color_temp - profileB.color_temp)
+        elif profileA.color_temp is None != profileB.color_temp is None:
+            diff += 1000
+        if profileA.x_weight is not None and profileA.y_weight is not None and profileB.x_weight is not None and profileB.y_weight is not None:
+            diff += abs(profileA.x_weight - profileB.x_weight)
+            diff += abs(profileA.y_weight - profileB.y_weight)
+        elif profileA.x_weight is None != profileA.y_weight is None or profileB.x_weight is None != profileB.y_weight is None:
+            diff += 2000
+        return diff
+
+    def _get_light_profile(self, light_group):
         state = self.get_state(light_group, attribute="all")
         if state["state"] == "off":
-            return "off"
+            return Profile(None, None, None, 0, None)
         attributes = state["attributes"]
         brightness = attributes["brightness"]
         color_temp = attributes.get("color_temp", None)
@@ -120,14 +138,9 @@ class Common(hass.Hass):
             x_color, y_color = attributes.get("xy_color", [None, None])
             x_weight = xy_color_to_weight(x_color)
             y_weight = xy_color_to_weight(y_color)
-            return sorted(light_profiles, key=lambda profile:
-                          abs(profile.x_weight - x_weight) +
-                          abs(profile.y_weight - y_weight) +
-                          abs(profile.brightness - brightness))[0].profile
+            return Profile(None, x_weight, y_weight, brightness, None)
         else:
-            return sorted(light_profiles, key=lambda profile:
-                          abs(profile.color_temp - color_temp) +
-                          abs(profile.brightness - brightness))[0].profile
+            return Profile(None, None, None, brightness, color_temp)
 
     def run_async(self, callback, *args, **kwargs):
         hass.Hass.run_in(self, self._run_async_callback, 0,

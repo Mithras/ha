@@ -1,4 +1,5 @@
 import globals
+from common import Profile
 
 
 ROTATE_PROFILES = [
@@ -22,8 +23,19 @@ class LivingRoomCube(globals.Hass):
         self.light_living_room_back = config["light_living_room_back"]
         self.switch_fireplace = config["switch_fireplace"]
 
-        self.light_profiles = [x for x in self.common.get_light_profiles() if x.profile in [
-            "Bright", "Dimmed", "Nightlight"]]
+        light_profiles_map = {
+            x.profile: x
+            for x in self.common.get_light_profiles()
+        }
+        light_profiles_map["off"] = Profile("off", None, None, 0, None)
+        self.rotate_profiles_main = [
+            light_profiles_map.get(x[0])
+            for x in ROTATE_PROFILES
+        ]
+        self.rotate_profiles_back = [
+            light_profiles_map.get(x[1])
+            for x in ROTATE_PROFILES
+        ]
 
         self.listen_event(self._digital_event_callback,
                           event="deconz_event",
@@ -69,38 +81,36 @@ class LivingRoomCube(globals.Hass):
         self._rotate_profile(1)
 
     def _rotate_profile(self, shift: int):
-        main_profile = self.common.get_light_profile(
-            self.light_living_room_main, self.light_profiles)
-        back_profile = self.common.get_light_profile(
-            self.light_living_room_back, self.light_profiles)
-        # self.log(f"current: {main_profile} / {back_profile}")
+        main_weights = self.common.get_light_profile_weights(
+            self.light_living_room_main, self.rotate_profiles_main)
+        back_weights = self.common.get_light_profile_weights(
+            self.light_living_room_back, self.rotate_profiles_back)
 
-        for i, (m, b) in enumerate(ROTATE_PROFILES):
-            # self.log(f"\t i={i}, m={m}, b={b}")
-            if main_profile == m and back_profile == b:
-                i = i + shift
-                break
-        else:
-            i = 0 if shift < 0 else len(ROTATE_PROFILES) - 1
+        weights = (main_weight+back_weight
+                   for (main_weight, back_weight)
+                   in zip(main_weights, back_weights))
+        sorted_weights = sorted(
+            enumerate(weights),
+            key=lambda i_weight: i_weight[1])
+        min_index = sorted_weights[0][0]
+        index = min_index + shift
+        index = min(max(0, index), len(ROTATE_PROFILES) - 1)
 
-        if i < 0 or i >= len(ROTATE_PROFILES):
-            return
-        new_main_profile, new_back_profile = ROTATE_PROFILES[i]
-        # self.log(f"new: {new_main_profile} / {new_back_profile} (i={i})")
+        # self.log(f"sorted_weights = {sorted_weights}")
+        # self.log(f"min_index = {min_index}")
+        # self.log(f"index = {index}")
+
+        main_profile, back_profile = ROTATE_PROFILES[index]
         self.common.light_turn_profile(
-            self.light_living_room_main, new_main_profile)
+            self.light_living_room_main, main_profile)
         self.common.light_turn_profile(
-            self.light_living_room_back, new_back_profile)
+            self.light_living_room_back, back_profile)
 
     def _double_tap(self):
-        main_profile = self.common.get_light_profile(
-            self.light_living_room_main, self.light_profiles)
-        back_profile = self.common.get_light_profile(
-            self.light_living_room_back, self.light_profiles)
-        if main_profile != "Bright" or back_profile != "Bright":
-            self.common.light_turn_bright(self.light_living_room)
-        else:
+        if self.get_state(self.light_living_room) != "off":
             self.common.light_turn_off(self.light_living_room)
+        else:
+            self.common.light_turn_bright(self.light_living_room)
 
     def _shake(self):
         self.common.run_async(self.toggle,
