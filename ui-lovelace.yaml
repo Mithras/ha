@@ -41,8 +41,6 @@ views:
                 icon: mdi:air-humidifier
               - vacuum.roborock_s5
               - vacuum.roomba
-              - entity: switch.fireplace_inverted
-                icon: mdi:fireplace
           - type: entities
             title: Master Bedroom
             show_header_toggle: false
@@ -62,6 +60,9 @@ views:
               - light.living_room_main
               - light.living_room_back
               - light.kitchen
+              - entity: switch.kitchen_main_inverted
+                icon: mdi:lightbulb-on
+                state_color: true
               - light.toilet
               - light.hallway
               - light.staircase

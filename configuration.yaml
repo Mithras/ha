@@ -86,8 +86,8 @@ switch:
         input: mithras_desktop
   - platform: template
     switches:
-      fireplace_inverted:
-        friendly_name: Fireplace
+      kitchen_main_inverted:
+        friendly_name: Kitchen Main
         value_template: "{{ is_state('light.on_off_output_7', 'off') }}"
         turn_on:
           service: light.turn_off
