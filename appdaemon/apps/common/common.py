@@ -101,6 +101,11 @@ class Common(hass.Hass):
                            entity_id=light_group,
                            profile=profile)
 
+    def light_turn_on(self, light_group: str):
+        self.run_async(self.call_service,
+                       "light/turn_on",
+                       entity_id=light_group)
+
     def light_turn_off(self, light_group: str):
         self.run_async(self.call_service,
                        "light/turn_off",

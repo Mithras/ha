@@ -198,3 +198,34 @@ LightBackyard:
     sun_up_off_profile: "off"
     sun_down_off_profile: "off"
     ignore_sleep: True
+LightKitchenMain:
+  module: light
+  class: Light
+  global_dependencies:
+    - globals
+  dependencies:
+    - Common
+  config:
+    sensors:
+      - entity: binary_sensor.motion_sensor_01
+    light_group: light.on_off_output_7
+    sun_up_on_profile: "on"
+    sun_down_on_profile: "on"
+    sun_up_off_profile: "off"
+    sun_down_off_profile: "off"
+LightMasterBathroomMain:
+  module: light
+  class: Light
+  global_dependencies:
+    - globals
+  dependencies:
+    - Common
+  config:
+    sensors:
+      - entity: binary_sensor.motion_sensor_07
+        additional_delay: 1800
+    light_group: light.smart_light_switch_02
+    sun_up_on_profile: "on"
+    sun_down_on_profile: "on"
+    sun_up_off_profile: "off"
+    sun_down_off_profile: "off"

@@ -158,6 +158,9 @@ switch.tradfri_control_outlet_04:
 # Smart Light Switch 01
 light.on_off_output_7:
   friendly_name: Kitchen Main
+# Smart Light Switch 02
+light.smart_light_switch_02:
+  friendly_name: Master Bathroom Main
 
 # Thermostat
 ? climate.linear_nortek_security_control_llc_gc_tbz48_battery_powered_z_wave_thermostat_mode

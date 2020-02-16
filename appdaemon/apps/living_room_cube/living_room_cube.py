@@ -21,7 +21,7 @@ class LivingRoomCube(globals.Hass):
         self.light_living_room = config["light_living_room"]
         self.light_living_room_main = config["light_living_room_main"]
         self.light_living_room_back = config["light_living_room_back"]
-        self.switch_kitchen_main = config["switch_kitchen_main"]
+        self.light_kitchen_main = config["light_kitchen_main"]
 
         light_profiles_map = {
             x.profile: x
@@ -114,4 +114,4 @@ class LivingRoomCube(globals.Hass):
 
     def _shake(self):
         self.common.run_async(self.toggle,
-                              self.switch_kitchen_main)
+                              self.light_kitchen_main)

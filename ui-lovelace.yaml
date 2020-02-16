@@ -60,14 +60,15 @@ views:
               - light.living_room_main
               - light.living_room_back
               - light.kitchen
-              - entity: switch.kitchen_main_inverted
+              - entity: light.on_off_output_7
                 icon: mdi:lightbulb-on
-                state_color: true
               - light.toilet
               - light.hallway
               - light.staircase
               - light.master_bedroom
               - light.master_bathroom
+              - entity: light.smart_light_switch_02
+                icon: mdi:lightbulb-on
               - light.master_toilet
               - light.landry_room
               - light.porch
