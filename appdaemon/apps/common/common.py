@@ -1,4 +1,4 @@
-import appdaemon.plugins.hass.hassapi as hass
+import hassapi as hass
 import csv
 from collections import namedtuple
 
@@ -53,7 +53,7 @@ class Common(hass.Hass):
         self.http_base_url = config["http_base_url"]
 
     def is_sleep(self):
-        return self.get_state(entity="input_boolean.sleep") == "on"
+        return self.get_state("input_boolean.sleep") == "on"
 
     def escapeMarkdown(self, string: str):
         return string.replace("_", "\\_").replace("*", "\\*").replace("[", "\\[").replace("`", "\\`")
@@ -63,25 +63,22 @@ class Common(hass.Hass):
             target = self.telegram_location_chat_mithras
         elif person == "person.diana":
             target = self.telegram_location_chat_diana
-        self.run_async(self.call_service,
-                       "telegram_bot/send_message",
-                       target=[target],
-                       message=message,
-                       **kwargs)
+        self.call_service("telegram_bot/send_message",
+                          target=[target],
+                          message=message,
+                          **kwargs)
 
     def send_alarm(self, message: str, **kwargs):
-        self.run_async(self.call_service,
-                       "telegram_bot/send_message",
-                       target=[self.telegram_debug_chat],
-                       message=message,
-                       **kwargs)
+        self.call_service("telegram_bot/send_message",
+                          target=[self.telegram_debug_chat],
+                          message=message,
+                          **kwargs)
 
     def send_debug(self, message: str, **kwargs):
-        self.run_async(self.call_service,
-                       "telegram_bot/send_message",
-                       target=[self.telegram_debug_chat],
-                       message=message,
-                       **kwargs)
+        self.call_service("telegram_bot/send_message",
+                          target=[self.telegram_debug_chat],
+                          message=message,
+                          **kwargs)
 
     def light_turn_bright(self, light_group: str):
         self.light_turn_profile(light_group, "Bright")
@@ -96,20 +93,17 @@ class Common(hass.Hass):
         if profile == "off":
             self.light_turn_off(light_group)
         else:
-            self.run_async(self.call_service,
-                           "light/turn_on",
-                           entity_id=light_group,
-                           profile=profile)
+            self.call_service("light/turn_on",
+                              entity_id=light_group,
+                              profile=profile)
 
     def light_turn_on(self, light_group: str):
-        self.run_async(self.call_service,
-                       "light/turn_on",
-                       entity_id=light_group)
+        self.call_service("light/turn_on",
+                          entity_id=light_group)
 
     def light_turn_off(self, light_group: str):
-        self.run_async(self.call_service,
-                       "light/turn_off",
-                       entity_id=light_group)
+        self.call_service("light/turn_off",
+                          entity_id=light_group)
 
     def get_light_profiles(self):
         return LIGHT_PROFILES
@@ -147,18 +141,6 @@ class Common(hass.Hass):
         else:
             return Profile(None, None, None, brightness, color_temp)
 
-    def run_async(self, callback, *args, **kwargs):
-        hass.Hass.run_in(self, self._run_async_callback, 0,
-                         inner_callback=callback,
-                         args=args,
-                         kwargs=kwargs)
-
-    def run_in(self, callback, delay, *args, **kwargs):
-        hass.Hass.run_in(self, self._run_async_callback, delay,
-                         inner_callback=callback,
-                         args=args,
-                         kwargs=kwargs)
-
     def get_deconz_event(self, data):
         event = data["event"]
         button = event // 1000
@@ -187,9 +169,3 @@ class Common(hass.Hass):
         if event < 0:
             return "rotate_left"
         return "rotate_right"
-
-    def _run_async_callback(self, kwargs):
-        callback = kwargs["inner_callback"]
-        args = kwargs["args"]
-        kwargs = kwargs["kwargs"]
-        callback(*args, ** kwargs)

@@ -17,17 +17,14 @@ class Security(globals.Hass):
         self.update_security()
 
     def update_security(self):
-        self.common.run_async(self.set_state,
-                              "appdaemon.security",
-                              state=self.get_security())
+        self.set_state("appdaemon.security", state=self.get_security())
 
     def get_security(self):
-        security_override = self.get_state(
-            entity="input_select.security_override")
+        security_override = self.get_state("input_select.security_override")
         if security_override != "Auto":
             return security_override
         if self.noone_home():
             return "Armed Away"
-        if self.common.is_sleep():
+        if self.get_common().is_sleep():
             return "Armed Sleep"
         return "Armed Home"

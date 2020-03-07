@@ -55,7 +55,7 @@ class Light(globals.Hass):
             self.handle_profile(self.light_group, off_profile)
 
     def get_on_profile(self):
-        if not self.ignore_sleep and self.common.is_sleep():
+        if not self.ignore_sleep and self.get_common().is_sleep():
             return self.sleep_on_profile
         elif self.sun_up():
             return self.sun_up_on_profile
@@ -63,7 +63,7 @@ class Light(globals.Hass):
             return self.sun_down_on_profile
 
     def get_off_profile(self):
-        if not self.ignore_sleep and self.common.is_sleep():
+        if not self.ignore_sleep and self.get_common().is_sleep():
             return self.sleep_off_profile
         elif self.sun_up():
             return self.sun_up_off_profile
@@ -72,8 +72,8 @@ class Light(globals.Hass):
 
     def handle_profile(self, light_group, profile):
         if profile == "on":
-            self.common.light_turn_on(light_group)
+            self.get_common().light_turn_on(light_group)
         elif profile == "off":
-            self.common.light_turn_off(light_group)
+            self.get_common().light_turn_off(light_group)
         elif profile is not None:
-            self.common.light_turn_profile(light_group, profile)
+            self.get_common().light_turn_profile(light_group, profile)

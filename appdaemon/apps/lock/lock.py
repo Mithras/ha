@@ -35,28 +35,22 @@ class Lock(globals.Hass):
         if old == new:
             return
 
-        lock_status = self.get_state(
-            entity=self._lock,
-            attribute="lock_status")
-        self.common.send_debug(
+        lock_status = self.get_state(self._lock, attribute="lock_status")
+        self.get_common().send_debug(
             f"*{self._name}* has been {lock_status.lower()}.")
 
-        alarm_type = int(self.get_state(
-            entity=self._alarm_type_sensor))
-        alarm_level = int(self.get_state(
-            entity=self._alarm_level_sensor))
+        alarm_type = int(self.get_state(self._alarm_type_sensor))
+        alarm_level = int(self.get_state(self._alarm_level_sensor))
         if alarm_type == self._alarm_type and alarm_level == self._alarm_level:
             self._rotate_usercode()
 
     def _rotate_usercode(self):
         usercode = str(randint(0, 9999)).zfill(4)
-        self.common.run_async(self.call_service,
-                              "lock/set_usercode",
-                              node_id=self._node_id,
-                              code_slot=self._code_slot,
-                              usercode=usercode)
-        self.common.run_async(self.set_state,
-                              self._state,
-                              state=usercode)
-        self.common.send_debug(
+        self.call_service("lock/set_usercode",
+                          node_id=self._node_id,
+                          code_slot=self._code_slot,
+                          usercode=usercode)
+        self.set_state(self._state,
+                       state=usercode)
+        self.get_common().send_debug(
             f"*User Code #{self._code_slot}* has been changed.")

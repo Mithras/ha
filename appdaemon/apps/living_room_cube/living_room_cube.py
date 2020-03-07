@@ -25,7 +25,7 @@ class LivingRoomCube(globals.Hass):
 
         light_profiles_map = {
             x.profile: x
-            for x in self.common.get_light_profiles()
+            for x in self.get_common().get_light_profiles()
         }
         light_profiles_map["off"] = Profile("off", None, None, 0, None)
         self.rotate_profiles_main = [
@@ -47,7 +47,7 @@ class LivingRoomCube(globals.Hass):
                           id=analog_id)
 
     def _digital_event_callback(self, event_name, data, kwargs):
-        event = self.common.get_cube_digital_event(data)
+        event = self.get_common().get_cube_digital_event(data)
         if event == "flip_90":
             self._flip_90()
         elif event == "flip_180":
@@ -58,7 +58,7 @@ class LivingRoomCube(globals.Hass):
             self._shake()
 
     def _analog_event_callback(self, event_name, data, kwargs):
-        event = self.common.get_cube_analog_event(data)
+        event = self.get_common().get_cube_analog_event(data)
         if event == "rotate_left":
             self._rotate_left()
         elif event == "rotate_right":
@@ -66,13 +66,12 @@ class LivingRoomCube(globals.Hass):
 
     def _flip_90(self):
         if self.get_state(self.light_kitchen) == "off":
-            self.common.light_turn_bright(self.light_kitchen)
+            self.get_common().light_turn_bright(self.light_kitchen)
         else:
-            self.common.light_turn_off(self.light_kitchen)
+            self.get_common().light_turn_off(self.light_kitchen)
 
     def _flip_180(self):
-        self.common.run_async(self.toggle,
-                              self.light_kitchen_app)
+        self.toggle(self.light_kitchen_app)
 
     def _rotate_left(self):
         self._rotate_profile(-1)
@@ -81,9 +80,9 @@ class LivingRoomCube(globals.Hass):
         self._rotate_profile(1)
 
     def _rotate_profile(self, shift: int):
-        main_weights = self.common.get_light_profile_weights(
+        main_weights = self.get_common().get_light_profile_weights(
             self.light_living_room_main, self.rotate_profiles_main)
-        back_weights = self.common.get_light_profile_weights(
+        back_weights = self.get_common().get_light_profile_weights(
             self.light_living_room_back, self.rotate_profiles_back)
 
         weights = (main_weight+back_weight
@@ -101,17 +100,16 @@ class LivingRoomCube(globals.Hass):
         # self.log(f"index = {index}")
 
         main_profile, back_profile = ROTATE_PROFILES[index]
-        self.common.light_turn_profile(
+        self.get_common().light_turn_profile(
             self.light_living_room_main, main_profile)
-        self.common.light_turn_profile(
+        self.get_common().light_turn_profile(
             self.light_living_room_back, back_profile)
 
     def _double_tap(self):
         if self.get_state(self.light_living_room) != "off":
-            self.common.light_turn_off(self.light_living_room)
+            self.get_common().light_turn_off(self.light_living_room)
         else:
-            self.common.light_turn_bright(self.light_living_room)
+            self.get_common().light_turn_bright(self.light_living_room)
 
     def _shake(self):
-        self.common.run_async(self.toggle,
-                              self.light_kitchen_main)
+        self.toggle(self.light_kitchen_main)

@@ -1,3 +1,4 @@
+!appdaemon.yaml
 !apps
 !apps/**/*
 __pycache__

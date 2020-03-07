@@ -17,7 +17,7 @@ class CameraAlarm(globals.Hass):
         self._sensorStateMap = {}
         self._record_timer = None
         for entity in config["sensors"]:
-            self._sensorStateMap[entity] = self.get_state(entity=entity)
+            self._sensorStateMap[entity] = self.get_state(entity)
             self.listen_state(self._sensor_callback,
                               entity=entity)
 
@@ -28,11 +28,11 @@ class CameraAlarm(globals.Hass):
         self._sensorStateMap[entity] = new
 
         if new == "on":
-            self.common.run_async(self._snapshot_timer_callback)
+            self.run_in(self._snapshot_timer_callback, 0)
             if not self._record_timer:
                 self._record()
 
-    def _snapshot_timer_callback(self):
+    def _snapshot_timer_callback(self, kwargs):
         name = self._get_name()
         filename = f"{self._camera_output_dir}/{name}.jpg"
 
@@ -40,7 +40,7 @@ class CameraAlarm(globals.Hass):
                           entity_id=self._camera,
                           filename=filename)
         self.call_service("telegram_bot/send_photo",
-                          target=[self.common.telegram_alarm_chat],
+                          target=[self.get_common().telegram_alarm_chat],
                           file=filename)
 
     def _record(self, retry=0):
@@ -52,11 +52,10 @@ class CameraAlarm(globals.Hass):
         name = self._get_name()
         filename = f"{self._camera_output_dir}/{name}.mp4"
         try:
-            self.common.run_async(self.call_service,
-                                  "camera/record",
-                                  entity_id=self._camera,
-                                  filename=filename,
-                                  duration=self._video_duration)
+            self.call_service("camera/record",
+                              entity_id=self._camera,
+                              filename=filename,
+                              duration=self._video_duration)
             self._record_timer = self.run_in(
                 self._record_timer_callback, self._video_duration + 1, retry=0)
         except:

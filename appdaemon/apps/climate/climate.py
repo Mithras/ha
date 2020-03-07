@@ -52,11 +52,10 @@ class Climate(globals.Hass):
         if(hvac_mode != "off"):
             return
         temperature = self.get_state(self.temperature)
-        self.common.run_async(self.call_service,
-                              "telegram_bot/send_message",
-                              target=[self.common.telegram_debug_chat],
-                              message=f"You have left *{old}*. Do you want to pre-set climate to home?\n  - current Temperature: {temperature}°C",
-                              inline_keyboard=[[["Yes", SET_HOME_CMD], ["No", DO_NOTHING_CMD]]])
+        self.call_service("telegram_bot/send_message",
+                          target=[self.get_common().telegram_debug_chat],
+                          message=f"You have left *{old}*. Do you want to pre-set climate to home?\n  - current Temperature: {temperature}°C",
+                          inline_keyboard=[[["Yes", SET_HOME_CMD], ["No", DO_NOTHING_CMD]]])
 
     def telegram_callback(self, event_name, data, kwargs):
         telegram_data = data["data"]
@@ -75,39 +74,35 @@ class Climate(globals.Hass):
                 telegram_chat_id, telegram_message_id, f"{telegram_text}\n(*Yes*)")
             self.override = self.home_params
             self.update_climate()
-            self.common.run_async(self.call_service,
-                                  "telegram_bot/answer_callback_query",
-                                  message=f"Climate has been pre-set to home.",
-                                  callback_query_id=telegram_id)
+            self.call_service("telegram_bot/answer_callback_query",
+                              message=f"Climate has been pre-set to home.",
+                              callback_query_id=telegram_id)
 
     def telegram_edit_message(self, telegram_chat_id, telegram_message_id, telegram_message):
-        self.common.run_async(self.call_service,
-                              "telegram_bot/edit_message",
-                              chat_id=telegram_chat_id,
-                              message_id=telegram_message_id,
-                              message=telegram_message,
-                              inline_keyboard=[])
+        self.call_service("telegram_bot/edit_message",
+                          chat_id=telegram_chat_id,
+                          message_id=telegram_message_id,
+                          message=telegram_message,
+                          inline_keyboard=[])
 
     def update_climate(self):
         params = self.getParams()
         hvac_mode = params["hvac_mode"]
         temperature = params.get("temperature", None)
 
-        self.common.run_async(self.call_service,
-                              "climate/set_hvac_mode",
-                              entity_id=self.climate,
-                              hvac_mode=hvac_mode)
+        self.call_service("climate/set_hvac_mode",
+                          entity_id=self.climate,
+                          hvac_mode=hvac_mode)
         if temperature is not None:
-            self.common.run_async(self.call_service,
-                                  "climate/set_temperature",
-                                  entity_id=self.climate,
-                                  temperature=temperature)
+            self.call_service("climate/set_temperature",
+                              entity_id=self.climate,
+                              temperature=temperature)
 
     def getParams(self):
         if self.override is not None:
             return self.override
         if self.noone_home():
             return self.not_home_params
-        if self.common.is_sleep():
+        if self.get_common().is_sleep():
             return self.sleep_params
         return self.home_params

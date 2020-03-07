@@ -12,7 +12,6 @@ class SleepSwitch(globals.Hass):
                           unique_id=unique_id)
 
     def _callback(self, event_name, data, kwargs):
-        event, button = self.common.get_deconz_event(data)
+        event, button = self.get_common().get_deconz_event(data)
         if event == "release_after_press" and button == 1:
-            self.common.run_async(self.toggle,
-                                  self.input)
+            self.toggle(self.input)
