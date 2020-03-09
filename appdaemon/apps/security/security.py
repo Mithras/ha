@@ -2,29 +2,29 @@ import globals
 
 
 class Security(globals.Hass):
-    def initialize(self):
-        self.listen_state(self.state_callback,
-                          entity="device_tracker")
-        self.listen_state(self.state_callback,
-                          entity="input_select.security_override")
-        self.listen_state(self.state_callback,
-                          entity="input_boolean.sleep")
-        self.update_security()
+    async def initialize(self):
+        await self.listen_state(self._state_callback_async,
+                                entity="device_tracker")
+        await self.listen_state(self._state_callback_async,
+                                entity="input_select.security_override")
+        await self.listen_state(self._state_callback_async,
+                                entity="input_boolean.sleep")
+        await self._update_security_async()
 
-    def state_callback(self, entity, attribute, old, new, kwargs):
+    async def _state_callback_async(self, entity, attribute, old, new, kwargs):
         if old == new:
             return
-        self.update_security()
+        await self._update_security_async()
 
-    def update_security(self):
-        self.set_state("appdaemon.security", state=self.get_security())
+    async def _update_security_async(self):
+        await self.set_state("appdaemon.security", state=await self._get_security_async())
 
-    def get_security(self):
-        security_override = self.get_state("input_select.security_override")
+    async def _get_security_async(self):
+        security_override = await self.get_state("input_select.security_override")
         if security_override != "Auto":
             return security_override
-        if self.noone_home():
+        if await self.noone_home():
             return "Armed Away"
-        if self.get_common().is_sleep():
+        if await self.common.is_sleep_async():
             return "Armed Sleep"
         return "Armed Home"

@@ -9,64 +9,65 @@ MAX_RETRY = 10
 
 
 class CameraAlarm(globals.Hass):
-    def initialize(self):
+    async def initialize(self):
         config = self.args["config"]
         self._camera = config["camera"]
         self._video_duration = config["video_duration"]
         self._camera_output_dir = config["camera_output_dir"]
         self._sensorStateMap = {}
-        self._record_timer = None
+        self._record_task = None
         for entity in config["sensors"]:
-            self._sensorStateMap[entity] = self.get_state(entity)
-            self.listen_state(self._sensor_callback,
-                              entity=entity)
+            self._sensorStateMap[entity] = await self.get_state(entity)
+            await self.listen_state(self._sensor_callback_async,
+                                    entity=entity)
 
-    def _sensor_callback(self, entity, attribute, old, new, kwargs):
+    async def _sensor_callback_async(self, entity, attribute, old, new, kwargs):
         if old == new:
             return
 
         self._sensorStateMap[entity] = new
 
         if new == "on":
-            self.run_in(self._snapshot_timer_callback, 0)
-            if not self._record_timer:
-                self._record()
+            send_snapshot_task = self.create_task(self._send_snapshot_async())
+            if not self._record_task:
+                self._record_task = self.create_task(self._record_async())
+                await self._record_task
+            await send_snapshot_task
 
-    def _snapshot_timer_callback(self, kwargs):
+    async def _send_snapshot_async(self):
         name = self._get_name()
         filename = f"{self._camera_output_dir}/{name}.jpg"
 
-        self.call_service("camera/snapshot",
-                          entity_id=self._camera,
-                          filename=filename)
-        self.call_service("telegram_bot/send_photo",
-                          target=[self.get_common().telegram_alarm_chat],
-                          file=filename)
+        await self.call_service("camera/snapshot",
+                                entity_id=self._camera,
+                                filename=filename)
+        await self.call_service("telegram_bot/send_photo",
+                                target=[self.common.telegram_alarm_chat],
+                                file=filename)
 
-    def _record(self, retry=0):
-        if all(state == "off" for state in self._sensorStateMap.values()):
-            self.cancel_timer(self._record_timer)
-            self._record_timer = None
-            return
+    async def _record_async(self):
+        retry = 0
+        while any(state == "on" for state in self._sensorStateMap.values()):
+            try:
+                name = self._get_name()
+                filename = f"{self._camera_output_dir}/{name}.mp4"
+                result = await self.call_service("camera/record",
+                                                 entity_id=self._camera,
+                                                 filename=filename,
+                                                 duration=self._video_duration)
+                if result is None:
+                    raise Exception(
+                        "call_service() swallows exceptions and returns None")
+                retry = 0
+                await self.sleep(self._video_duration + 1)
+            except:
+                if retry == MAX_RETRY:
+                    self._record_task = None
+                    raise
+                retry += 1
+                await self.sleep(1)
 
-        name = self._get_name()
-        filename = f"{self._camera_output_dir}/{name}.mp4"
-        try:
-            self.call_service("camera/record",
-                              entity_id=self._camera,
-                              filename=filename,
-                              duration=self._video_duration)
-            self._record_timer = self.run_in(
-                self._record_timer_callback, self._video_duration + 1, retry=0)
-        except:
-            if retry == MAX_RETRY:
-                self._record_timer = None
-                raise
-            self._record_timer = self.run_in(
-                self._record_timer_callback, 1, retry=retry + 1)
-
-    def _record_timer_callback(self, kwargs):
-        self._record(kwargs["retry"])
+        self._record_task = None
 
     def _get_name(self):
         now = datetime.now()

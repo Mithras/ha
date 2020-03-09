@@ -1,5 +1,5 @@
 import globals
-from common import Profile
+from common import Profile, LIGHT_PROFILES
 
 
 ROTATE_PROFILES = [
@@ -11,21 +11,23 @@ ROTATE_PROFILES = [
 
 
 class LivingRoomCube(globals.Hass):
-    def initialize(self):
+    async def initialize(self):
+        await globals.Hass.initialize(self)
+
         config = self.args["config"]
         unique_id = config["unique_id"]
         digital_id = config["digital_id"]
         analog_id = config["analog_id"]
-        self.light_kitchen = config["light_kitchen"]
-        self.light_kitchen_app = config["light_kitchen_app"]
-        self.light_living_room = config["light_living_room"]
-        self.light_living_room_main = config["light_living_room_main"]
-        self.light_living_room_back = config["light_living_room_back"]
-        self.light_kitchen_main = config["light_kitchen_main"]
+        self._light_kitchen = config["light_kitchen"]
+        self._light_kitchen_app = config["light_kitchen_app"]
+        self._light_living_room = config["light_living_room"]
+        self._light_living_room_main = config["light_living_room_main"]
+        self._light_living_room_back = config["light_living_room_back"]
+        self._light_kitchen_main = config["light_kitchen_main"]
 
         light_profiles_map = {
             x.profile: x
-            for x in self.get_common().get_light_profiles()
+            for x in LIGHT_PROFILES
         }
         light_profiles_map["off"] = Profile("off", None, None, 0, None)
         self.rotate_profiles_main = [
@@ -37,53 +39,48 @@ class LivingRoomCube(globals.Hass):
             for x in ROTATE_PROFILES
         ]
 
-        self.listen_event(self._digital_event_callback,
-                          event="deconz_event",
-                          unique_id=unique_id,
-                          id=digital_id)
-        self.listen_event(self._analog_event_callback,
-                          event="deconz_event",
-                          unique_id=unique_id,
-                          id=analog_id)
+        await self.listen_event(self._digital_event_callback_async,
+                                event="deconz_event",
+                                unique_id=unique_id,
+                                id=digital_id)
+        await self.listen_event(self._analog_event_callback_async,
+                                event="deconz_event",
+                                unique_id=unique_id,
+                                id=analog_id)
 
-    def _digital_event_callback(self, event_name, data, kwargs):
-        event = self.get_common().get_cube_digital_event(data)
+    async def _digital_event_callback_async(self, event_name, data, kwargs):
+        event = self.common.get_cube_digital_event(data)
         if event == "flip_90":
-            self._flip_90()
+            await self._flip_90_async()
         elif event == "flip_180":
-            self._flip_180()
+            await self._flip_180_async()
         elif event == "double_tap":
-            self._double_tap()
+            await self._double_tap_async()
         elif event == "shake":
-            self._shake()
+            await self._shake_async()
 
-    def _analog_event_callback(self, event_name, data, kwargs):
-        event = self.get_common().get_cube_analog_event(data)
+    async def _analog_event_callback_async(self, event_name, data, kwargs):
+        event = self.common.get_cube_analog_event(data)
         if event == "rotate_left":
-            self._rotate_left()
+            await self._rotate_profile_async(-1)
         elif event == "rotate_right":
-            self._rotate_right()
+            await self._rotate_profile_async(1)
 
-    def _flip_90(self):
-        if self.get_state(self.light_kitchen) == "off":
-            self.get_common().light_turn_bright(self.light_kitchen)
+    async def _flip_90_async(self):
+        if await self.get_state(self._light_kitchen) == "off":
+            await self.common.light_turn_bright_async(self._light_kitchen)
         else:
-            self.get_common().light_turn_off(self.light_kitchen)
+            await self.common.light_turn_off_async(self._light_kitchen)
 
-    def _flip_180(self):
-        self.toggle(self.light_kitchen_app)
+    async def _flip_180_async(self):
+        await self.call_service("appdaemon_app/toggle",
+                                entity_id=self._light_kitchen_app)
 
-    def _rotate_left(self):
-        self._rotate_profile(-1)
-
-    def _rotate_right(self):
-        self._rotate_profile(1)
-
-    def _rotate_profile(self, shift: int):
-        main_weights = self.get_common().get_light_profile_weights(
-            self.light_living_room_main, self.rotate_profiles_main)
-        back_weights = self.get_common().get_light_profile_weights(
-            self.light_living_room_back, self.rotate_profiles_back)
+    async def _rotate_profile_async(self, shift: int):
+        main_weights = await self.common.get_light_profile_weights_async(
+            self._light_living_room_main, self.rotate_profiles_main)
+        back_weights = await self.common.get_light_profile_weights_async(
+            self._light_living_room_back, self.rotate_profiles_back)
 
         weights = (main_weight+back_weight
                    for (main_weight, back_weight)
@@ -100,16 +97,17 @@ class LivingRoomCube(globals.Hass):
         # self.log(f"index = {index}")
 
         main_profile, back_profile = ROTATE_PROFILES[index]
-        self.get_common().light_turn_profile(
-            self.light_living_room_main, main_profile)
-        self.get_common().light_turn_profile(
-            self.light_living_room_back, back_profile)
+        await self.common.light_turn_profile_async(
+            self._light_living_room_main, main_profile)
+        await self.common.light_turn_profile_async(
+            self._light_living_room_back, back_profile)
 
-    def _double_tap(self):
-        if self.get_state(self.light_living_room) != "off":
-            self.get_common().light_turn_off(self.light_living_room)
+    async def _double_tap_async(self):
+        if await self.get_state(self._light_living_room) != "off":
+            await self.common.light_turn_off_async(self._light_living_room)
         else:
-            self.get_common().light_turn_bright(self.light_living_room)
+            await self.common.light_turn_bright_async(self._light_living_room)
 
-    def _shake(self):
-        self.toggle(self.light_kitchen_main)
+    async def _shake_async(self):
+        await self.call_service("light/toggle",
+                                entity_id=self._light_kitchen_main)

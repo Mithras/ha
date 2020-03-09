@@ -12,7 +12,6 @@ LivingRoom:
     wyrd_and_jotunheim: switch.tradfri_control_outlet_03
     rokit6: switch.tradfri_control_outlet_01
     samsung_tv: media_player.samsung_smart_tv
-    levoit_humidifier: switch.levoit_humidifier
     living_room_main_light: light.living_room_main
     living_room_back_light: light.living_room_back
     light_strip: light.light_strip

@@ -2,78 +2,85 @@ import globals
 
 
 class Light(globals.Hass):
-    def initialize(self):
+    async def initialize(self):
         config = self.args["config"]
-        self.light_group = config["light_group"]
-        self.sun_up_on_profile = config.get("sun_up_on_profile", None)
-        self.sun_down_on_profile = config.get("sun_down_on_profile", None)
-        self.sleep_on_profile = config.get("sleep_on_profile", None)
-        self.sun_up_off_profile = config.get("sun_up_off_profile", None)
-        self.sun_down_off_profile = config.get("sun_down_off_profile", None)
-        self.sleep_off_profile = config.get("sleep_off_profile", None)
-        self.ignore_sleep = config.get("ignore_sleep", False)
-        self.sensorMap = {}
+        self._light_group = config["light_group"]
+        self._sun_up_on_profile = config.get("sun_up_on_profile", None)
+        self._sun_down_on_profile = config.get("sun_down_on_profile", None)
+        self._sleep_on_profile = config.get("sleep_on_profile", None)
+        self._sun_up_off_profile = config.get("sun_up_off_profile", None)
+        self._sun_down_off_profile = config.get("sun_down_off_profile", None)
+        self._sleep_off_profile = config.get("sleep_off_profile", None)
+        self._ignore_sleep = config.get("ignore_sleep", False)
+        self._sensorMap = {}
 
         for sensor in config["sensors"]:
             entity = sensor["entity"]
-            self.sensorMap[entity] = {
+            additional_delay = sensor.get("additional_delay", None)
+            self._sensorMap[entity] = {
                 "state": None,
-                "timer": None
+                "sleep_task": None
             }
-            self.listen_state(self.sensor_callback,
-                              entity=entity,
-                              additional_delay=sensor.get("additional_delay", None))
+            await self.listen_state(self._sensor_callback_async,
+                                    entity=entity,
+                                    additional_delay=additional_delay)
 
-    def sensor_callback(self, entity, attribute, old, new, kwargs):
+    async def _sensor_callback_async(self, entity, attribute, old, new, kwargs):
         if old == new:
             return
-        sensor = self.sensorMap[entity]
+
+        sensor = self._sensorMap[entity]
 
         if new == "on":
-            self.handle_on(sensor)
+            self.log(f"callback.handle_on: sensor={sensor}")
+            await self._handle_on_async(sensor)
         else:
             additional_delay = kwargs["additional_delay"]
             if additional_delay:
-                sensor["timer"] = self.run_in(self.timer_callback, additional_delay,
-                                              sensor=sensor)
-            else:
-                self.handle_off(sensor)
+                self.log(
+                    f"callback.sleep: sensor={sensor}, additional_delay={additional_delay}")
+                sensor["sleep_task"] = self.create_task(
+                    self.sleep(additional_delay))
+                await sensor["sleep_task"]
+            self.log(f"callback.handle_off: sensor={sensor}")
+            await self._handle_off_async(sensor)
 
-    def timer_callback(self, kwargs):
-        self.handle_off(kwargs["sensor"])
-
-    def handle_on(self, sensor):
-        self.cancel_timer(sensor["timer"])
+    async def _handle_on_async(self, sensor):
+        if sensor["sleep_task"] is not None:
+            sensor["sleep_task"].cancel()
+            sensor["sleep_task"] = None
         sensor["state"] = True
-        on_profile = self.get_on_profile()
-        self.handle_profile(self.light_group, on_profile)
+        on_profile = await self._get_on_profile_async()
+        self.log(f"\ton_profile={on_profile}")
+        await self._handle_profile_async(self._light_group, on_profile)
 
-    def handle_off(self, sensor):
+    async def _handle_off_async(self, sensor):
         sensor["state"] = False
-        if all(not sensor["state"] for sensor in self.sensorMap.values()):
-            off_profile = self.get_off_profile()
-            self.handle_profile(self.light_group, off_profile)
+        if all(not sensor["state"] for sensor in self._sensorMap.values()):
+            off_profile = await self._get_off_profile_async()
+            self.log(f"\toff_profile={off_profile}")
+            await self._handle_profile_async(self._light_group, off_profile)
 
-    def get_on_profile(self):
-        if not self.ignore_sleep and self.get_common().is_sleep():
-            return self.sleep_on_profile
-        elif self.sun_up():
-            return self.sun_up_on_profile
+    async def _get_on_profile_async(self):
+        if not self._ignore_sleep and await self.common.is_sleep_async():
+            return self._sleep_on_profile
+        elif await self.sun_up():
+            return self._sun_up_on_profile
         else:
-            return self.sun_down_on_profile
+            return self._sun_down_on_profile
 
-    def get_off_profile(self):
-        if not self.ignore_sleep and self.get_common().is_sleep():
-            return self.sleep_off_profile
-        elif self.sun_up():
-            return self.sun_up_off_profile
+    async def _get_off_profile_async(self):
+        if not self._ignore_sleep and await self.common.is_sleep_async():
+            return self._sleep_off_profile
+        elif await self.sun_up():
+            return self._sun_up_off_profile
         else:
-            return self.sun_down_off_profile
+            return self._sun_down_off_profile
 
-    def handle_profile(self, light_group, profile):
+    async def _handle_profile_async(self, light_group, profile):
         if profile == "on":
-            self.get_common().light_turn_on(light_group)
+            await self.common.light_turn_on_async(light_group)
         elif profile == "off":
-            self.get_common().light_turn_off(light_group)
+            await self.common.light_turn_off_async(light_group)
         elif profile is not None:
-            self.get_common().light_turn_profile(light_group, profile)
+            await self.common.light_turn_profile_async(light_group, profile)

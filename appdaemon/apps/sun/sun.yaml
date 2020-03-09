@@ -5,3 +5,5 @@ Sun:
     - globals
   dependencies:
     - Common
+  config:
+    light: light.driveway

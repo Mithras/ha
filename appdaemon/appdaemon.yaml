@@ -13,7 +13,10 @@ appdaemon:
   longitude: !secret longitude
   elevation: !secret elevation
   time_zone: !secret time_zone
-  # production_mode: True
+  production_mode: True
+  total_threads: 5
+  pin_apps: False
+  qsize_warning_threshold: 10
   plugins:
     HASS:
       type: hass
