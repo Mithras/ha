@@ -92,6 +92,13 @@ media_player:
     host: 192.168.1.5
     port: 8002
     mac: !secret samsung_tv_mac
+# samsungtv:
+#   - host: 192.168.1.5
+#     name: Samsung Smart TV
+#     turn_on_action:
+#       - service: wake_on_lan.send_magic_packet
+#         data:
+#           mac: !secret samsung_tv_mac
 
 vacuum:
   - platform: roomba
@@ -158,6 +165,10 @@ input_boolean:
 
 lovelace:
   mode: yaml
+  resources:
+    # https://github.com/thomasloven/lovelace-auto-entities
+    - url: /local/ui-lovelace/auto-entities/auto-entities.js
+      type: module
 
 zwave:
   usb_path: /dev/ttyUSB0 # HUSBZB-1 (bottom usb 2.0)
