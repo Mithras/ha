@@ -272,3 +272,18 @@ views:
             </a>
           {%- endfor %}
         entity_id: appdaemon_camera_output.stats
+
+  - title: Map
+    path: map
+    panel: true
+    cards:
+      - type: map
+        hours_to_show: 2
+        default_zoom: 12
+        entities:
+          - person.mithras
+          - person.diana
+          - zone.home
+          - zone.microsoft_building_41
+          - zone.pro_club
+          - zone.diana_s_home

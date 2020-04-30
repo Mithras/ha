@@ -32,17 +32,17 @@ class Light(globals.Hass):
         sensor = self._sensorMap[entity]
 
         if new == "on":
-            self.log(f"callback.handle_on: sensor={sensor}")
+            # self.log(f"callback.handle_on: sensor={sensor}")
             await self._handle_on_async(sensor)
         else:
             additional_delay = kwargs["additional_delay"]
             if additional_delay:
-                self.log(
-                    f"callback.sleep: sensor={sensor}, additional_delay={additional_delay}")
+                # self.log(
+                #     f"callback.sleep: sensor={sensor}, additional_delay={additional_delay}")
                 sensor["sleep_task"] = self.create_task(
                     self.sleep(additional_delay))
                 await sensor["sleep_task"]
-            self.log(f"callback.handle_off: sensor={sensor}")
+            # self.log(f"callback.handle_off: sensor={sensor}")
             await self._handle_off_async(sensor)
 
     async def _handle_on_async(self, sensor):
@@ -51,14 +51,14 @@ class Light(globals.Hass):
             sensor["sleep_task"] = None
         sensor["state"] = True
         on_profile = await self._get_on_profile_async()
-        self.log(f"\ton_profile={on_profile}")
+        # self.log(f"\ton_profile={on_profile}")
         await self._handle_profile_async(self._light_group, on_profile)
 
     async def _handle_off_async(self, sensor):
         sensor["state"] = False
         if all(not sensor["state"] for sensor in self._sensorMap.values()):
             off_profile = await self._get_off_profile_async()
-            self.log(f"\toff_profile={off_profile}")
+            # self.log(f"\toff_profile={off_profile}")
             await self._handle_profile_async(self._light_group, off_profile)
 
     async def _get_on_profile_async(self):
