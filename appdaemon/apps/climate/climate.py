@@ -48,10 +48,19 @@ class Climate(globals.Hass):
     async def _person_not_home_callback_async(self, entity, attribute, old, new, kwargs):
         if old == new or old == "home":
             return
+
         hvac_mode = await self.get_state(self._climate)
-        if(hvac_mode != "off"):
+        target_temperature = float(await self.get_state(self._climate, "temperature"))
+        temperature = float(await self.get_state(self._temperature))
+        if self._home_params["hvac_mode"] == hvac_mode and self._home_params["temperature"] == target_temperature:
             return
-        temperature = await self.get_state(self._temperature)
+        if self._home_params["hvac_mode"] == "heat" and self._home_params["temperature"] <= temperature:
+            return
+        if self._home_params["hvac_mode"] == "cool" and self._home_params["temperature"] >= temperature:
+            return
+        if self._home_params["hvac_mode"] == "heat_cool" and self._home_params["temperature"] == temperature:
+            return
+
         await self.call_service("telegram_bot/send_message",
                                 target=[self.common.telegram_debug_chat],
                                 message=f"You have left *{old}*. Do you want to pre-set climate to home?\n  - current Temperature: {temperature}°C",
