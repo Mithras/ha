@@ -6,8 +6,8 @@
 !appdaemon/
 
 !custom_components/
-!custom_components/appdaemon_app/
-!custom_components/appdaemon_app/*
+!custom_components/**/*
+custom_components/samsungtv_custom/token-*.txt
 __pycache__
 
 !configuration.yaml

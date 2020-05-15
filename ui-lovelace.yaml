@@ -1,8 +1,4 @@
 title: Home Assistant
-resources:
-  # https://github.com/thomasloven/lovelace-auto-entities
-  - url: /local/ui-lovelace/auto-entities/auto-entities.js
-    type: module
 views:
   - title: Home
     path: home
