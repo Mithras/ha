@@ -13,64 +13,75 @@ CLEAR_EVENT = f"{DOMAIN}_clear"
 FILE_SIZE_DELAY = 15
 
 
-File = namedtuple(
-    "File", ["file", "file_path", "external_path", "ext", "size"])
-
-
-class DirState():
-    def __init__(self, common, dir, external_path):
-        self._common = common
-        self._dir = dir
-        self._external_path = external_path
-
-        self.count = 0
-        self.size = 0
-        self.files = []
-
-    def add_file(self, file_name):
-        file_path = join(self._dir, file_name)
-        external_path = f"{self._external_path}/{file_name}"
-        _, ext = splitext(file_name)
-
-        file = File(file_name, file_path, external_path, ext, 0)
-
-        self.files.append(file)
-        self.count += 1
-        self._common.run_in(self.update_size, FILE_SIZE_DELAY,
-                            file,
-                            len(self.files) - 1)
-
-    def update_size(self, file: File, index: int):
-        new_file = File(file.file, file.file_path, file.external_path,
-                        file.ext, stat(file.file_path).st_size)
-        self.files[index] = new_file
-        self.size += new_file.size
+File = namedtuple("File", ["file_name", "file_path",
+                           "external_path", "ext", "size"])
 
 
 class CameraOutput(globals.Hass):
-    def initialize(self):
+    async def initialize(self):
         config = self.args["config"]
         self._dir = config["camera_output_dir"]
         self._external_path = config["camera_output_external_path"]
 
-        self.common.run_async(self._reload)
-        self.listen_event(self._created_event_callback,
-                          event="folder_watcher",
-                          event_type="created",
-                          folder=self._dir)
-        self.listen_event(self._clear_event_callback,
-                          event=CLEAR_EVENT)
+        await self._reload_async()
+        await self.listen_event(self._created_event_callback_async,
+                                event="folder_watcher",
+                                event_type="created",
+                                folder=self._dir)
+        await self.listen_event(self._clear_event_callback_async,
+                                event=CLEAR_EVENT)
 
-    def _reload(self):
-        self.dir_state = DirState(self.common, self._dir, self._external_path)
+    async def _created_event_callback_async(self, event_name, data, kwargs):
+        index = self._add_file(data["file"])
+        await self._update_state_async()
+        await self.sleep(FILE_SIZE_DELAY)
+        self._update_file(index)
+        await self._update_state_async()
+
+    async def _clear_event_callback_async(self, event_name, data, kwargs):
+        for file in listdir(self._dir):
+            file_path = join(self._dir, file)
+            remove(file_path)
+        await self._reload_async()
+
+    async def _reload_async(self):
+        self.count = 0
+        self.size = 0
+        self.files = []
         for file in sorted(listdir(self._dir)):
-            self.dir_state.add_file(file)
-        self._update_state()
+            self._add_file(file)
+        await self._update_state_async()
 
-    def _update_state(self):
+    def _add_file(self, file_name):
+        file_path = join(self._dir, file_name)
+        external_path = f"{self._external_path}/{file_name}"
+        _, ext = splitext(file_name)
+        size = stat(file_path).st_size
+
+        file = File(file_name, file_path, external_path, ext, size)
+
+        self.files.append(file)
+        self.count += 1
+        self.size += size
+
+        return len(self.files) - 1
+
+    def _update_file(self, index):
+        file_name, file_path, external_path, ext, size = self.files[index]
+
+        new_size = stat(file_path).st_size
+        if(new_size == size):
+            return
+
+        new_file = File(file_name, file_path, external_path, ext, new_size)
+        self.files[index] = new_file
+        self.size -= size
+        self.size += new_size
+
+    async def _update_state_async(self):
         snapshots = []
         videos = []
-        for stats in reversed(self.dir_state.files):
+        for stats in reversed(self.files):
             if stats.ext == ".jpg" and len(snapshots) < SNAPSHOT_COUNT:
                 snapshots.append(stats.external_path)
             if stats.ext == ".mp4" and len(videos) < VIDEO_COUNT:
@@ -78,22 +89,11 @@ class CameraOutput(globals.Hass):
             if len(snapshots) == SNAPSHOT_COUNT and len(videos) == VIDEO_COUNT:
                 break
 
-        self.common.run_async(self.set_state,
-                              STATE,
-                              state="on",
-                              attributes={
-                                  "count": self.dir_state.count,
-                                  "size": self.dir_state.size,
-                                  "snapshots": json.dumps(snapshots),
-                                  "videos": json.dumps(videos)
-                              })
-
-    def _created_event_callback(self, event_name, data, kwargs):
-        self.dir_state.add_file(data["file"])
-        self._update_state()
-
-    def _clear_event_callback(self, event_name, data, kwargs):
-        for file in listdir(self._dir):
-            file_path = join(self._dir, file)
-            remove(file_path)
-        self._reload()
+        await self.set_state(STATE,
+                             state="on",
+                             attributes={
+                                 "count": self.count,
+                                 "size": self.size,
+                                 "snapshots": json.dumps(snapshots),
+                                 "videos": json.dumps(videos)
+                             })

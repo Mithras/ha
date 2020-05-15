@@ -17,7 +17,7 @@ def setup(hass, config):
         hass.states.set(entity_id, STATE_OFF, state_obj.attributes)
 
     def toggle(call):
-        entity_id = call.data[ATTR_ENTITY_ID][0]
+        entity_id = call.data[ATTR_ENTITY_ID]
         state_obj = hass.states.get(entity_id)
         hass.states.set(entity_id,
                         STATE_ON if state_obj.state == STATE_OFF else STATE_OFF,

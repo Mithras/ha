@@ -1,4 +1,4 @@
-import appdaemon.plugins.hass.hassapi as hass
+import hassapi as hass
 import csv
 from collections import namedtuple
 
@@ -43,7 +43,7 @@ DECONZ_EVENTS = [
 
 
 class Common(hass.Hass):
-    def initialize(self):
+    async def initialize(self):
         config = self.args["config"]
         self.telegram_mithras = config["telegram_mithras"]
         self.telegram_debug_chat = config["telegram_debug_chat"]
@@ -52,112 +52,63 @@ class Common(hass.Hass):
         self.telegram_alarm_chat = config["telegram_alarm_chat"]
         self.http_base_url = config["http_base_url"]
 
-    def is_sleep(self):
-        return self.get_state(entity="input_boolean.sleep") == "on"
+    async def is_sleep_async(self):
+        return await self.get_state("input_boolean.sleep") == "on"
 
     def escapeMarkdown(self, string: str):
         return string.replace("_", "\\_").replace("*", "\\*").replace("[", "\\[").replace("`", "\\`")
 
-    def send_location(self, person: str, message: str, **kwargs):
+    async def send_location_async(self, person: str, message: str, **kwargs):
         if person == "person.mithras":
             target = self.telegram_location_chat_mithras
         elif person == "person.diana":
             target = self.telegram_location_chat_diana
-        self.run_async(self.call_service,
-                       "telegram_bot/send_message",
-                       target=[target],
-                       message=message,
-                       **kwargs)
+        await self.call_service("telegram_bot/send_message",
+                                target=[target],
+                                message=message,
+                                **kwargs)
 
-    def send_alarm(self, message: str, **kwargs):
-        self.run_async(self.call_service,
-                       "telegram_bot/send_message",
-                       target=[self.telegram_debug_chat],
-                       message=message,
-                       **kwargs)
+    async def send_alarm_async(self, message: str, **kwargs):
+        await self.call_service("telegram_bot/send_message",
+                                target=[self.telegram_debug_chat],
+                                message=message,
+                                **kwargs)
 
-    def send_debug(self, message: str, **kwargs):
-        self.run_async(self.call_service,
-                       "telegram_bot/send_message",
-                       target=[self.telegram_debug_chat],
-                       message=message,
-                       **kwargs)
+    async def send_debug_async(self, message: str, **kwargs):
+        await self.call_service("telegram_bot/send_message",
+                                target=[self.telegram_debug_chat],
+                                message=message,
+                                **kwargs)
 
-    def light_turn_bright(self, light_group: str):
-        self.light_turn_profile(light_group, "Bright")
+    async def light_turn_bright_async(self, light_group: str):
+        await self.light_turn_profile_async(light_group, "Bright")
 
-    def light_turn_dimmed(self, light_group: str):
-        self.light_turn_profile(light_group, "Dimmed")
+    async def light_turn_dimmed_async(self, light_group: str):
+        await self.light_turn_profile_async(light_group, "Dimmed")
 
-    def light_turn_nightlight(self, light_group: str):
-        self.light_turn_profile(light_group, "Nightlight")
+    async def light_turn_nightlight_async(self, light_group: str):
+        await self.light_turn_profile_async(light_group, "Nightlight")
 
-    def light_turn_profile(self, light_group: str, profile: str):
+    async def light_turn_profile_async(self, light_group: str, profile: str):
         if profile == "off":
-            self.light_turn_off(light_group)
+            await self.light_turn_off_async(light_group)
         else:
-            self.run_async(self.call_service,
-                           "light/turn_on",
-                           entity_id=light_group,
-                           profile=profile)
+            await self.call_service("light/turn_on",
+                                    entity_id=light_group,
+                                    profile=profile)
 
-    def light_turn_on(self, light_group: str):
-        self.run_async(self.call_service,
-                       "light/turn_on",
-                       entity_id=light_group)
+    async def light_turn_on_async(self, light_group: str):
+        await self.call_service("light/turn_on",
+                                entity_id=light_group)
 
-    def light_turn_off(self, light_group: str):
-        self.run_async(self.call_service,
-                       "light/turn_off",
-                       entity_id=light_group)
+    async def light_turn_off_async(self, light_group: str):
+        await self.call_service("light/turn_off",
+                                entity_id=light_group)
 
-    def get_light_profiles(self):
-        return LIGHT_PROFILES
-
-    def get_light_profile_weights(self, light_group, light_profiles=LIGHT_PROFILES):
-        state_profile = self._get_light_profile(light_group)
+    async def get_light_profile_weights_async(self, light_group, light_profiles=LIGHT_PROFILES):
+        state_profile = await self._get_light_profile_async(light_group)
         return [self._get_diff(state_profile, light_profile)
                 for light_profile in light_profiles]
-
-    def _get_diff(self, profileA, profileB):
-        diff = abs(profileA.brightness - profileB.brightness)
-        if profileA.color_temp is not None and profileB.color_temp is not None:
-            diff += abs(profileA.color_temp - profileB.color_temp)
-        elif profileA.color_temp is None != profileB.color_temp is None:
-            diff += 1000
-        if profileA.x_weight is not None and profileA.y_weight is not None and profileB.x_weight is not None and profileB.y_weight is not None:
-            diff += abs(profileA.x_weight - profileB.x_weight)
-            diff += abs(profileA.y_weight - profileB.y_weight)
-        elif profileA.x_weight is None != profileA.y_weight is None or profileB.x_weight is None != profileB.y_weight is None:
-            diff += 2000
-        return diff
-
-    def _get_light_profile(self, light_group):
-        state = self.get_state(light_group, attribute="all")
-        if state["state"] == "off":
-            return Profile(None, None, None, 0, None)
-        attributes = state["attributes"]
-        brightness = attributes["brightness"]
-        color_temp = attributes.get("color_temp", None)
-        if color_temp is None:
-            x_color, y_color = attributes.get("xy_color", [None, None])
-            x_weight = xy_color_to_weight(x_color)
-            y_weight = xy_color_to_weight(y_color)
-            return Profile(None, x_weight, y_weight, brightness, None)
-        else:
-            return Profile(None, None, None, brightness, color_temp)
-
-    def run_async(self, callback, *args, **kwargs):
-        hass.Hass.run_in(self, self._run_async_callback, 0,
-                         inner_callback=callback,
-                         args=args,
-                         kwargs=kwargs)
-
-    def run_in(self, callback, delay, *args, **kwargs):
-        hass.Hass.run_in(self, self._run_async_callback, delay,
-                         inner_callback=callback,
-                         args=args,
-                         kwargs=kwargs)
 
     def get_deconz_event(self, data):
         event = data["event"]
@@ -188,8 +139,30 @@ class Common(hass.Hass):
             return "rotate_left"
         return "rotate_right"
 
-    def _run_async_callback(self, kwargs):
-        callback = kwargs["inner_callback"]
-        args = kwargs["args"]
-        kwargs = kwargs["kwargs"]
-        callback(*args, ** kwargs)
+    def _get_diff(self, profileA, profileB):
+        diff = abs(profileA.brightness - profileB.brightness)
+        if profileA.color_temp is not None and profileB.color_temp is not None:
+            diff += abs(profileA.color_temp - profileB.color_temp)
+        elif profileA.color_temp is None != profileB.color_temp is None:
+            diff += 1000
+        if profileA.x_weight is not None and profileA.y_weight is not None and profileB.x_weight is not None and profileB.y_weight is not None:
+            diff += abs(profileA.x_weight - profileB.x_weight)
+            diff += abs(profileA.y_weight - profileB.y_weight)
+        elif profileA.x_weight is None != profileA.y_weight is None or profileB.x_weight is None != profileB.y_weight is None:
+            diff += 2000
+        return diff
+
+    async def _get_light_profile_async(self, light_group):
+        state = await self.get_state(light_group, attribute="all")
+        if state["state"] == "off":
+            return Profile(None, None, None, 0, None)
+        attributes = state["attributes"]
+        brightness = attributes["brightness"]
+        color_temp = attributes.get("color_temp", None)
+        if color_temp is None:
+            x_color, y_color = attributes.get("xy_color", [None, None])
+            x_weight = xy_color_to_weight(x_color)
+            y_weight = xy_color_to_weight(y_color)
+            return Profile(None, x_weight, y_weight, brightness, None)
+        else:
+            return Profile(None, None, None, brightness, color_temp)

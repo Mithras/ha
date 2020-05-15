@@ -2,15 +2,14 @@ import globals
 
 
 class Location(globals.Hass):
-    def initialize(self):
-        self.listen_state(self.state_callback)
+    async def initialize(self):
+        await self.listen_state(self._state_callback_async,
+                                entity="person")
 
-    def state_callback(self, entity, attribute, old, new, kwargs):
-        if not entity.startswith("person.") or old == new:
+    async def _state_callback_async(self, entity, attribute, old, new, kwargs):
+        if old == new:
             return
         if new == "not_home":
-            self.common.send_location(entity,
-                                      f"*{self.friendly_name(entity)}* has left *{old}*.")
+            await self.common.send_location_async(entity, f"*{await self.friendly_name(entity)}* has left *{old}*.")
         else:
-            self.common.send_location(entity,
-                                      f"*{self.friendly_name(entity)}* is at *{new}*.")
+            await self.common.send_location_async(entity, f"*{await self.friendly_name(entity)}* is at *{new}*.")

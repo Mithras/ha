@@ -2,26 +2,25 @@ import globals
 
 
 class SensorAlarm(globals.Hass):
-    def initialize(self):
+    async def initialize(self):
         for entity in self.args["config"]:
-            self.listen_state(self.callback,
-                              entity=entity)
+            await self.listen_state(self._state_callback_async,
+                                    entity=entity)
 
-    def callback(self, entity, attribute, old, new, kwargs):
+    async def _state_callback_async(self, entity, attribute, old, new, kwargs):
         if old == new:
             return
-        device_type = self.get_state(
-            entity=entity, attribute="device_class")
+        device_type = await self.get_state(entity, attribute="device_class")
         if device_type == "opening":
-            self.common.send_alarm(
-                f"*{self.friendly_name(entity)}* has {'opened' if new=='on' else 'closed'}.")
+            await self.common.send_alarm_async(
+                f"*{await self.friendly_name(entity)}* has {'opened' if new=='on' else 'closed'}.")
         elif device_type == "motion":
             if new == "on":
-                self.common.send_alarm(
-                    f"*{self.friendly_name(entity)}* has detected motion.")
+                await self.common.send_alarm_async(
+                    f"*{await self.friendly_name(entity)}* has detected motion.")
         elif device_type == "connectivity":
-            self.common.send_alarm(
-                f"*{self.friendly_name(entity)}* has {'connected' if new=='on' else 'disconnected'}.")
+            await self.common.send_alarm_async(
+                f"*{await self.friendly_name(entity)}* has {'connected' if new=='on' else 'disconnected'}.")
         else:
-            self.common.send_alarm(
-                f"*{self.friendly_name(entity)}* is in {new} state.")
+            await self.common.send_alarm_async(
+                f"*{await self.friendly_name(entity)}* is in {new} state.")

@@ -2,17 +2,17 @@ import globals
 
 
 class SleepSwitch(globals.Hass):
-    def initialize(self):
+    async def initialize(self):
         config = self.args["config"]
-        self.input = config["input"]
+        self._input = config["input"]
         unique_id = config["unique_id"]
 
-        self.listen_event(self._callback,
-                          event="deconz_event",
-                          unique_id=unique_id)
+        await self.listen_event(self._deconz_event_callback_async,
+                                event="deconz_event",
+                                unique_id=unique_id)
 
-    def _callback(self, event_name, data, kwargs):
+    async def _deconz_event_callback_async(self, event_name, data, kwargs):
         event, button = self.common.get_deconz_event(data)
         if event == "release_after_press" and button == 1:
-            self.common.run_async(self.toggle,
-                                  self.input)
+            await self.call_service("input_boolean/toggle",
+                                    entity_id=self._input)

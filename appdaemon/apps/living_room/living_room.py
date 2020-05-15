@@ -2,81 +2,71 @@ import globals
 
 
 class LivingRoom(globals.Hass):
-    def initialize(self):
+    async def initialize(self):
         config = self.args["config"]
-        self.mithras_desktop = config["mithras_desktop"]
-        self.wyrd_and_jotunheim = config["wyrd_and_jotunheim"]
-        self.rokit6 = config["rokit6"]
-        self.samsung_tv = config["samsung_tv"]
-        self.levoit_humidifier = config["levoit_humidifier"]
-        self.living_room_main_light = config["living_room_main_light"]
-        self.living_room_back_light = config["living_room_back_light"]
-        self.light_strip = config["light_strip"]
+        self._mithras_desktop = config["mithras_desktop"]
+        self._wyrd_and_jotunheim = config["wyrd_and_jotunheim"]
+        self._rokit6 = config["rokit6"]
+        self._samsung_tv = config["samsung_tv"]
+        self._living_room_main_light = config["living_room_main_light"]
+        self._living_room_back_light = config["living_room_back_light"]
+        self._light_strip = config["light_strip"]
 
-        self.listen_state(self.mithras_desktop_callback,
-                          entity=self.mithras_desktop)
-        self.listen_state(self.person_home_callback,
-                          entity=config["person"],
-                          new="home")
-        self.listen_state(self.person_not_home_callback,
-                          entity=config["person"],
-                          new="not_home")
-        self.listen_state(self.awake_callback,
-                          entity=config["sleep_input"],
-                          new="off")
+        await self.listen_state(self._mithras_desktop_callback_async,
+                                entity=self._mithras_desktop)
+        await self.listen_state(self._person_home_callback_async,
+                                entity=config["person"],
+                                new="home")
+        await self.listen_state(self._person_not_home_callback_async,
+                                entity=config["person"],
+                                new="not_home")
+        await self.listen_state(self._awake_callback_async,
+                                entity=config["sleep_input"],
+                                new="off")
 
-    def mithras_desktop_callback(self, entity, attribute, old, new, kwargs):
+    async def _mithras_desktop_callback_async(self, entity, attribute, old, new, kwargs):
         if old == new:
             return
         if new == "on":
-            self.activate()
+            await self._activate_async()
         else:
-            self.deactivate()
+            await self._deactivate_async()
 
-    def person_home_callback(self, entity, attribute, old, new, kwargs):
+    async def _person_home_callback_async(self, entity, attribute, old, new, kwargs):
         if old == new:
             return
-        self.activate(toggle=False)
-        self.common.run_async(self.turn_on,
-                              self.mithras_desktop)
+        await self._activate_async()
+        await self.call_service("switch/turn_on",
+                                entity_id=self._mithras_desktop)
 
-    def person_not_home_callback(self, entity, attribute, old, new, kwargs):
-        if old == new or self.anyone_home:
+    async def _person_not_home_callback_async(self, entity, attribute, old, new, kwargs):
+        if old == new or await self.anyone_home():
             return
-        toggle = self.get_state(entity=self.mithras_desktop) == "on"
-        self.deactivate(toggle=toggle)
+        await self._deactivate_async()
 
-    def awake_callback(self, entity, attribute, old, new, kwargs):
+    async def _awake_callback_async(self, entity, attribute, old, new, kwargs):
         if old == new:
             return
-        self.common.run_async(self.turn_on,
-                              self.mithras_desktop)
+        await self.call_service("switch/turn_on",
+                                entity_id=self._mithras_desktop)
 
-    def activate(self, **kwargs):
-        toggle = kwargs.get("toggle", True)
-        self.common.run_async(self.turn_on,
-                              self.wyrd_and_jotunheim)
-        self.common.run_async(self.turn_on,
-                              self.rokit6)
-        self.common.run_async(self.turn_on,
-                              self.samsung_tv)
-        self.common.light_turn_bright(self.living_room_main_light)
-        self.common.light_turn_dimmed(self.living_room_back_light)
-        if toggle:
-            self.common.run_async(self.toggle,
-                                  self.levoit_humidifier)
+    async def _activate_async(self):
+        await self.call_service("switch/turn_on",
+                                entity_id=self._wyrd_and_jotunheim)
+        await self.call_service("switch/turn_on",
+                                entity_id=self._rokit6)
+        await self.call_service("media_player/turn_on",
+                                entity_id=self._samsung_tv)
+        await self.common.light_turn_bright_async(self._living_room_main_light)
+        await self.common.light_turn_dimmed_async(self._living_room_back_light)
 
-    def deactivate(self, **kwargs):
-        toggle = kwargs.get("toggle", True)
-        self.common.run_async(self.turn_off,
-                              self.wyrd_and_jotunheim)
-        self.common.run_async(self.turn_off,
-                              self.rokit6)
-        self.common.run_async(self.turn_off,
-                              self.samsung_tv)
-        self.common.light_turn_off(self.living_room_main_light)
-        self.common.light_turn_off(self.living_room_back_light)
-        self.common.light_turn_off(self.light_strip)
-        if toggle:
-            self.common.run_async(self.toggle,
-                                  self.levoit_humidifier)
+    async def _deactivate_async(self):
+        await self.call_service("switch/turn_off",
+                                entity_id=self._wyrd_and_jotunheim)
+        await self.call_service("switch/turn_off",
+                                entity_id=self._rokit6)
+        await self.call_service("media_player/turn_off",
+                                entity_id=self._samsung_tv)
+        await self.common.light_turn_off_async(self._living_room_main_light)
+        await self.common.light_turn_off_async(self._living_room_back_light)
+        await self.common.light_turn_off_async(self._light_strip)

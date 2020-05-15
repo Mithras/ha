@@ -1,16 +1,17 @@
 import globals
 
-drivewayLight = "light.driveway"
-
 
 class Sun(globals.Hass):
-    def initialize(self):
-        self.run_at_sunset(self.sunset_callback)
-        self.run_at_sunrise(self.sunrise_callback)
+    async def initialize(self):
+        config = self.args["config"]
+        self.light = config["light"]
 
-    def sunset_callback(self, kwargs):
-        if self.get_state(entity=drivewayLight) == "off":
-            self.common.light_turn_nightlight(drivewayLight)
+        await self.run_at_sunset(self._sunset_callback_async)
+        await self.run_at_sunrise(self._sunrise_callback_async)
 
-    def sunrise_callback(self, kwargs):
-        self.common.light_turn_off(drivewayLight)
+    async def _sunset_callback_async(self, kwargs):
+        if await self.get_state(self.light) == "off":
+            await self.common.light_turn_nightlight_async(self.light)
+
+    async def _sunrise_callback_async(self, kwargs):
+        await self.common.light_turn_off_async(self.light)
