@@ -13,13 +13,14 @@ homeassistant:
   latitude: !secret latitude
   longitude: !secret longitude
   whitelist_external_dirs: !include whitelist_external_dirs.yaml
+  external_url: !secret external_url
+  internal_url: https://hassio:8123/
 
 zone: !include zone.yaml
 
 recorder: !include recorder.yaml
 
 http:
-  base_url: !secret http_base_url
   ssl_certificate: /ssl/fullchain.pem
   ssl_key: /ssl/privkey.pem
 

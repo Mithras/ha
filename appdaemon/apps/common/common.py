@@ -50,7 +50,7 @@ class Common(hass.Hass):
         self.telegram_location_chat_mithras = config["telegram_location_chat_mithras"]
         self.telegram_location_chat_diana = config["telegram_location_chat_diana"]
         self.telegram_alarm_chat = config["telegram_alarm_chat"]
-        self.http_base_url = config["http_base_url"]
+        self.external_url = config["external_url"]
 
     async def is_sleep_async(self):
         return await self.get_state("input_boolean.sleep") == "on"
