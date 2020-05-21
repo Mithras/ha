@@ -49,7 +49,7 @@ class Hass(hass.Hass):
     async def constrain_arm(self, value=None):
         await self._setup_task
         arm = await self.get_state("appdaemon.security")
-        return arm != "Disarmed" if value is None else arm in value
+        return arm != "Disarmed" if value is None else arm is not None and arm in value
 
     async def constrain_enabled(self, value):
         await self._setup_task
