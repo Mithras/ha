@@ -1,0 +1,9 @@
+PersonState:
+  module: person_state
+  class: PersonState
+  global_dependencies:
+    - globals
+  dependencies:
+    - Common
+  config:
+    input_sleep: input_boolean.sleep

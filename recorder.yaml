@@ -94,7 +94,7 @@ exclude:
     - appdaemon_app.light_toilet
     - appdaemon_app.living_room
     - appdaemon_app.living_room_cube
-    - appdaemon_app.location
+    - appdaemon_app.person_state
     - appdaemon_app.lock
     - appdaemon_app.master_bedroom_switch
     - appdaemon_app.security

@@ -4,7 +4,7 @@ Common:
   config:
     telegram_mithras: !secret telegram_mithras
     telegram_debug_chat: !secret telegram_debug_chat
-    telegram_location_chat_mithras: !secret telegram_location_chat_mithras
-    telegram_location_chat_diana: !secret telegram_location_chat_diana
+    telegram_state_chat_mithras: !secret telegram_state_chat_mithras
+    telegram_state_chat_diana: !secret telegram_state_chat_diana
     telegram_alarm_chat: !secret telegram_debug_chat
     external_url: !secret external_url

@@ -1,7 +1,0 @@
-Location:
-  module: location
-  class: Location
-  global_dependencies:
-    - globals
-  dependencies:
-    - Common
