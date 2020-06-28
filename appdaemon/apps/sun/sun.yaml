@@ -1,4 +1,4 @@
-Sun:
+SunFront:
   module: sun
   class: Sun
   global_dependencies:
@@ -7,3 +7,12 @@ Sun:
     - Common
   config:
     light: light.driveway
+SunBack:
+  module: sun
+  class: Sun
+  global_dependencies:
+    - globals
+  dependencies:
+    - Common
+  config:
+    light: light.backyard_door

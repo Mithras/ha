@@ -27,18 +27,29 @@ CUBE_SHAKE = (7007,)
 CUBE_DROP = (7008,)
 CUBE_WAKE = (7000,)
 
+INITIAL_PRESS = "initial_press"
+HOLD = "hold"
+RELEASE_AFTER_PRESS = "release_after_press"
+RELEASE_AFTER_HOLD = "release_after_hold"
+DOUBLE_PRESS = "double_press"
+TRIPLE_PRESS = "triple_press"
+QUADRUPLE_PRESS = "quadruple_press"
+SHAKE = "shake"
+DROP = "drop"
+TILT = "tilt"
+MANY_PRESS = "many_press"
 DECONZ_EVENTS = [
-    "initial_press",
-    "hold",
-    "release_after_press",
-    "release_after_hold",
-    "double_press",
-    "triple_press",
-    "quadruple_press",
-    "shake",
-    "drop",
-    "tilt",
-    "many_press"
+    INITIAL_PRESS,
+    HOLD,
+    RELEASE_AFTER_PRESS,
+    RELEASE_AFTER_HOLD,
+    DOUBLE_PRESS,
+    TRIPLE_PRESS,
+    QUADRUPLE_PRESS,
+    SHAKE,
+    DROP,
+    TILT,
+    MANY_PRESS
 ]
 
 
@@ -104,6 +115,11 @@ class Common(hass.Hass):
     async def light_turn_off_async(self, light_group: str):
         await self.call_service("light/turn_off",
                                 entity_id=light_group)
+
+    async def light_flash(self, light_group: str, flash="short"):
+        await self.call_service("light/turn_on",
+                                entity_id=light_group,
+                                flash=flash)
 
     async def get_light_profile_weights_async(self, light_group, light_profiles=LIGHT_PROFILES):
         state_profile = await self._get_light_profile_async(light_group)

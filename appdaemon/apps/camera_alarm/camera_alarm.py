@@ -14,18 +14,15 @@ class CameraAlarm(globals.Hass):
         self._camera = config["camera"]
         self._video_duration = config["video_duration"]
         self._camera_output_dir = config["camera_output_dir"]
-        self._sensorStateMap = {}
+        self._entities = config["sensors"]
         self._record_task = None
-        for entity in config["sensors"]:
-            self._sensorStateMap[entity] = await self.get_state(entity)
+        for entity in self._entities:
             await self.listen_state(self._sensor_callback_async,
                                     entity=entity)
 
     async def _sensor_callback_async(self, entity, attribute, old, new, kwargs):
         if old == new:
             return
-
-        self._sensorStateMap[entity] = new
 
         if new == "on":
             send_snapshot_task = self.create_task(self._send_snapshot_async())
@@ -47,7 +44,7 @@ class CameraAlarm(globals.Hass):
 
     async def _record_async(self):
         retry = 0
-        while any(state == "on" for state in self._sensorStateMap.values()):
+        while await self._is_active_async():
             try:
                 name = self._get_name()
                 filename = f"{self._camera_output_dir}/{name}.mp4"
@@ -77,3 +74,10 @@ class CameraAlarm(globals.Hass):
 
     def _random_string(self, length: int):
         return "".join(random.choice(SYMBOLS) for i in range(length))
+
+    async def _is_active_async(self):
+        for entity in self._entities:
+            state = await self.get_state(entity)
+            if state == "on":
+                return True
+        return False

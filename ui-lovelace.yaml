@@ -70,6 +70,7 @@ views:
               - light.porch
               - light.driveway
               - light.garage
+              - light.backyard_door
               - light.backyard
 
       - type: vertical-stack

@@ -8,3 +8,4 @@ MasterBedroomSwitch:
   config:
     unique_id: 00:0d:6f:ff:fe:be:48:86
     master_bedroom_light: light.master_bedroom
+    light_app_state: appdaemon_app.light_master_bedroom
