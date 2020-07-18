@@ -66,6 +66,9 @@ sensor:
   - platform: filesize
     file_paths:
       - /tmp/home-assistant_v2.db
+  - platform: miflora
+    mac: !secret miflora_mac
+    median: 1
 
 switch:
   - platform: broadlink

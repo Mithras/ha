@@ -11,7 +11,6 @@ LivingRoomCube:
     analog_id: mi_magic_cube_01_analog
     light_kitchen: light.kitchen
     light_kitchen_app: appdaemon_app.light_kitchen
-    light_living_room: light.living_room
-    light_living_room_back: light.living_room_back
     light_living_room_main: light.living_room_main
+    light_living_room_back: light.living_room_back
     light_kitchen_main: light.on_off_output_7

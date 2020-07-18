@@ -133,7 +133,7 @@ LightStaircase:
     sun_up_off_profile: "off"
     sun_down_off_profile: "off"
     sleep_off_profile: "off"
-LightHallway:
+LightHallwayDownstairs:
   module: light
   class: Light
   global_dependencies:
@@ -143,7 +143,24 @@ LightHallway:
   config:
     sensors:
       - entity: binary_sensor.motion_sensor_03
-    light_group: light.hallway
+    light_group: light.hallway_downstairs
+    sun_down_on_profile: Bright
+    sleep_on_profile: Nightlight
+    sun_up_off_profile: "off"
+    sun_down_off_profile: "off"
+    sleep_off_profile: "off"
+LightHallwayUpstairs:
+  module: light
+  class: Light
+  global_dependencies:
+    - globals
+  dependencies:
+    - Common
+  config:
+    sensors:
+      - entity: binary_sensor.motion_sensor_05
+      - entity: binary_sensor.motion_sensor_11
+    light_group: light.hallway_upstairs
     sun_down_on_profile: Bright
     sleep_on_profile: Nightlight
     sun_up_off_profile: "off"
@@ -182,7 +199,7 @@ LightLandryRoom:
     sun_up_off_profile: "off"
     sun_down_off_profile: "off"
     sleep_off_profile: "off"
-LightBackyard:
+LightBackyardDoor:
   module: light
   class: Light
   global_dependencies:
@@ -193,10 +210,10 @@ LightBackyard:
     sensors:
       - entity: binary_sensor.door_sensor_02
         additional_delay: 60
-    light_group: light.backyard
+    light_group: light.backyard_door
     sun_down_on_profile: Bright
     sun_up_off_profile: "off"
-    sun_down_off_profile: "off"
+    sun_down_off_profile: Nightlight
     ignore_sleep: True
 LightMasterBathroomMain:
   module: light

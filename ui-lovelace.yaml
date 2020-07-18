@@ -44,6 +44,14 @@ views:
               - sensor.multi_sensor_02
               - sensor.multi_sensor_02_3
               - sensor.multi_sensor_02_2
+          - type: entities
+            title: Backyard
+            show_header_toggle: false
+            entities:
+              - sensor.mi_flora_temperature
+              - sensor.mi_flora_light_intensity
+              - sensor.mi_flora_moisture
+              - sensor.mi_flora_conductivity
 
       - type: vertical-stack
         cards:
@@ -52,14 +60,14 @@ views:
           - type: entities
             title: Light
             entities:
-              - light.living_room
               - light.living_room_main
               - light.living_room_back
               - light.kitchen
               - entity: light.on_off_output_7
                 icon: mdi:lightbulb-on
               - light.toilet
-              - light.hallway
+              - light.hallway_downstairs
+              - light.hallway_upstairs
               - light.staircase
               - light.master_bedroom
               - light.master_bathroom
@@ -163,6 +171,7 @@ views:
           - sensor.mi_magic_cube_01_battery_level
           - sensor.linear_nortek_security_control_llc_gc_tbz48_battery_powered_z_wave_thermostat_battery_level
           - sensor.schlage_allegion_be469zp_connect_smart_deadbolt_battery_level
+          - sensor.mi_flora_battery
       - type: entities
         title: Illuminance
         show_header_toggle: false

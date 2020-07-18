@@ -20,7 +20,6 @@ class LivingRoomCube(globals.Hass):
         analog_id = config["analog_id"]
         self._light_kitchen = config["light_kitchen"]
         self._light_kitchen_app = config["light_kitchen_app"]
-        self._light_living_room = config["light_living_room"]
         self._light_living_room_main = config["light_living_room_main"]
         self._light_living_room_back = config["light_living_room_back"]
         self._light_kitchen_main = config["light_kitchen_main"]
@@ -103,10 +102,12 @@ class LivingRoomCube(globals.Hass):
             self._light_living_room_back, back_profile)
 
     async def _double_tap_async(self):
-        if await self.get_state(self._light_living_room) != "off":
-            await self.common.light_turn_off_async(self._light_living_room)
+        if await self.get_state(self._light_living_room_main) != "off" or await self.get_state(self._light_living_room_back) != "off":
+            await self.common.light_turn_off_async(self._light_living_room_main)
+            await self.common.light_turn_off_async(self._light_living_room_back)
         else:
-            await self.common.light_turn_bright_async(self._light_living_room)
+            await self.common.light_turn_bright_async(self._light_living_room_main)
+            await self.common.light_turn_bright_async(self._light_living_room_back)
 
     async def _shake_async(self):
         await self.call_service("light/toggle",
