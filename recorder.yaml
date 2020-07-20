@@ -1,6 +1,11 @@
 db_url: sqlite:////tmp/home-assistant_v2.db
 purge_keep_days: 7
 exclude:
+  domains:
+    - appdaemon_app
+  entity_globs:
+    - light.hue_*
+    - sensor.*battery_level*
   entities:
     - binary_sensor.updater
     - sensor.last_boot
@@ -9,58 +14,6 @@ exclude:
     # camera
     - camera.living_room_camera
     - camera.porch_camera
-    # light
-    - light.hue_color_lamp_1
-    - light.hue_color_lamp_2
-    - light.hue_color_lamp_3
-    - light.hue_color_lamp_4
-    - light.hue_color_lamp_5
-    - light.hue_color_lamp_6
-    - light.hue_color_lamp_7
-    - light.hue_ambiance_lamp_1
-    - light.hue_ambiance_lamp_2
-    - light.hue_ambiance_lamp_3
-    - light.hue_ambiance_lamp_4
-    - light.hue_ambiance_lamp_5
-    - light.hue_ambiance_lamp_6
-    - light.hue_ambiance_lamp_7
-    - light.hue_ambiance_lamp_8
-    - light.hue_ambiance_lamp_9
-    - light.hue_ambiance_lamp_10
-    - light.hue_ambiance_lamp_11
-    - light.hue_ambiance_lamp_12
-    - light.hue_ambiance_lamp_13
-    - light.hue_ambiance_lamp_14
-    - light.hue_ambiance_lamp_15
-    - light.hue_ambiance_lamp_16
-    - light.hue_ambiance_lamp_17
-    - light.hue_ambiance_lamp_18
-    - light.hue_ambiance_lamp_19
-    - light.hue_ambiance_lamp_20
-    - light.hue_lightstrip_plus_1
-    - light.entertainment_area
-    - light.light_strip_area
-    # battery
-    - sensor.motion_sensor_01_battery_level
-    - sensor.motion_sensor_02_battery_level
-    - sensor.motion_sensor_03_battery_level
-    - sensor.motion_sensor_04_battery_level
-    - sensor.motion_sensor_05_battery_level
-    - sensor.motion_sensor_06_battery_level
-    - sensor.motion_sensor_07_battery_level
-    - sensor.motion_sensor_08_battery_level
-    - sensor.motion_sensor_09_battery_level
-    - sensor.motion_sensor_10_battery_level
-    - sensor.motion_sensor_11_battery_level
-    - sensor.door_sensor_01_battery_level
-    - sensor.door_sensor_02_battery_level
-    - sensor.door_sensor_03_battery_level
-    - sensor.multi_sensor_01_battery_level
-    - sensor.multi_sensor_02_battery_level
-    - sensor.tradfri_on_off_switch_01_battery_level
-    - sensor.smart_switch_01_battery_level
-    - sensor.mi_magic_cube_01_battery_level
-    - sensor.linear_nortek_security_control_llc_gc_tbz48_battery_powered_z_wave_thermostat_battery_level
     # illuminance
     - sensor.motion_sensor_01
     - sensor.motion_sensor_02
@@ -73,33 +26,3 @@ exclude:
     - sensor.motion_sensor_09
     - sensor.motion_sensor_10
     - sensor.motion_sensor_11
-    # appdaemon_app
-    - appdaemon_app.camera_alarm_living_room
-    - appdaemon_app.camera_alarm_porch
-    - appdaemon_app.camera_alarm_porch_motion
-    - appdaemon_app.climate
-    - appdaemon_app.deconz_cube
-    - appdaemon_app.deconz_switch
-    - appdaemon_app.light_backyard
-    - appdaemon_app.light_driveway
-    - appdaemon_app.light_garage
-    - appdaemon_app.light_hallway
-    - appdaemon_app.light_kitchen
-    - appdaemon_app.light_landry_room
-    - appdaemon_app.light_master_bathroom
-    - appdaemon_app.light_master_bedroom
-    - appdaemon_app.light_master_toilet
-    - appdaemon_app.light_porch
-    - appdaemon_app.light_staircase
-    - appdaemon_app.light_toilet
-    - appdaemon_app.living_room
-    - appdaemon_app.living_room_cube
-    - appdaemon_app.person_state
-    - appdaemon_app.lock
-    - appdaemon_app.master_bedroom_switch
-    - appdaemon_app.security
-    - appdaemon_app.sensor_alarm_armed_away
-    - appdaemon_app.sensor_alarm_armed_home
-    - appdaemon_app.sensor_alarm_armed_sleep
-    - appdaemon_app.sleep_switch
-    - appdaemon_app.sun
