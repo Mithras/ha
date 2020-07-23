@@ -179,10 +179,6 @@ zwave:
   usb_path: /dev/ttyUSB0 # HUSBZB-1 (bottom usb 2.0)
   network_key: !secret zwave_network_key
 
-hue:
-  bridges:
-    - host: 192.168.1.7
-
 appdaemon_app:
 
 folder_watcher:

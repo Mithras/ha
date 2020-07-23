@@ -227,7 +227,7 @@ views:
           - type: call-service
             name: Rotate
             service: appdaemon_app.fire_event
-            icon: mdi:shield-refresh
+            icon: mdi:shield-sync
             service_data:
               event: appdaemon_lock_rotate
               state: front_door
