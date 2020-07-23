@@ -113,6 +113,20 @@ sensor.motion_sensor_11_battery_level:
   friendly_name: Landry Room Motion Sensor Battery
 sensor.motion_sensor_11:
   friendly_name: Landry Room Motion Sensor Illuminance
+# Motion Sensor 12
+binary_sensor.motion_sensor_12:
+  friendly_name: New1 Motion Sensor
+sensor.motion_sensor_12_battery_level:
+  friendly_name: New1 Motion Sensor Battery
+sensor.motion_sensor_12:
+  friendly_name: New1 Motion Sensor Illuminance
+# Motion Sensor 13
+binary_sensor.motion_sensor_13:
+  friendly_name: New2 Motion Sensor
+sensor.motion_sensor_13_battery_level:
+  friendly_name: New2 Motion Sensor Battery
+sensor.motion_sensor_13:
+  friendly_name: New2 Motion Sensor Illuminance
 
 # Smart Switch 01
 sensor.smart_switch_01_battery_level:

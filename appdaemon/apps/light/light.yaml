@@ -158,8 +158,7 @@ LightHallwayUpstairs:
     - Common
   config:
     sensors:
-      - entity: binary_sensor.motion_sensor_05
-      - entity: binary_sensor.motion_sensor_11
+      - entity: binary_sensor.motion_sensor_12
     light_group: light.hallway_upstairs
     sun_down_on_profile: Bright
     sleep_on_profile: Nightlight

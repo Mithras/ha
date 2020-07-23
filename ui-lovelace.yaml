@@ -99,6 +99,8 @@ views:
               - binary_sensor.motion_sensor_03
               - binary_sensor.motion_sensor_04
               - binary_sensor.motion_sensor_05
+              - binary_sensor.motion_sensor_12
+              - binary_sensor.motion_sensor_13
               - binary_sensor.door_sensor_03
               - binary_sensor.door_sensor_02
               - binary_sensor.door_sensor_01
@@ -161,6 +163,8 @@ views:
           - sensor.motion_sensor_03_battery_level
           - sensor.motion_sensor_04_battery_level
           - sensor.motion_sensor_05_battery_level
+          - sensor.motion_sensor_12_battery_level
+          - sensor.motion_sensor_13_battery_level
           - sensor.door_sensor_02_battery_level
           - sensor.door_sensor_03_battery_level
           - sensor.door_sensor_01_battery_level
@@ -187,6 +191,8 @@ views:
           - sensor.motion_sensor_03
           - sensor.motion_sensor_04
           - sensor.motion_sensor_05
+          - sensor.motion_sensor_12
+          - sensor.motion_sensor_13
 
   - title: Graphs
     path: graphs

@@ -26,3 +26,5 @@ exclude:
     - sensor.motion_sensor_09
     - sensor.motion_sensor_10
     - sensor.motion_sensor_11
+    - sensor.motion_sensor_12
+    - sensor.motion_sensor_13
