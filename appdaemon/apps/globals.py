@@ -15,6 +15,7 @@ async def check_constraint(self, key, value, app):
     return unconstrained
 
 # BUG: https://github.com/home-assistant/appdaemon/issues/922
+# https://github.com/AppDaemon/appdaemon/blob/master/appdaemon/threading.py
 threading.Threading.check_constraint = check_constraint
 
 
@@ -33,18 +34,21 @@ class Hass(hass.Hass):
         await self._setup_task
 
     # BUG: https://github.com/home-assistant/appdaemon/issues/921
-    def create_task(self, coro, **kwargs):
+    # https://github.com/AppDaemon/appdaemon/blob/master/appdaemon/adapi.py
+    def create_task(self, coro):
         task = asyncio.create_task(coro)
         self.AD.futures.add_future(self.name, task)
         return task
 
     # BUG: https://github.com/home-assistant/appdaemon/issues/926
+    # https://github.com/AppDaemon/appdaemon/blob/master/appdaemon/adapi.py
     async def sun_up(self):
-        return await self.now_is_between('sunrise', 'sunset')
+        return await self.now_is_between("sunrise", "sunset")
 
     # BUG: https://github.com/home-assistant/appdaemon/issues/926
+    # https://github.com/AppDaemon/appdaemon/blob/master/appdaemon/adapi.py
     async def sun_down(self):
-        return await self.now_is_between('sunset', 'sunrise')
+        return await self.now_is_between("sunset", "sunrise")
 
     async def constrain_arm(self, value=None):
         await self._setup_task

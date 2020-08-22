@@ -5,7 +5,7 @@ class LivingRoom(globals.Hass):
     async def initialize(self):
         config = self.args["config"]
         self._mithras_desktop = config["mithras_desktop"]
-        self._wyrd_and_jotunheim = config["wyrd_and_jotunheim"]
+        self._jotunheim = config["jotunheim"]
         self._rokit6 = config["rokit6"]
         self._samsung_tv = config["samsung_tv"]
         self._living_room_main_light = config["living_room_main_light"]
@@ -52,7 +52,7 @@ class LivingRoom(globals.Hass):
 
     async def _activate_async(self):
         await self.call_service("switch/turn_on",
-                                entity_id=self._wyrd_and_jotunheim)
+                                entity_id=self._jotunheim)
         await self.call_service("switch/turn_on",
                                 entity_id=self._rokit6)
         await self.call_service("media_player/turn_on",
@@ -62,7 +62,7 @@ class LivingRoom(globals.Hass):
 
     async def _deactivate_async(self):
         await self.call_service("switch/turn_off",
-                                entity_id=self._wyrd_and_jotunheim)
+                                entity_id=self._jotunheim)
         await self.call_service("switch/turn_off",
                                 entity_id=self._rokit6)
         await self.call_service("media_player/turn_off",

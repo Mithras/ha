@@ -16,7 +16,7 @@ views:
             entities:
               - input_boolean.sleep
               - input_select.security_override
-              - lock.schlage_allegion_be469zp_connect_smart_deadbolt_locked
+              - lock.schlage_connect_smart_deadbolt_locked
           - type: entities
             title: Living Room
             show_header_toggle: false
@@ -24,6 +24,8 @@ views:
               - sensor.multi_sensor_01_2
               - sensor.multi_sensor_01
               - sensor.multi_sensor_01_3
+              - sensor.power_02
+              - sensor.consumption_02
               - entity: switch.mithras_desktop
                 icon: mdi:desktop-tower
               - media_player.samsung_smart_tv
@@ -33,8 +35,6 @@ views:
                 icon: mdi:speaker-multiple
               - entity: switch.tradfri_control_outlet_02
                 icon: mdi:amplifier
-              - entity: switch.levoit_humidifier
-                icon: mdi:air-humidifier
               - vacuum.roborock_s5
               - vacuum.roomba
           - type: entities
@@ -44,6 +44,11 @@ views:
               - sensor.multi_sensor_02
               - sensor.multi_sensor_02_3
               - sensor.multi_sensor_02_2
+              - sensor.power_01
+              # - entity: switch.levoit_humidifier
+              #   icon: mdi:air-humidifier
+              - entity: switch.smart_plug_01
+                icon: mdi:raspberry-pi
           - type: entities
             title: Backyard
             show_header_toggle: false
@@ -56,7 +61,7 @@ views:
       - type: vertical-stack
         cards:
           - type: thermostat
-            entity: climate.linear_nortek_security_control_llc_gc_tbz48_battery_powered_z_wave_thermostat_mode
+            entity: climate.gc_tbz48_battery_powered_z_wave_thermostat_mode
           - type: entities
             title: Light
             entities:
@@ -173,8 +178,7 @@ views:
           - sensor.tradfri_on_off_switch_01_battery_level
           - sensor.smart_switch_01_battery_level
           - sensor.mi_magic_cube_01_battery_level
-          - sensor.linear_nortek_security_control_llc_gc_tbz48_battery_powered_z_wave_thermostat_battery_level
-          - sensor.schlage_allegion_be469zp_connect_smart_deadbolt_battery_level
+          - sensor.schlage_connect_smart_deadbolt_battery_level
           - sensor.mi_flora_battery
       - type: entities
         title: Illuminance
@@ -200,7 +204,7 @@ views:
       - type: history-graph
         title: Temperature
         entities:
-          - sensor.linear_nortek_security_control_llc_gc_tbz48_battery_powered_z_wave_thermostat_temperature
+          - sensor.gc_tbz48_battery_powered_z_wave_thermostat_air_temperature
           - sensor.multi_sensor_01_2
           - sensor.multi_sensor_02
       - type: history-graph

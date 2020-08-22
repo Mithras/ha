@@ -89,20 +89,13 @@ switch:
         addon: core_rpc_shutdown
         input: mithras_desktop
 
-media_player:
-  # https://github.com/xchwarze/ha-samsungtv-custom
-  - platform: samsungtv_custom
+samsungtv:
+  - host: 192.168.1.5
     name: Samsung Smart TV
-    host: 192.168.1.5
-    port: 8002
-    mac: !secret samsung_tv_mac
-# samsungtv:
-#   - host: 192.168.1.5
-#     name: Samsung Smart TV
-#     turn_on_action:
-#       - service: wake_on_lan.send_magic_packet
-#         data:
-#           mac: !secret samsung_tv_mac
+    turn_on_action:
+      - service: wake_on_lan.send_magic_packet
+        data:
+          mac: !secret samsung_tv_mac
 
 roomba:
   - host: 192.168.1.6
@@ -174,10 +167,6 @@ lovelace:
     # https://github.com/thomasloven/lovelace-auto-entities
     - url: /local/ui-lovelace/auto-entities/auto-entities.js
       type: module
-
-zwave:
-  usb_path: /dev/ttyUSB0 # HUSBZB-1 (bottom usb 2.0)
-  network_key: !secret zwave_network_key
 
 appdaemon_app:
 

@@ -50,20 +50,25 @@ class Climate(globals.Hass):
             return
 
         hvac_mode = await self.get_state(self._climate)
-        target_temperature = float(await self.get_state(self._climate, "temperature"))
-        temperature = float(await self.get_state(self._temperature))
-        if self._home_params["hvac_mode"] == hvac_mode and self._home_params["temperature"] == target_temperature:
+        target_temperature = await self.get_state(self._climate, "temperature")
+        temperature = await self.get_state(self._temperature)
+        if hvac_mode is None or target_temperature is None or temperature is None:
             return
-        if self._home_params["hvac_mode"] == "heat" and self._home_params["temperature"] <= temperature:
+
+        target_temperature_float = float(target_temperature)
+        temperature_float = float(temperature)
+        if self._home_params["hvac_mode"] == hvac_mode and self._home_params["temperature"] == target_temperature_float:
             return
-        if self._home_params["hvac_mode"] == "cool" and self._home_params["temperature"] >= temperature:
+        if self._home_params["hvac_mode"] == "heat" and self._home_params["temperature"] <= temperature_float:
             return
-        if self._home_params["hvac_mode"] == "heat_cool" and self._home_params["temperature"] == temperature:
+        if self._home_params["hvac_mode"] == "cool" and self._home_params["temperature"] >= temperature_float:
+            return
+        if self._home_params["hvac_mode"] == "heat_cool" and self._home_params["temperature"] == temperature_float:
             return
 
         await self.call_service("telegram_bot/send_message",
                                 target=[self.common.telegram_debug_chat],
-                                message=f"You have left *{old}*. Do you want to pre-set climate to home?\n  - current Temperature: {temperature}°C",
+                                message=f"You have left *{old}*. Do you want to pre-set climate to home?\n  - current Temperature: {temperature_float}°C",
                                 inline_keyboard=[[["Yes", SET_HOME_CMD], ["No", DO_NOTHING_CMD]]])
 
     async def _telegram_callback_async(self, event_name, data, kwargs):

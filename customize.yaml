@@ -165,45 +165,50 @@ switch.tradfri_control_outlet_02:
   friendly_name: Audit Hud
 # TRÅDFRI control outlet 03
 switch.tradfri_control_outlet_03:
-  friendly_name: Wyrd+Jotunheim
-# TRÅDFRI control outlet 04
-switch.tradfri_control_outlet_04:
-  friendly_name: TRÅDFRI control outlet 04
+  friendly_name: Jotunheim
 # Smart Light Switch 01
 light.on_off_output_7:
   friendly_name: Kitchen Main
 # Smart Light Switch 02
 light.smart_light_switch_02:
   friendly_name: Master Bathroom Main
+# Smart Plug 01
+switch.smart_plug_01:
+  friendly_name: Raspberry Pi + Modi
+sensor.consumption_01:
+  friendly_name: Raspberry Pi + Modi Consumption
+sensor.power_change_01:
+  friendly_name: Raspberry Pi + Modi Power Change
+sensor.power_01:
+  friendly_name: Raspberry Pi + Modi Power
+# Smart Plug 02
+switch.smart_plug_02:
+  friendly_name: Mithras Desktop
+sensor.consumption_02:
+  friendly_name: Mithras Desktop Consumption
+sensor.power_change_02:
+  friendly_name: Mithras Desktop Power Change
+sensor.power_02:
+  friendly_name: Mithras Desktop Power
 
 # Thermostat
-? climate.linear_nortek_security_control_llc_gc_tbz48_battery_powered_z_wave_thermostat_mode
-: friendly_name: Climate
-? sensor.linear_nortek_security_control_llc_gc_tbz48_battery_powered_z_wave_thermostat_battery_level
-: friendly_name: Thermostat Battery
-? sensor.linear_nortek_security_control_llc_gc_tbz48_battery_powered_z_wave_thermostat_temperature
-: friendly_name: Thermostat Temperature
+climate.gc_tbz48_battery_powered_z_wave_thermostat_mode:
+  friendly_name: Climate
+sensor.gc_tbz48_battery_powered_z_wave_thermostat_battery_level:
+  friendly_name: Thermostat Battery
+sensor.gc_tbz48_battery_powered_z_wave_thermostat_air_temperature:
+  friendly_name: Thermostat Temperature
 
 # Schlage Connect Smart Deadbolt
-# zwave.schlage_allegion_be469zp_connect_smart_deadbolt:
-lock.schlage_allegion_be469zp_connect_smart_deadbolt_locked:
+lock.schlage_connect_smart_deadbolt_locked:
   friendly_name: Schlage Connect Smart Deadbolt
-sensor.schlage_allegion_be469zp_connect_smart_deadbolt_battery_level:
-  friendly_name: Schlage Connect Smart Deadbolt Battery
-sensor.schlage_allegion_be469zp_connect_smart_deadbolt_access_control:
-  friendly_name: Schlage Connect Smart Deadbolt Access Control
-sensor.schlage_allegion_be469zp_connect_smart_deadbolt_alarm_level:
-  friendly_name: Schlage Connect Smart Deadbolt Alarm Level
-sensor.schlage_allegion_be469zp_connect_smart_deadbolt_alarm_type:
-  friendly_name: Schlage Connect Smart Deadbolt Alarm Type
-sensor.schlage_allegion_be469zp_connect_smart_deadbolt_burglar:
-  friendly_name: Schlage Connect Smart Deadbolt Burglar
-sensor.schlage_allegion_be469zp_connect_smart_deadbolt_power_management:
-  friendly_name: Schlage Connect Smart Deadbolt Power Management
-sensor.schlage_allegion_be469zp_connect_smart_deadbolt_sourcenodeid:
-  friendly_name: Schlage Connect Smart Deadbolt SourceNodeId
-sensor.schlage_allegion_be469zp_connect_smart_deadbolt_system:
-  friendly_name: Schlage Connect Smart Deadbolt System
+# sensor.schlage_connect_smart_deadbolt_access_control:
+# sensor.schlage_connect_smart_deadbolt_battery_level:
+# sensor.schlage_connect_smart_deadbolt_home_security:
+# binary_sensor.schlage_connect_smart_deadbolt_home_security_intrusion:
+# sensor.schlage_connect_smart_deadbolt_system:
+# binary_sensor.schlage_connect_smart_deadbolt_system_hardware_failure:
+# sensor.schlage_connect_smart_deadbolt_user_code:
 
 # Mithras' Pixel
 device_tracker.mithras_pixel_3:

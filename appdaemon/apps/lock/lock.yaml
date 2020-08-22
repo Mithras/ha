@@ -8,11 +8,7 @@ Lock:
   config:
     name: Front Door
     state: front_door
-    node_id: 3
     code_slot: 1
-    alarm_type: 19
-    alarm_level: 1
-    lock: lock.schlage_allegion_be469zp_connect_smart_deadbolt_locked
-    access_control_sensor: sensor.schlage_allegion_be469zp_connect_smart_deadbolt_access_control
-    alarm_type_sensor: sensor.schlage_allegion_be469zp_connect_smart_deadbolt_alarm_type
-    alarm_level_sensor: sensor.schlage_allegion_be469zp_connect_smart_deadbolt_alarm_level
+    lock: lock.schlage_connect_smart_deadbolt_locked
+    access_control_sensor: sensor.schlage_connect_smart_deadbolt_access_control
+    user_code_sensor: sensor.schlage_connect_smart_deadbolt_user_code

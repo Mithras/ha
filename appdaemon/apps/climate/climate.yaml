@@ -6,8 +6,8 @@ Climate:
   dependencies:
     - Common
   config:
-    climate: climate.linear_nortek_security_control_llc_gc_tbz48_battery_powered_z_wave_thermostat_mode
-    temperature: sensor.linear_nortek_security_control_llc_gc_tbz48_battery_powered_z_wave_thermostat_temperature
+    climate: climate.gc_tbz48_battery_powered_z_wave_thermostat_mode
+    temperature: sensor.gc_tbz48_battery_powered_z_wave_thermostat_air_temperature
     person: person.mithras
     sleep_input: input_boolean.sleep
     home_params:
