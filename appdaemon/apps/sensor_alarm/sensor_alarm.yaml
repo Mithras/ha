@@ -17,13 +17,12 @@ SensorAlarmArmedAway:
     - binary_sensor.motion_sensor_02 # Garage Motion Sensor
     - binary_sensor.motion_sensor_07 # Master Bathroom Motion Sensor
     - binary_sensor.motion_sensor_08 # Master Toilet Motion Sensor
-    - binary_sensor.motion_sensor_03 # Hallway Motion Sensor
+    - binary_sensor.motion_sensor_03 # Hallway Downstairs Motion Sensor
     - binary_sensor.motion_sensor_04 # Staircase Bottom Motion Sensor
     - binary_sensor.motion_sensor_05 # Staircase Top Motion Sensor
     - binary_sensor.motion_sensor_10 # Toilet Motion Sensor
     - binary_sensor.motion_sensor_11 # Landry Room Motion Sensor
-    - binary_sensor.motion_sensor_12 # New1 Motion Sensor
-    - binary_sensor.motion_sensor_13 # New2 Motion Sensor
+    - binary_sensor.motion_sensor_12 # Hallway Downstairs Upstairs Motion Sensor
     - binary_sensor.door_sensor_03 # Front Door Sensor
     - binary_sensor.door_sensor_01 # Garage Door Sensor
     - binary_sensor.door_sensor_02 # Backyard Door Sensor
@@ -69,8 +68,7 @@ SensorAlarmArmedSleep:
     - binary_sensor.motion_sensor_05 # Staircase Top Motion Sensor
     - binary_sensor.motion_sensor_10 # Toilet Motion Sensor
     - binary_sensor.motion_sensor_11 # Landry Room Motion Sensor
-    - binary_sensor.motion_sensor_12 # New1 Motion Sensor
-    - binary_sensor.motion_sensor_13 # New2 Motion Sensor
+    - binary_sensor.motion_sensor_12 # Hallway Upstairs Motion Sensor
     - binary_sensor.door_sensor_03 # Front Door Sensor
     - binary_sensor.door_sensor_01 # Garage Door Sensor
     - binary_sensor.door_sensor_02 # Backyard Door Sensor

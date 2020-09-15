@@ -1,0 +1,12 @@
+Ventilation:
+  module: ventilation
+  class: Ventilation
+  global_dependencies:
+    - globals
+  dependencies:
+    - Common
+  config:
+    climate: climate.gc_tbz48_battery_powered_z_wave_thermostat_mode
+    on_low_interval: 1800 # 30m
+    on_auto_interval: 12600 # 3h 30m
+    check_interval: 300 # 5m

@@ -25,7 +25,6 @@ views:
               - sensor.multi_sensor_01
               - sensor.multi_sensor_01_3
               - sensor.power_02
-              - sensor.consumption_02
               - entity: switch.mithras_desktop
                 icon: mdi:desktop-tower
               - media_player.samsung_smart_tv

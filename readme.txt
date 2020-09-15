@@ -5,15 +5,12 @@
         APM Configuration\ErP Ready: DISABLED
         APM Configuration\Power on by PCI-E: ENABLED
     2. Device Manager -> NetworkAdapter
-        Power Management
+        2.1 Update driver
+        2.2 Power Management
             Check everything
-        Advanced
-            Enable PME: true
-            Energy Efficient Ethernet: false
-            Reduce Speed On Power Down: false
-            System Power Saver: false
-            System Idle Power Saver: false
-            Ultra low power mode: false
+        2.3 Advanced
+            Enable PME: Enabled
+            Wake on Magic Packet: Enabled
     3. Power Options
         Fast Startup: false
 * RPC Shutdown

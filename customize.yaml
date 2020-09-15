@@ -52,11 +52,11 @@ sensor.motion_sensor_02:
   friendly_name: Garage Motion Sensor Illuminance
 # Motion Sensor 03
 binary_sensor.motion_sensor_03:
-  friendly_name: Hallway Motion Sensor
+  friendly_name: Hallway Downstairs Motion Sensor
 sensor.motion_sensor_03_battery_level:
-  friendly_name: Hallway Motion Sensor Battery
+  friendly_name: Hallway Downstairs Motion Sensor Battery
 sensor.motion_sensor_03:
-  friendly_name: Hallway Motion Sensor Illuminance
+  friendly_name: Hallway Downstairs Motion Sensor Illuminance
 # Motion Sensor 04
 binary_sensor.motion_sensor_04:
   friendly_name: Staircase Bottom Motion Sensor
@@ -115,11 +115,11 @@ sensor.motion_sensor_11:
   friendly_name: Landry Room Motion Sensor Illuminance
 # Motion Sensor 12
 binary_sensor.motion_sensor_12:
-  friendly_name: New1 Motion Sensor
+  friendly_name: Hallway Upstairs Motion Sensor
 sensor.motion_sensor_12_battery_level:
-  friendly_name: New1 Motion Sensor Battery
+  friendly_name: Hallway Upstairs Motion Sensor Battery
 sensor.motion_sensor_12:
-  friendly_name: New1 Motion Sensor Illuminance
+  friendly_name: Hallway Upstairs Motion Sensor Illuminance
 # Motion Sensor 13
 binary_sensor.motion_sensor_13:
   friendly_name: New2 Motion Sensor
