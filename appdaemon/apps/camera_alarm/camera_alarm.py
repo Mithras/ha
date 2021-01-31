@@ -25,9 +25,9 @@ class CameraAlarm(globals.Hass):
             return
 
         if new == "on":
-            send_snapshot_task = self.create_task(self._send_snapshot_async())
+            send_snapshot_task = await self.create_task(self._send_snapshot_async())
             if not self._record_task:
-                self._record_task = self.create_task(self._record_async())
+                self._record_task = await self.create_task(self._record_async())
                 await self._record_task
             await send_snapshot_task
 
@@ -46,6 +46,7 @@ class CameraAlarm(globals.Hass):
         retry = 0
         while await self._is_active_async():
             try:
+                # self.log(f"try: retry={retry}")
                 name = self._get_name()
                 filename = f"{self._camera_output_dir}/{name}.mp4"
                 result = await self.call_service("camera/record",
@@ -58,6 +59,7 @@ class CameraAlarm(globals.Hass):
                 retry = 0
                 await self.sleep(self._video_duration + 1)
             except:
+                # self.log(f"except: retry={retry}")
                 if retry == MAX_RETRY:
                     self._record_task = None
                     raise

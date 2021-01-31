@@ -25,6 +25,7 @@ views:
               - sensor.multi_sensor_01
               - sensor.multi_sensor_01_3
               - sensor.power_02
+              - switch.smart_plug_02
               - entity: switch.mithras_desktop
                 icon: mdi:desktop-tower
               - media_player.samsung_smart_tv
@@ -32,10 +33,7 @@ views:
                 icon: mdi:amplifier
               - entity: switch.tradfri_control_outlet_01
                 icon: mdi:speaker-multiple
-              - entity: switch.tradfri_control_outlet_02
-                icon: mdi:amplifier
               - vacuum.roborock_s5
-              - vacuum.roomba
           - type: entities
             title: Master Bedroom
             show_header_toggle: false
@@ -44,18 +42,8 @@ views:
               - sensor.multi_sensor_02_3
               - sensor.multi_sensor_02_2
               - sensor.power_01
-              # - entity: switch.levoit_humidifier
-              #   icon: mdi:air-humidifier
               - entity: switch.smart_plug_01
                 icon: mdi:raspberry-pi
-          - type: entities
-            title: Backyard
-            show_header_toggle: false
-            entities:
-              - sensor.mi_flora_temperature
-              - sensor.mi_flora_light_intensity
-              - sensor.mi_flora_moisture
-              - sensor.mi_flora_conductivity
 
       - type: vertical-stack
         cards:
@@ -84,6 +72,7 @@ views:
               - light.garage
               - light.backyard_door
               - light.backyard
+              - light.light_strip
 
       - type: vertical-stack
         cards:
@@ -127,9 +116,9 @@ views:
         show_header_toggle: false
         entities:
           - device_tracker.mithras_pixel_3
-          - device_tracker.owntracks_mithras
+          - device_tracker.google_maps_105774318449945023361
           - device_tracker.diana_pixel_3
-          - device_tracker.owntracks_diana
+          - device_tracker.google_maps_110641435314733431814
       - type: entities
         title: Camera
         show_header_toggle: false
@@ -178,7 +167,6 @@ views:
           - sensor.smart_switch_01_battery_level
           - sensor.mi_magic_cube_01_battery_level
           - sensor.schlage_connect_smart_deadbolt_battery_level
-          - sensor.mi_flora_battery
       - type: entities
         title: Illuminance
         show_header_toggle: false

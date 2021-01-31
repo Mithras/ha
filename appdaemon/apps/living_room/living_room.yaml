@@ -10,7 +10,7 @@ LivingRoom:
     person: person.mithras
     mithras_desktop: switch.mithras_desktop
     jotunheim: switch.tradfri_control_outlet_03
-    rokit6: switch.tradfri_control_outlet_01
+    speakers: switch.tradfri_control_outlet_01
     samsung_tv: media_player.samsung_smart_tv
     living_room_main_light: light.living_room_main
     living_room_back_light: light.living_room_back

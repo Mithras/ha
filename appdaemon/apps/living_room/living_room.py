@@ -6,7 +6,7 @@ class LivingRoom(globals.Hass):
         config = self.args["config"]
         self._mithras_desktop = config["mithras_desktop"]
         self._jotunheim = config["jotunheim"]
-        self._rokit6 = config["rokit6"]
+        self._speakers = config["speakers"]
         self._samsung_tv = config["samsung_tv"]
         self._living_room_main_light = config["living_room_main_light"]
         self._living_room_back_light = config["living_room_back_light"]
@@ -36,8 +36,7 @@ class LivingRoom(globals.Hass):
         if old == new:
             return
         await self._activate_async()
-        await self.call_service("switch/turn_on",
-                                entity_id=self._mithras_desktop)
+        await self.common.turn_on_async(self._mithras_desktop)
 
     async def _person_not_home_callback_async(self, entity, attribute, old, new, kwargs):
         if old == new or await self.anyone_home():
@@ -47,26 +46,18 @@ class LivingRoom(globals.Hass):
     async def _awake_callback_async(self, entity, attribute, old, new, kwargs):
         if old == new:
             return
-        await self.call_service("switch/turn_on",
-                                entity_id=self._mithras_desktop)
+        await self._activate_async()
+        await self.common.turn_on_async(self._mithras_desktop)
 
     async def _activate_async(self):
-        await self.call_service("switch/turn_on",
-                                entity_id=self._jotunheim)
-        await self.call_service("switch/turn_on",
-                                entity_id=self._rokit6)
-        await self.call_service("media_player/turn_on",
-                                entity_id=self._samsung_tv)
+        await self.common.turn_on_async(self._jotunheim)
+        await self.common.turn_on_async(self._speakers)
+        await self.common.turn_on_async(self._samsung_tv)
         await self.common.light_turn_bright_async(self._living_room_main_light)
         await self.common.light_turn_dimmed_async(self._living_room_back_light)
 
     async def _deactivate_async(self):
-        await self.call_service("switch/turn_off",
-                                entity_id=self._jotunheim)
-        await self.call_service("switch/turn_off",
-                                entity_id=self._rokit6)
-        await self.call_service("media_player/turn_off",
-                                entity_id=self._samsung_tv)
-        await self.common.light_turn_off_async(self._living_room_main_light)
-        await self.common.light_turn_off_async(self._living_room_back_light)
-        await self.common.light_turn_off_async(self._light_strip)
+        await self.common.turn_off_async(self._jotunheim)
+        await self.common.turn_off_async(self._speakers)
+        await self.common.turn_off_async(self._samsung_tv)
+        await self.common.turn_off_async(self._light_strip)

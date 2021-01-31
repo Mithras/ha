@@ -39,7 +39,7 @@ class Light(globals.Hass):
             if additional_delay:
                 # self.log(
                 #     f"callback.sleep: sensor={sensor}, additional_delay={additional_delay}")
-                sensor["sleep_task"] = self.create_task(
+                sensor["sleep_task"] = await self.create_task(
                     self.sleep(additional_delay))
                 await sensor["sleep_task"]
             # self.log(f"callback.handle_off: sensor={sensor}")
@@ -79,8 +79,8 @@ class Light(globals.Hass):
 
     async def _handle_profile_async(self, light_group, profile):
         if profile == "on":
-            await self.common.light_turn_on_async(light_group)
+            await self.common.turn_on_async(light_group)
         elif profile == "off":
-            await self.common.light_turn_off_async(light_group)
+            await self.common.turn_off_async(light_group)
         elif profile is not None:
             await self.common.light_turn_profile_async(light_group, profile)

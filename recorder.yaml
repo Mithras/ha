@@ -6,25 +6,12 @@ exclude:
   entity_globs:
     - light.hue_*
     - sensor.*battery_level*
+    - sensor.motion_sensor_*  # illuminance
+    - sensor.power_change_*
   entities:
     - binary_sensor.updater
     - sensor.last_boot
     - sensor.daylight
     - weather.home_assistant
-    # camera
     - camera.living_room_camera
     - camera.porch_camera
-    # illuminance
-    - sensor.motion_sensor_01
-    - sensor.motion_sensor_02
-    - sensor.motion_sensor_03
-    - sensor.motion_sensor_04
-    - sensor.motion_sensor_05
-    - sensor.motion_sensor_06
-    - sensor.motion_sensor_07
-    - sensor.motion_sensor_08
-    - sensor.motion_sensor_09
-    - sensor.motion_sensor_10
-    - sensor.motion_sensor_11
-    - sensor.motion_sensor_12
-    - sensor.motion_sensor_13

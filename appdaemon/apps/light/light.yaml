@@ -23,6 +23,7 @@ LightKitchen:
   config:
     sensors:
       - entity: binary_sensor.motion_sensor_01
+        additional_delay: 60
     light_group: light.kitchen
     sun_up_on_profile: Bright
     sun_down_on_profile: Bright
@@ -75,6 +76,7 @@ LightMasterToilet:
   config:
     sensors:
       - entity: binary_sensor.motion_sensor_08
+        additional_delay: 120
     light_group: light.master_toilet
     sun_up_on_profile: Bright
     sun_down_on_profile: Bright
@@ -175,6 +177,7 @@ LightToilet:
   config:
     sensors:
       - entity: binary_sensor.motion_sensor_10
+        additional_delay: 120
     light_group: light.toilet
     sun_up_on_profile: Bright
     sun_down_on_profile: Bright

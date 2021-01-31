@@ -31,14 +31,14 @@ class Hass(hass.Hass):
         self.app_config[self.name]["constrain_enabled"] = None
 
     async def initialize(self):
-        await self._setup_task
+        await (await self._setup_task)
 
     # BUG: https://github.com/home-assistant/appdaemon/issues/921
     # https://github.com/AppDaemon/appdaemon/blob/master/appdaemon/adapi.py
-    def create_task(self, coro):
-        task = asyncio.create_task(coro)
-        self.AD.futures.add_future(self.name, task)
-        return task
+    # def create_task(self, coro):
+    #     task = asyncio.create_task(coro)
+    #     self.AD.futures.add_future(self.name, task)
+    #     return task
 
     # BUG: https://github.com/home-assistant/appdaemon/issues/926
     # https://github.com/AppDaemon/appdaemon/blob/master/appdaemon/adapi.py

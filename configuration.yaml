@@ -38,6 +38,9 @@ device_tracker:
     consider_home: 60
     new_device_defaults:
       track_new_devices: false
+  - platform: google_maps
+    username: !secret location_account
+    scan_interval: 30
 
 sensor:
   - platform: command_line
@@ -66,19 +69,8 @@ sensor:
   - platform: filesize
     file_paths:
       - /tmp/home-assistant_v2.db
-  - platform: miflora
-    mac: !secret miflora_mac
-    median: 1
 
 switch:
-  - platform: broadlink
-    host: 192.168.1.4
-    mac: !secret broadlink_rm3_mini_mac
-    switches:
-      levoit_humidifier:
-        friendly_name: Levoit Humidifier
-        command_on: !secret levoit_humidifier_ir_command
-        command_off: !secret levoit_humidifier_ir_command
   - platform: wake_on_lan
     mac: !secret mithras_desktop_mac
     name: Mithras Desktop
@@ -97,20 +89,11 @@ samsungtv:
         data:
           mac: !secret samsung_tv_mac
 
-roomba:
-  - host: 192.168.1.6
-    blid: !secret roomba_username
-    password: !secret roomba_password
-
 vacuum:
   - platform: xiaomi_miio
     name: Roborock S5
     host: 192.168.1.10
     token: !secret roborock_s5_token
-
-owntracks:
-  max_gps_accuracy: 100
-  waypoints: false
 
 telegram_bot:
   - platform: webhooks

@@ -9,33 +9,57 @@ class Ventilation(globals.Hass):
     async def initialize(self):
         config = self.args["config"]
         self._climate = config["climate"]
-        self.on_low_interval = config["on_low_interval"]
-        self.on_auto_interval = config["on_auto_interval"]
-        self.check_interval = config["check_interval"]
+        self._on_low_interval = config["on_low_interval"]
+        self._on_auto_interval = config["on_auto_interval"]
+        self._sleep_input = config["sleep_input"]
 
-        self.create_task(self._run())
+        self._fan_running = None
+        self._timer_handle = None
+        self._start_when_awake = False
 
-    async def _run(self):
-        mode = ON_LOW
-        while True:
-            interval = self.on_low_interval if mode == ON_LOW else self.on_auto_interval
-            # self.log(
-            #     f"_run: _mode = {mode}, interval = {interval}, check_interval = {self.check_interval}")
-            i = 0
-            while i < interval:
-                # self.log(f"\t_run: i = {i}")
-                await self._ensure_fan_mode(mode)
-                sleep = min(interval - i, self.check_interval)
-                # self.log(f"\t_run: sleep = {sleep}")
-                await self.sleep(sleep)
-                i += sleep
-            mode = AUTO_LOW if mode == ON_LOW else ON_LOW
+        await self.listen_state(self._climate_callback_async,
+                                entity=self._climate,
+                                attribute="hvac_action")
+        await self.listen_state(self._climate_callback_async,
+                                entity=self._climate,
+                                attribute="fan_mode")
+        await self.listen_state(self._awake_callback_async,
+                                entity=self._sleep_input,
+                                new="off")
+        await self._handle_climate_change_async()
 
-    async def _ensure_fan_mode(self, mode):
-        fan_mode = await self.get_state(self._climate, "fan_mode")
-        # self.log(f"\t_ensure_fan_mode: fan_mode = {fan_mode}, mode = {mode}")
-        if fan_mode != mode:
-            # self.log(f"\t_ensure_fan_mode: set_fan_mode = {mode}")
+    async def _climate_callback_async(self, entity, attribute, old, new, kwargs):
+        if old == new:
+            return
+        await self._handle_climate_change_async()
+
+    async def _awake_callback_async(self, entity, attribute, old, new, kwargs):
+        if old == new:
+            return
+        if self._start_when_awake:
+            self._start_when_awake = False
             await self.call_service("climate/set_fan_mode",
                                     entity_id=self._climate,
-                                    fan_mode=mode)
+                                    fan_mode=ON_LOW)
+
+    async def _handle_climate_change_async(self):
+        hvac_action = await self.get_state(self._climate, attribute="hvac_action")
+        fan_mode = await self.get_state(self._climate, attribute="fan_mode")
+        fan_running = fan_mode == "On Low" or hvac_action != "idle"
+
+        if self._fan_running == fan_running:
+            return
+
+        self._fan_running = fan_running
+        delay = self._on_low_interval if self._fan_running else self._on_auto_interval
+        await self.cancel_timer(self._timer_handle)
+        self._timer_handle = await self.run_in(self._set_fan_mode, delay)
+
+    async def _set_fan_mode(self, kwargs):
+        fan_mode = AUTO_LOW if self._fan_running else ON_LOW
+        if fan_mode == ON_LOW and await self.get_state(self._sleep_input) == "on":
+            self._start_when_awake = True
+            return
+        await self.call_service("climate/set_fan_mode",
+                                entity_id=self._climate,
+                                fan_mode=fan_mode)

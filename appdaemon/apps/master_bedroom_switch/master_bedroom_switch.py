@@ -20,7 +20,7 @@ class MasterBedroomSwitch(globals.Hass):
                 await self.common.light_turn_nightlight_async(
                     self._master_bedroom_light)
             elif button == 2:
-                await self.common.light_turn_off_async(self._master_bedroom_light)
+                await self.common.turn_off_async(self._master_bedroom_light)
         elif event == "hold":
             if button == 1:
                 await self.common.light_turn_bright_async(self._master_bedroom_light)

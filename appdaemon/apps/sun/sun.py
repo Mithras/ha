@@ -14,4 +14,4 @@ class Sun(globals.Hass):
             await self.common.light_turn_nightlight_async(self.light)
 
     async def _sunrise_callback_async(self, kwargs):
-        await self.common.light_turn_off_async(self.light)
+        await self.common.turn_off_async(self.light)

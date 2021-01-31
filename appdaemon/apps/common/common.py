@@ -81,7 +81,7 @@ class Common(hass.Hass):
 
     async def send_alarm_async(self, message: str, **kwargs):
         await self.call_service("telegram_bot/send_message",
-                                target=[self.telegram_debug_chat],
+                                target=[self.telegram_alarm_chat],
                                 message=message,
                                 **kwargs)
 
@@ -90,6 +90,16 @@ class Common(hass.Hass):
                                 target=[self.telegram_debug_chat],
                                 message=message,
                                 **kwargs)
+
+    async def turn_on_async(self, entity: str):
+        [domain, _] = entity.split(".")
+        await self.call_service(f"{domain}/turn_on",
+                                entity_id=entity)
+
+    async def turn_off_async(self, entity: str):
+        [domain, _] = entity.split(".")
+        await self.call_service(f"{domain}/turn_off",
+                                entity_id=entity)
 
     async def light_turn_bright_async(self, light_group: str):
         await self.light_turn_profile_async(light_group, "Bright")
@@ -102,19 +112,11 @@ class Common(hass.Hass):
 
     async def light_turn_profile_async(self, light_group: str, profile: str):
         if profile == "off":
-            await self.light_turn_off_async(light_group)
+            await self.turn_off_async(light_group)
         else:
             await self.call_service("light/turn_on",
                                     entity_id=light_group,
                                     profile=profile)
-
-    async def light_turn_on_async(self, light_group: str):
-        await self.call_service("light/turn_on",
-                                entity_id=light_group)
-
-    async def light_turn_off_async(self, light_group: str):
-        await self.call_service("light/turn_off",
-                                entity_id=light_group)
 
     async def light_flash(self, light_group: str, flash="short"):
         await self.call_service("light/turn_on",

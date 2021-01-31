@@ -69,7 +69,7 @@ class LivingRoomCube(globals.Hass):
         if await self.get_state(self._light_kitchen) == "off":
             await self.common.light_turn_bright_async(self._light_kitchen)
         else:
-            await self.common.light_turn_off_async(self._light_kitchen)
+            await self.common.turn_off_async(self._light_kitchen)
 
     async def _flip_180_async(self):
         await self.call_service("appdaemon_app/toggle",
@@ -103,8 +103,8 @@ class LivingRoomCube(globals.Hass):
 
     async def _double_tap_async(self):
         if await self.get_state(self._light_living_room_main) != "off" or await self.get_state(self._light_living_room_back) != "off":
-            await self.common.light_turn_off_async(self._light_living_room_main)
-            await self.common.light_turn_off_async(self._light_living_room_back)
+            await self.common.turn_off_async(self._light_living_room_main)
+            await self.common.turn_off_async(self._light_living_room_back)
         else:
             await self.common.light_turn_bright_async(self._light_living_room_main)
             await self.common.light_turn_bright_async(self._light_living_room_back)

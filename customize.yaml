@@ -160,9 +160,6 @@ sensor.multi_sensor_02_battery_level:
 # TRÅDFRI control outlet 01
 switch.tradfri_control_outlet_01:
   friendly_name: Speakers
-# TRÅDFRI control outlet 02
-switch.tradfri_control_outlet_02:
-  friendly_name: Audit Hud
 # TRÅDFRI control outlet 03
 switch.tradfri_control_outlet_03:
   friendly_name: Jotunheim
@@ -213,10 +210,11 @@ lock.schlage_connect_smart_deadbolt_locked:
 # Mithras' Pixel
 device_tracker.mithras_pixel_3:
   friendly_name: Mithras' Pixel
-device_tracker.owntracks_mithras:
-  friendly_name: Mithras' OwnTracks
+device_tracker.google_maps_105774318449945023361:
+  friendly_name: Mithras' Google Maps
+  
 # Diana's Pixel
 device_tracker.diana_pixel_3:
   friendly_name: Diana's Pixel
-device_tracker.owntracks_diana:
-  friendly_name: Diana's OwnTracks
+device_tracker.google_maps_110641435314733431814:
+  friendly_name: Mithras' Google Maps

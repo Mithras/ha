@@ -31,39 +31,51 @@ class Climate(globals.Hass):
         await self.listen_event(self._telegram_callback_async, "telegram_callback")
 
     async def _device_tracker_callback_async(self, entity, attribute, old, new, kwargs):
+        self.log(f"_device_tracker_callback_async: {old} -> {new}")
         if old == new:
             return
         await self._update_climate_async()
 
     async def _sleep_input_callback_async(self, entity, attribute, old, new, kwargs):
+        self.log(f"_sleep_input_callback_async: {old} -> {new}")
         if old == new:
             return
         await self._update_climate_async()
 
     async def _person_home_callback_async(self, entity, attribute, old, new, kwargs):
+        self.log(f"_person_home_callback_async: {old} -> {new}")
         if old == new:
             return
         self._override = None
 
     async def _person_not_home_callback_async(self, entity, attribute, old, new, kwargs):
+        self.log(f"_person_not_home_callback_async: {old} -> {new}")
         if old == new or old == "home":
             return
 
         hvac_mode = await self.get_state(self._climate)
         target_temperature = await self.get_state(self._climate, "temperature")
         temperature = await self.get_state(self._temperature)
+        self.log(
+            f"\t hvac_mode: {hvac_mode}, target_temperature: {target_temperature}, temperature: {temperature}")
         if hvac_mode is None or target_temperature is None or temperature is None:
             return
 
         target_temperature_float = float(target_temperature)
         temperature_float = float(temperature)
+        self.log(
+            f"\t target_temperature_float: {target_temperature_float}, temperature_float: {temperature_float}")
         if self._home_params["hvac_mode"] == hvac_mode and self._home_params["temperature"] == target_temperature_float:
+            self.log("\t return 1")
             return
         if self._home_params["hvac_mode"] == "heat" and self._home_params["temperature"] <= temperature_float:
+            self.log("\t return 2")
             return
         if self._home_params["hvac_mode"] == "cool" and self._home_params["temperature"] >= temperature_float:
+            self.log("\t return 3")
             return
         if self._home_params["hvac_mode"] == "heat_cool" and self._home_params["temperature"] == temperature_float:
+            self.log("\t return 4")
             return
 
         await self.call_service("telegram_bot/send_message",
@@ -77,6 +89,7 @@ class Climate(globals.Hass):
         telegram_chat_id = data["chat_id"]
         telegram_message_id = data["message"]["message_id"]
         telegram_text = data["message"]["text"]
+        self.log(f"_telegram_callback_async: {telegram_data}")
 
         if telegram_data == DO_NOTHING_CMD:
             await self._telegram_edit_message_async(
@@ -93,6 +106,7 @@ class Climate(globals.Hass):
                                     callback_query_id=telegram_id)
 
     async def _telegram_edit_message_async(self, telegram_chat_id, telegram_message_id, telegram_message):
+        self.log(f"_telegram_edit_message_async: {telegram_message}")
         await self.call_service("telegram_bot/edit_message",
                                 chat_id=telegram_chat_id,
                                 message_id=telegram_message_id,
@@ -103,6 +117,7 @@ class Climate(globals.Hass):
         params = await self._getParams_async()
         hvac_mode = params["hvac_mode"]
         temperature = params.get("temperature", None)
+        self.log(f"_update_climate_async: {params}")
 
         await self.call_service("climate/set_hvac_mode",
                                 entity_id=self._climate,

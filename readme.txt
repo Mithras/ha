@@ -15,7 +15,12 @@
         Fast Startup: false
 * RPC Shutdown
     1. Autostart "RemoteRegistry" service
-    2. Disable the Firewall
+    2. Disable the Windows Defender or
+        2.1 Allow an app or feature through Windows Defender Firewall
+            Remote Service Management
+            Remote Shutdown
+            Windows Management Instrumentation (WMI)
+        2.2 netsh advfirewall firewall add rule name="ICMP Allow incoming V4 echo request" protocol=icmpv4:8,any dir=in action=allow profile=private
     3. HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
         LocalAccountTokenFilterPolicy = 1 (DWORD 32-bit)
 * mosquitto
@@ -25,6 +30,7 @@
     /dev/ttyUSB1 # zigbee
 * ConBee II (top usb 2.0)
     /dev/ttyACM0
+    /dev/serial/by-id/usb-dresden_elektronik_ingenieurtechnik_GmbH_ConBee_II_DE2120244-if00
 * Deconz
     * Change a specific sensor name
         # deconz.configure
